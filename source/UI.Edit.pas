@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI EditView ±à¼­¿ò                          }
+{       FMX UI EditView ç¼–è¾‘æ¡†                          }
 {                                                       }
-{       °æÈ¨ËùÓĞ (C) 2016 YangYxd                       }
+{       ç‰ˆæƒæ‰€æœ‰ (C) 2016 YangYxd                       }
 {                                                       }
 {*******************************************************}
 
@@ -523,11 +523,11 @@ const
   LOUPE_OFFSET = 10;
   IMEWindowGap = 2; // 2 is small space between conrol and IME window
 
-  CutStyleName = '¼ôÇĞ'; //Do not localize
-  CopyStyleName = '¸´ÖÆ'; //Do not localize
-  PasteStyleName = 'Õ³Ìù'; //Do not localize
-  DeleteStyleName = 'É¾³ı'; //Do not localize
-  SelectAllStyleName = 'Ñ¡ÔñÈ«²¿'; //Do not localize
+  CutStyleName = 'å‰ªåˆ‡'; //Do not localize
+  CopyStyleName = 'å¤åˆ¶'; //Do not localize
+  PasteStyleName = 'ç²˜è´´'; //Do not localize
+  DeleteStyleName = 'åˆ é™¤'; //Do not localize
+  SelectAllStyleName = 'é€‰æ‹©å…¨éƒ¨'; //Do not localize
 
   CaretColorStyleResouceName = 'caretcolor';
   LeftSelectionPointStyleResourceName = 'leftselectionpoint';
@@ -550,7 +550,10 @@ end;
 function PackText(const AText: string): string;
 begin
   if not AText.IsEmpty then
-    Result := Format('[%d]%s', [AText.Length, AText])
+  begin
+    //Result := Format('[%d]%s', [AText.Length, AText]);
+    Result := Format('%s', [AText]);
+  end
   else
     Result := string.Empty;
 end;
@@ -1069,10 +1072,10 @@ end;
 function TCustomEditView.CheckGravity(const SrcX, EditRectWidth, WholeTextWidth: Single): Single;
 begin
   case FGravity of
-    // ÖĞ¼ä
+    // ä¸­é—´
     TLayoutGravity.CenterHorizontal, TLayoutGravity.Center, TLayoutGravity.CenterHBottom:
       Result := SrcX + ((EditRectWidth - WholeTextWidth) / 2);
-    // ÓÒ±ß
+    // å³è¾¹
     TLayoutGravity.RightTop, TLayoutGravity.RightBottom, TLayoutGravity.CenterVRight:
       Result := SrcX + (EditRectWidth - WholeTextWidth);
   else
@@ -2700,16 +2703,16 @@ begin
     Size.cx := Max(Width - Pos.X, 0);
     Size.cy := Max(Height - Pos.Y, 0);
 
-    // ¼ÆËãĞĞ¸ß
+    // è®¡ç®—è¡Œé«˜
     FLineHeight := Max(Min(Size.cy, FTextHeight + Max(1, Round(FTextHeight / 10))), 0);
 
-    // ¼ÆËã³öÄÚÈİÇø¾ØĞÎ
+    // è®¡ç®—å‡ºå†…å®¹åŒºçŸ©å½¢
     FContentRect := RectF(Pos.X + Padding.Left, Pos.Y + Padding.Top,
       Size.cx - Padding.Right, Size.cy - Padding.Bottom);
     if Assigned(FDrawable) and (not FDrawable.IsEmpty) then
       FDrawable.AdjustDraw(Canvas, FContentRect, False, DrawState);
 
-    // ¼ÆËã³öÎÄ±¾¶¥²¿Î»ÖÃ
+    // è®¡ç®—å‡ºæ–‡æœ¬é¡¶éƒ¨ä½ç½®
     case FText.VertAlign of
       TTextAlign.Center:
         FLineTop := FContentRect.Top + Max((FContentRect.Height - FLineHeight) / 2, 0);
@@ -3314,7 +3317,7 @@ end;
 
 initialization
   {$IFDEF ANDROID}
-  // ½â¾ö Android ÏÂ¼üÅÌÊÂ¼ş²»ÏìÓ¦µÄÎÊÌâ
+  // è§£å†³ Android ä¸‹é”®ç›˜äº‹ä»¶ä¸å“åº”çš„é—®é¢˜
   //RegisterKeyMapping(23, 23, TKeyKind.Functional);
   {$ENDIF}
 
