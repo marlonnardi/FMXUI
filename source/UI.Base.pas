@@ -1,13 +1,13 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI ºËĞÄ»ù´¡µ¥Ôª                             }
+{       FMX UI Core base unit                           }
 {                                                       }
-{       °æÈ¨ËùÓĞ (C) 2016 YangYxd                       }
+{       all rights reserved (C) 2016 YangYxd            }
 {                                                       }
 {*******************************************************}
 
-// ×¢Òâ£ºÈç¹û¶àĞĞÎÄ±¾ÏÔÊ¾²»ÍêÕû£¬Çë½«patchÏÂµÄ
-// FMX.TextLayout.GPU.pas ·Åµ½ÄãµÄÏîÄ¿Ä¿Â¼ÏÂ
+// Note: If the multi-line text is not complete, please put under the patch
+// FMX.TextLayout.GPU.pas is placed in your project directory
 
 unit UI.Base;
 
@@ -70,30 +70,30 @@ type
   TViewClass = class of TControl;
 
   /// <summary>
-  /// ÊÓÍ¼×´Ì¬
+  /// è§†å›¾çŠ¶æ€
   /// </summary>
-  TViewState = (None {Õı³£}, Pressed {°´ÏÂ}, Focused {È¡µÃ½¹µã}, Hovered {ĞüÍ£},
-    Selected{Ñ¡ÖĞ}, Checked{¸´Ñ¡}, Enabled{½ûÓÃ}, Activated{¼¤»î}, Custom {×Ô¶¨Òå});
+  TViewState = (None {æ­£å¸¸}, Pressed {æŒ‰ä¸‹}, Focused {å–å¾—ç„¦ç‚¹}, Hovered {æ‚¬åœ},
+    Selected{é€‰ä¸­}, Checked{å¤é€‰}, Enabled{ç¦ç”¨}, Activated{æ¿€æ´»}, Custom {è‡ªå®šä¹‰});
   TViewStates = set of TViewState;
 
   /// <summary>
-  /// ÊÓÍ¼´óĞ¡
+  /// è§†å›¾å¤§å°
   /// </summary>
-  TViewSize = (CustomSize {×Ô¶¨Òå´óĞ¡}, WrapContent {ËæÄÚÈİ}, FillParent {Ìî³ä¸¸¼¶});
+  TViewSize = (CustomSize {è‡ªå®šä¹‰å¤§å°}, WrapContent {éšå†…å®¹}, FillParent {å¡«å……çˆ¶çº§});
   /// <summary>
-  /// ¹ö¶¯Ìõ
+  /// æ»šåŠ¨æ¡
   /// </summary>
   TViewScroll = (None, Horizontal, Vertical, Both);
 
   TViewBrushKind = (None, Solid, Gradient, Bitmap, Resource, Patch9Bitmap, AccessoryBitmap, SVGImage);
 
   /// <summary>
-  /// ¸½¼şÑùÊ½
+  /// é™„ä»¶æ ·å¼
   /// </summary>
   TViewAccessoryStyle = (Accessory, Path);
 
   /// <summary>
-  /// ¸½Í¼ÀàĞÍ
+  /// é™„å›¾ç±»å‹
   /// </summary>
   TViewAccessoryType = (None, More, Checkmark, Detail, Ellipses, Flag, Back, Refresh,
     Action, Play, Rewind, Forwards, Pause, Stop, Add, Prior,
@@ -114,47 +114,47 @@ type
 
   TControlHelper = class Helper for TControl
   public
-    // ÎªÖ¸¶¨¿Ø¼şÉèÖÃ½¹µã
+    // ä¸ºæŒ‡å®šæ§ä»¶è®¾ç½®ç„¦ç‚¹
     function SetFocusObject(V: TControl): Boolean;
-    // ½øÈëÏÂÒ»¸ö½¹µã¿Ø¼ş
+    // è¿›å…¥ä¸‹ä¸€ä¸ªç„¦ç‚¹æ§ä»¶
     procedure FocusToNext();
   end;
 
   /// <summary>
-  /// ÁĞ±íÊÓÍ¼×´Ì¬
+  /// åˆ—è¡¨è§†å›¾çŠ¶æ€
   /// </summary>
-  TListViewState = (None {ÎŞ},  PullChangeing,
-    PullDownStart {ÏÂÀ­¿ªÊ¼}, PullDownOK {ÏÂÀ­µ½Î»}, PullDownFinish {ÏÂÀ­ËÉ¿ª}, PullDownComplete {ÏÂÀ­Íê³É},
-    PullUpStart {ÉÏÀ­¿ªÊ¼}, PullUpOK {ÏÂÀ­µ½Î»}, PullUpFinish {ÉÏÀ­ËÉ¿ª}, PullUpComplete {ÉÏÀ­Íê³É}
+  TListViewState = (None {æ— },  PullChangeing,
+    PullDownStart {ä¸‹æ‹‰å¼€å§‹}, PullDownOK {ä¸‹æ‹‰åˆ°ä½}, PullDownFinish {ä¸‹æ‹‰æ¾å¼€}, PullDownComplete {ä¸‹æ‹‰å®Œæˆ},
+    PullUpStart {ä¸Šæ‹‰å¼€å§‹}, PullUpOK {ä¸‹æ‹‰åˆ°ä½}, PullUpFinish {ä¸Šæ‹‰æ¾å¼€}, PullUpComplete {ä¸Šæ‹‰å®Œæˆ}
   );
 
   /// <summary>
-  /// ÁĞ±í Header »ò Footer ½Ó¿Ú
+  /// åˆ—è¡¨ Header æˆ– Footer æ¥å£
   /// </summary>
   IListViewHeader = interface
     ['{44F6F649-D173-4BEC-A38D-F03436ED55BC}']
     /// <summary>
-    /// ¸üĞÂ×´Ì¬
+    /// æ›´æ–°çŠ¶æ€
     /// </summary>
     procedure DoUpdateState(const State: TListViewState;
       const ScrollValue: Double);
     /// <summary>
-    /// ÉèÖÃ¸÷ÖÖ×´Ì¬ÒªÏÔÊ¾µÄÏûÏ¢
+    /// è®¾ç½®å„ç§çŠ¶æ€è¦æ˜¾ç¤ºçš„æ¶ˆæ¯
     /// </summary>
     procedure SetStateHint(const State: TListViewState; const Msg: string);
     function GetVisible: Boolean;
     /// <summary>
-    /// ¿ÉÊÓ×´Ì¬
+    /// å¯è§†çŠ¶æ€
     /// </summary>
     property Visible: Boolean read GetVisible;
   end;
 
   /// <summary>
-  /// ¼ÓÔØ Header »ò Footer ÊÂ¼ş
+  /// åŠ è½½ Header æˆ– Footer äº‹ä»¶
   /// </summary>
   TOnInitHeader = procedure (Sender: TObject; var NewFooter: IListViewHeader) of object;
 
-  { ¸ĞĞ»  KernowSoftwareFMX }
+  { æ„Ÿè°¢  KernowSoftwareFMX }
   TViewAccessoryImageList = class(TObjectList<TBitmap>)
   private
     FImageScale: Single;
@@ -187,7 +187,7 @@ type
   end;
 
   /// <summary>
-  /// 9 ¹¬¸ñÎ»Í¼
+  /// 9 å®«æ ¼ä½å›¾
   /// </summary>
   TPatch9Bitmap = class(TBrushBitmap)
   private
@@ -201,7 +201,7 @@ type
     procedure Assign(Source: TPersistent); override;
   published
     property Bounds: TPatchBounds read FBounds write SetBounds;
-    // ÊÇ·ñÒÆ³ıºÚÏß(.9.pngÒ»°ã»áÓĞÒ»ÌõºÚÏß£¬ÒÆ³ıÊ±£¬µÈÓÚÊÇ½«Ô­Í¼½Øµô×îÍâÎ§µÄ1ÏñË÷)
+    // æ˜¯å¦ç§»é™¤é»‘çº¿(.9.pngä¸€èˆ¬ä¼šæœ‰ä¸€æ¡é»‘çº¿ï¼Œç§»é™¤æ—¶ï¼Œç­‰äºæ˜¯å°†åŸå›¾æˆªæ‰æœ€å¤–å›´çš„1åƒç´¢)
     property BlackLine: Boolean read FRemoveBlackLine write SetRemoveBlackLine default False;
   end;
 
@@ -304,17 +304,17 @@ type
   end;
 
   /// <summary>
-  /// »æÖÆÎ»ÖÃ
+  /// ç»˜åˆ¶ä½ç½®
   /// </summary>
   TDrawablePosition = (Left, Right, Top, Bottom, Center);
 
   /// <summary>
-  /// »æÖÆÑùÊ½
+  /// ç»˜åˆ¶æ ·å¼
   /// </summary>
   TDrawableKind = (None, Circle, Ellipse);
 
   /// <summary>
-  /// ¿É»æÖÆ¶ÔÏó
+  /// å¯ç»˜åˆ¶å¯¹è±¡
   /// </summary>
   TDrawableBase = class(TPersistent)
   private
@@ -396,22 +396,22 @@ type
     procedure SetBitmap(State: TViewState; const Value: TBitmap); overload;
     procedure SetBitmap(State: TViewState; const Value: TBrushBitmap); overload;
 
-    // ÊÇ·ñÎª¿Õ
+    // æ˜¯å¦ä¸ºç©º
     property IsEmpty: Boolean read FIsEmpty;
 
     property OnChanged: TNotifyEvent read FOnChanged write FOnChanged;
-    // ±ß¿òÔ²½Ç
+    // è¾¹æ¡†åœ†è§’
     property XRadius: Single read FXRadius write SetXRadius;
     property YRadius: Single read FYRadius write SetYRadius;
     property Corners: TCorners read FCorners write SetCorners stored IsStoredCorners;
     property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
 
-    // ±³¾°ÑùÊ½
+    // èƒŒæ™¯æ ·å¼
     property Kind: TDrawableKind read FKind write SetKind default TDrawableKind.None;
   end;
 
   /// <summary>
-  /// ¿É»æÖÆ¶ÔÏó
+  /// å¯ç»˜åˆ¶å¯¹è±¡
   /// </summary>
   TDrawable = class(TDrawableBase)
   private
@@ -448,18 +448,18 @@ type
   end;
 
   /// <summary>
-  /// ±ß¿òÑùÊ½
+  /// è¾¹æ¡†æ ·å¼
   /// </summary>
-  TViewBorderStyle = (None {ÎŞ±ß¿ò},
-    RectBorder {ËÄÖÜ¾ØĞÎ±ß¿ò,»áÊ¹ÓÃÔ²½ÇÉèÖÃ},
-    RectBitmap {ÊµĞÄµÄ¾ØĞÎ, Ïñ¿ò},
-    CircleBorder {Ô²ĞÎ±ß¿ò},
-    EllipseBorder {ÍÖÔ²±ß¿ò},
-    LineEdit {µ×²¿±ß¿ò£¨´øÁ½¶ËÍ¹³ö},
-    LineTop {¶¥²¿±ß¿ò},
-    LineBottom {µ×²¿±ß¿ò},
-    LineLeft {×ó±ß±ß¿ò},
-    LineRight {ÓÒ±ß±ß¿ò} );
+  TViewBorderStyle = (None {æ— è¾¹æ¡†},
+    RectBorder {å››å‘¨çŸ©å½¢è¾¹æ¡†,ä¼šä½¿ç”¨åœ†è§’è®¾ç½®},
+    RectBitmap {å®å¿ƒçš„çŸ©å½¢, åƒæ¡†},
+    CircleBorder {åœ†å½¢è¾¹æ¡†},
+    EllipseBorder {æ¤­åœ†è¾¹æ¡†},
+    LineEdit {åº•éƒ¨è¾¹æ¡†ï¼ˆå¸¦ä¸¤ç«¯å‡¸å‡º},
+    LineTop {é¡¶éƒ¨è¾¹æ¡†},
+    LineBottom {åº•éƒ¨è¾¹æ¡†},
+    LineLeft {å·¦è¾¹è¾¹æ¡†},
+    LineRight {å³è¾¹è¾¹æ¡†} );
 
   TViewBorder = class(TPersistent)
   private
@@ -540,7 +540,7 @@ type
   end;
 
   /// <summary>
-  /// ¿É»æÖÆË¢×Ó×é¼ş
+  /// å¯ç»˜åˆ¶åˆ·å­ç»„ä»¶
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TDrawableBrush = class(TComponent, IGlyph, IInterfaceComponentReference)
@@ -584,7 +584,7 @@ type
   end;
 
   /// <summary>
-  /// ¿É»æÖÆÍ¼±ê
+  /// å¯ç»˜åˆ¶å›¾æ ‡
   /// </summary>
   TDrawableIcon = class(TDrawableBase, IInterface, IGlyph, IInterfaceComponentReference)
   private
@@ -625,7 +625,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     /// <summary>
-    /// »æÖÆ£¬²¢µ÷ÕûÔ­À´µÄÇøÓò
+    /// ç»˜åˆ¶ï¼Œå¹¶è°ƒæ•´åŸæ¥çš„åŒºåŸŸ
     /// </summary>
     procedure AdjustDraw(Canvas: TCanvas; var R: TRectF; ExecDraw: Boolean; AState: TViewState);
 
@@ -660,7 +660,7 @@ type
   end;
 
   /// <summary>
-  /// ÑÕÉ«ÊôĞÔ
+  /// é¢œè‰²å±æ€§
   /// </summary>
   TViewColor = class(TPersistent)
   private
@@ -704,7 +704,7 @@ type
 
     procedure Assign(Source: TPersistent); override;
 
-    // ¸ù¾İµ±Ç°×´Ì¬»ñÈ¡ÑÕÉ«£¬Èç¹ûÑÕÉ«Îª Null Ôò·µ»ØÉÏÒ»´Î»ñÈ¡µ½µÄÑÕÉ«
+    // æ ¹æ®å½“å‰çŠ¶æ€è·å–é¢œè‰²ï¼Œå¦‚æœé¢œè‰²ä¸º Null åˆ™è¿”å›ä¸Šä¸€æ¬¡è·å–åˆ°çš„é¢œè‰²
     function GetStateColor(State: TViewState): TAlphaColor;
 
     function GetColor(State: TViewState): TAlphaColor;
@@ -740,7 +740,7 @@ type
   end;
 
   /// <summary>
-  /// ÊÓÍ¼²¼¾ÖÊôĞÔ
+  /// è§†å›¾å¸ƒå±€å±æ€§
   /// </summary>
   TViewLayout = class(TPersistent)
   private
@@ -817,19 +817,19 @@ type
   end;
 
   /// <summary>
-  /// ÄÚÈİÖØÁ¦
+  /// å†…å®¹é‡åŠ›
   /// </summary>
   TLayoutGravity = (None, LeftTop, LeftBottom, RightTop, RightBottom,
     CenterVertical, CenterHorizontal, CenterHBottom, CenterVRight, Center);
 
   /// <summary>
-  /// ÌáÊ¾ÑùÊ½
+  /// æç¤ºæ ·å¼
   /// </summary>
-  TBadgeStyle = (EmptyText {¿Õ°×}, NumberText {Êı×ÖÖµ (ÏÔÊ¾Êı×Ö)},
-    NewText {ÏÔÊ¾NewÎÄ±¾}, HotText {ÏÔÊ¾HotÎÄ±¾}, Icon {ÏÔÊ¾Ö¸¶¨µÄÍ¼Ïñ});
+  TBadgeStyle = (EmptyText {ç©ºç™½}, NumberText {æ•°å­—å€¼ (æ˜¾ç¤ºæ•°å­—)},
+    NewText {æ˜¾ç¤ºNewæ–‡æœ¬}, HotText {æ˜¾ç¤ºHotæ–‡æœ¬}, Icon {æ˜¾ç¤ºæŒ‡å®šçš„å›¾åƒ});
 
   /// <summary>
-  /// ±ê¼ÇÌáÊ¾½Ó¿Ú
+  /// æ ‡è®°æç¤ºæ¥å£
   /// </summary>
   IViewBadge = interface(IInterface)
     ['{493E5A10-0227-46AE-A17A-3B31D1B04D71}']
@@ -851,7 +851,7 @@ type
   end;
 
   /// <summary>
-  /// ÊÓÍ¼²¼¾ÖÊôĞÔ½Ó¿Ú
+  /// è§†å›¾å¸ƒå±€å±æ€§æ¥å£
   /// </summary>
   IView = interface(IInterface)
     ['{9C2D9DB0-9D59-4A9D-BC47-53928194544E}']
@@ -926,7 +926,7 @@ type
   end;
 
   /// <summary>
-  /// ÊÓÍ¼×é½Ó¿Ú
+  /// è§†å›¾ç»„æ¥å£
   /// </summary>
   IViewGroup = interface(IView)
     ['{73A1B9E5-D4AF-4956-A15F-73B0B8EDADF9}']
@@ -936,7 +936,7 @@ type
   end;
 
   /// <summary>
-  /// ´¥ÃşÊÂ¼şÖ§³Ö
+  /// è§¦æ‘¸äº‹ä»¶æ”¯æŒ
   /// </summary>
   IViewTouch = interface(IInterface)
     ['{ADA36492-479A-468E-A813-59CC1940612A}']
@@ -1006,7 +1006,7 @@ type
       const ATextAlign: TTextAlign; const AVTextAlign: TTextAlign = TTextAlign.Center;
       State: TViewState = TViewState.None); overload;
 
-    // ¼ÆËã Text ÕæÊµ´óĞ¡
+    // è®¡ç®— Text çœŸå®å¤§å°
     procedure TextSize(const AText: string; var ASize: TSizeF; const SceneScale: Single; 
       const MaxWidth: Single = -1; AWordWrap: Boolean = False);
 
@@ -1041,7 +1041,7 @@ type
   end;
 
   /// <summary>
-  /// ×ÖÌåÉèÖÃ
+  /// å­—ä½“è®¾ç½®
   /// </summary>
   TTextSettings = class(TTextSettingsBase)
   private
@@ -1068,16 +1068,16 @@ type
   end;
 
   /// <summary>
-  /// Html½âÎöÖĞ¼ä½á¹û (½öÖ§³Ö×ÖÌåÑÕÉ«¡¢ÑùÊ½²¿·Ö)
+  /// Htmlè§£æä¸­é—´ç»“æœ (ä»…æ”¯æŒå­—ä½“é¢œè‰²ã€æ ·å¼éƒ¨åˆ†)
   /// </summary>
   THtmlTextItem = record
     P: PChar;
     Len: Cardinal;
     Color: TAlphaColor;
     Style: TFontStyles;
-    Link: SmallInt;  // ³¬Á´½ÓË÷ÒıºÅ
-    LinkURL: SmallInt; // ³¬Á´½ÓµØÖ·
-    NoneTag: Boolean;  // ÊÇ·ñ´æÔÚ±êÇ©
+    Link: SmallInt;  // è¶…é“¾æ¥ç´¢å¼•å·
+    LinkURL: SmallInt; // è¶…é“¾æ¥åœ°å€
+    NoneTag: Boolean;  // æ˜¯å¦å­˜åœ¨æ ‡ç­¾
     function Text: string;
   end;
 
@@ -1116,11 +1116,11 @@ type
 
     procedure Assign(Source: TPersistent); override;
 
-    // »æÖÆµ½»­²¼ÖĞ
+    // ç»˜åˆ¶åˆ°ç”»å¸ƒä¸­
     procedure Draw(Canvas: TCanvas; TextSet: UI.Base.TTextSettings; const R: TRectF;
       const Opacity: Single; State: TViewState; ASize: PSizeF = nil);
 
-    // ¼ÆËã´óĞ¡
+    // è®¡ç®—å¤§å°
     procedure CalcTextSize(Canvas: TCanvas; TextSet: UI.Base.TTextSettings; const R: TRectF;
       var ASize: TSizeF);
 
@@ -1150,7 +1150,7 @@ type
   end;
 
   /// <summary>
-  /// ¹ö¶¯¶¯»­¿ØÖÆÆ÷
+  /// æ»šåŠ¨åŠ¨ç”»æ§åˆ¶å™¨
   /// </summary>
   TScrollCalculations = class (TAniCalculationsEx)
   private
@@ -1223,7 +1223,7 @@ type
   end;
 
   /// <summary>
-  /// »ù±¾ÊÓÍ¼
+  /// åŸºæœ¬è§†å›¾
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TView = class(TViewBase, IView)
@@ -1319,8 +1319,8 @@ type
     function CanRePaintBk(const View: IView; State: TViewState): Boolean; virtual;
     procedure IncViewState(const State: TViewState); virtual;
     procedure DecViewState(const State: TViewState); virtual;
-    procedure IncChildState(State: TViewState); virtual;  // ¸øËùÓĞ×Ó¿Ø¼şÔö¼Ó×´Ì¬
-    procedure DecChildState(State: TViewState); virtual;  // ¸øËùÓĞ×Ó¿Ø¼ş¼õÉÙ×´Ì¬
+    procedure IncChildState(State: TViewState); virtual;  // ç»™æ‰€æœ‰å­æ§ä»¶å¢åŠ çŠ¶æ€
+    procedure DecChildState(State: TViewState); virtual;  // ç»™æ‰€æœ‰å­æ§ä»¶å‡å°‘çŠ¶æ€
     procedure DoActivate; override;
     procedure DoDeactivate; override;
     procedure DoMouseEnter; override;
@@ -1355,13 +1355,13 @@ type
     procedure DoClickEvent; virtual;
 
 
-    // ÏŞÖÆ×é¼ş×î´óºÍ×îĞ¡´óĞ¡
+    // é™åˆ¶ç»„ä»¶æœ€å¤§å’Œæœ€å°å¤§å°
     procedure DoAdjustViewBounds(var ANewWidth, ANewHeight: Single); virtual;
-    // ²¼¾Ö±ä»¯ÁË
+    // å¸ƒå±€å˜åŒ–äº†
     procedure DoLayoutChanged(Sender: TObject); virtual;
-    // ´óĞ¡¸Ä±äÁË
+    // å¤§å°æ”¹å˜äº†
     procedure DoChangeSize(var ANewWidth, ANewHeight: Single); virtual;
-    // ¿ªÊ¼¼ÆËã´óĞ¡
+    // å¼€å§‹è®¡ç®—å¤§å°
     procedure DoRecalcSize(var AWidth, AHeight: Single); virtual;
 
     procedure DoMouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single); virtual;
@@ -1404,15 +1404,15 @@ type
     {$ENDIF}
   public
     /// <summary>
-    /// ¹ö¶¯ÌõÑùÊ½
+    /// æ»šåŠ¨æ¡æ ·å¼
     /// </summary>
     property ScrollBars: TViewScroll read FScrollbar write SetScrollbar default TViewScroll.None;
     /// <summary>
-    /// ½ûÖ¹Êó±ê¹ö¶¯
+    /// ç¦æ­¢é¼ æ ‡æ»šåŠ¨
     /// </summary>
     property DisableMouseWheel: Boolean read FDisableMouseWheel write SetDisableMouseWheel default False;
     /// <summary>
-    /// ¹ö¶¯¶¯»­¿ØÖÆÆ÷
+    /// æ»šåŠ¨åŠ¨ç”»æ§åˆ¶å™¨
     /// </summary>
     property AniCalculations: TScrollCalculations read GetAniCalculations;
 
@@ -1453,16 +1453,16 @@ type
     procedure StartTriggerAnimationWait(const AInstance: TFmxObject; const ATrigger: string); override;
 
     /// <summary>
-    /// ¿ªÊ¼ÍÏ¶¯´°¿Ú
+    /// å¼€å§‹æ‹–åŠ¨çª—å£
     /// </summary>
     procedure StartWindowDrag;
 
     /// <summary>
-    /// »ñÈ¡×´Ì¬À¸¸ß¶È
+    /// è·å–çŠ¶æ€æ é«˜åº¦
     /// </summary>
     class function GetStatusHeight: Single;
     /// <summary>
-    /// »ñÈ¡µ×²¿ĞéÄâ¼ü¸ß¶È
+    /// è·å–åº•éƒ¨è™šæ‹Ÿé”®é«˜åº¦
     /// </summary>
     class function GetNavigationBarHeight: Single;
 
@@ -1479,134 +1479,134 @@ type
 
     property ParentView: IViewGroup read GetParentView;
     /// <summary>
-    /// ×é¼şµÄ²¼¾Ö·½Ê½¡£Horizontal£¬Ë®Æ½²¼¾Ö£» Vertical£¬´¹Ö±²¼¾Ö¡£Ä¬ÈÏÎªHorizontal¡£
+    /// ç»„ä»¶çš„å¸ƒå±€æ–¹å¼ã€‚Horizontalï¼Œæ°´å¹³å¸ƒå±€ï¼› Verticalï¼Œå‚ç›´å¸ƒå±€ã€‚é»˜è®¤ä¸ºHorizontalã€‚
     /// </summary>
     property Orientation: TOrientation read GetOrientation write SetOrientation;
     /// <summary>
-    /// ×é¼şµ±Ç°µÄ×´Ì¬
+    /// ç»„ä»¶å½“å‰çš„çŠ¶æ€
     /// </summary>
     property ViewState;
     /// <summary>
-    /// ×é¼şµ±Ç°µÄ»æÖÆ×´Ì¬
+    /// ç»„ä»¶å½“å‰çš„ç»˜åˆ¶çŠ¶æ€
     /// </summary>
     property DrawState: TViewState read FDrawState;
     /// <summary>
-    /// ×é¼şÄÚÈİÓĞĞ§ÇøÓò£¨·µ»Ø¼õÈ¥PaddingºóµÄÖµ£©
+    /// ç»„ä»¶å†…å®¹æœ‰æ•ˆåŒºåŸŸï¼ˆè¿”å›å‡å»Paddingåçš„å€¼ï¼‰
     /// </summary>
     property ViewRect: TRectF read GetViewRect;
     property ViewRectD: TRectD read GetViewRectD;
 
     /// <summary>
-    /// ÁÙÊ±×î´ó¸ß¶È, ÉèÖÃÎª0Ê±£¬»Ö¸´Ô­Ê¼µÄMaxHeight
+    /// ä¸´æ—¶æœ€å¤§é«˜åº¦, è®¾ç½®ä¸º0æ—¶ï¼Œæ¢å¤åŸå§‹çš„MaxHeight
     /// </summary>
     property TempMaxHeight: Single read FMaxHeight write SetTempMaxHeight;
     /// <summary>
-    /// ÁÙÊ±×î´ó¸ß¶È, ÉèÖÃÎª0Ê±£¬»Ö¸´Ô­Ê¼µÄMaxWidth
+    /// ä¸´æ—¶æœ€å¤§é«˜åº¦, è®¾ç½®ä¸º0æ—¶ï¼Œæ¢å¤åŸå§‹çš„MaxWidth
     /// </summary>
     property TempMaxWidth: Single read FMaxWidth write SetTempMaxWidth;
     /// <summary>
-    /// ÌáÊ¾±ê¼ÇÊÓÍ¼
+    /// æç¤ºæ ‡è®°è§†å›¾
     /// </summary>
     property BadgeView: IViewBadge read FBadgeView;
     /// <summary>
-    /// »ñÈ¡¸¸¼¶Form
+    /// è·å–çˆ¶çº§Form
     /// </summary>
     property ParentForm: TCustomForm read GetParentForm;
 
     property IsChecked: Boolean read GetIsChecked write SetIsChecked;
   published
     /// <summary>
-    /// ×é¼şÏà¶ÔÓÚÈİÆ÷µÄ¶ÔÆë·½Ê½¡£µ±ÈİÆ÷Îª·Ç²¼¾Ö×é¼şÊ±ÓĞĞ§£¬ÔÚ²¿·Ö²¼¾Ö×é¼şÖĞÓĞĞ§£¬µ«²»½¨ÒéÊ¹ÓÃ¡£
+    /// ç»„ä»¶ç›¸å¯¹äºå®¹å™¨çš„å¯¹é½æ–¹å¼ã€‚å½“å®¹å™¨ä¸ºéå¸ƒå±€ç»„ä»¶æ—¶æœ‰æ•ˆï¼Œåœ¨éƒ¨åˆ†å¸ƒå±€ç»„ä»¶ä¸­æœ‰æ•ˆï¼Œä½†ä¸å»ºè®®ä½¿ç”¨ã€‚
     /// </summary>
     property Align;
     /// <summary>
-    /// ×é¼şÔÚÈİÆ÷ÖĞµÄËõ·ÅºÍ¶¨Î»·½Ê½¡£µ±ÈİÆ÷Îª·Ç²¼¾Ö×é¼şÊ±ÓĞĞ§¡£
+    /// ç»„ä»¶åœ¨å®¹å™¨ä¸­çš„ç¼©æ”¾å’Œå®šä½æ–¹å¼ã€‚å½“å®¹å™¨ä¸ºéå¸ƒå±€ç»„ä»¶æ—¶æœ‰æ•ˆã€‚
     /// </summary>
     property Anchors;
     /// <summary>
-    /// ÊÇ·ñÔÊĞí¸ù¾İMaxWidth, MaxHeight, MinWidth, MinHeightÊôĞÔÀ´ÏŞÖÆ×é¼ş´óĞ¡
+    /// æ˜¯å¦å…è®¸æ ¹æ®MaxWidth, MaxHeight, MinWidth, MinHeightå±æ€§æ¥é™åˆ¶ç»„ä»¶å¤§å°
     /// </summary>
     property AdjustViewBounds: Boolean read GetAdjustViewBounds write SetAdjustViewBounds default True;
     /// <summary>
-    /// ÊÓÍ¼±³¾°¡£ÊÓÍ¼±³¾°ÊÇÒ»¸öTDrawable¶ÔÏó£¬¿ÉÍ¨¹ıÉèÖÃ´ËÊôĞÔµÄ×ÓÏî£¬À´ÊµÏÖ²»Í¬µÄÏÔÊ¾Ğ§¹û£¬Ïê¼ûTDrawableµÄÊôĞÔËµÃ÷¡£
+    /// è§†å›¾èƒŒæ™¯ã€‚è§†å›¾èƒŒæ™¯æ˜¯ä¸€ä¸ªTDrawableå¯¹è±¡ï¼Œå¯é€šè¿‡è®¾ç½®æ­¤å±æ€§çš„å­é¡¹ï¼Œæ¥å®ç°ä¸åŒçš„æ˜¾ç¤ºæ•ˆæœï¼Œè¯¦è§TDrawableçš„å±æ€§è¯´æ˜ã€‚
     /// </summary>
     property Background;
     /// <summary>
-    /// ÊÇ·ñÏìÓ¦µã»÷ÊÂ¼ş¡£Í¬HitTestÊôĞÔ
+    /// æ˜¯å¦å“åº”ç‚¹å‡»äº‹ä»¶ã€‚åŒHitTestå±æ€§
     /// </summary>
     property Clickable: Boolean read GetClickable write SetClickable default False;
     /// <summary>
-    /// ÊÇ·ñ¼ôÇĞ³¬³ö×é¼ş¿ÉÊÓÇøÓòµÄÍ¼ĞÎÊä³ö
+    /// æ˜¯å¦å‰ªåˆ‡è¶…å‡ºç»„ä»¶å¯è§†åŒºåŸŸçš„å›¾å½¢è¾“å‡º
     /// </summary>
     property ClipChildren default True;
     /// <summary>
-    /// ÊÇ·ñÑ¡ÖĞ
+    /// æ˜¯å¦é€‰ä¸­
     /// </summary>
     property Checked: Boolean read GetIsChecked write SetIsChecked default False;
     /// <summary>
-    /// ÊÇ·ñÔÊĞí²¶»ñÍÏ¶¯Ö÷´°¿Ú
+    /// æ˜¯å¦å…è®¸æ•è·æ‹–åŠ¨ä¸»çª—å£
     /// </summary>
     property CaptureDragForm: Boolean read GetCaptureDragForm write SetCaptureDragForm default False;
     /// <summary>
-    /// ÊÇ·ñÖ´ĞĞ¶¯×÷²Ù×÷
+    /// æ˜¯å¦æ‰§è¡ŒåŠ¨ä½œæ“ä½œ
     /// </summary>
     property EnableExecuteAction default False;
     /// <summary>
-    /// Ïà¶Ô²¼¾ÖÊôĞÔ¡£µ±ÈİÆ÷ÊÇTRelativeLayoutÏà¶Ô²¼¾ÖÊ±ÓĞĞ§¡£LayoutÊÇÒ»¸öTViewLayout¶ÔÏó£¬ÏêÇë²Î¿¼TViewLayoutÊôĞÔËµÃ÷¡£
+    /// ç›¸å¯¹å¸ƒå±€å±æ€§ã€‚å½“å®¹å™¨æ˜¯TRelativeLayoutç›¸å¯¹å¸ƒå±€æ—¶æœ‰æ•ˆã€‚Layoutæ˜¯ä¸€ä¸ªTViewLayoutå¯¹è±¡ï¼Œè¯¦è¯·å‚è€ƒTViewLayoutå±æ€§è¯´æ˜ã€‚
     /// </summary>
     property Layout: TViewLayout read GetLayout write SetLayout;
     /// <summary>
-    /// ×é¼şÄÚÈİËÄÖÜÁô°×´óĞ¡¡£»á×Ô¶¯ÉèÖÃPaddingµÄËÄ±ß»áÏàÍ¬µÄÖµ¡£
+    /// ç»„ä»¶å†…å®¹å››å‘¨ç•™ç™½å¤§å°ã€‚ä¼šè‡ªåŠ¨è®¾ç½®Paddingçš„å››è¾¹ä¼šç›¸åŒçš„å€¼ã€‚
     /// </summary>
     property Paddings: string read GetPaddings write SetPaddings stored False;
     /// <summary>
-    /// ²¼¾ÖÊ±ÓëÆäËü×é¼şËÄÖÜµÄ¾àÀë¡£´ËÊôĞÔÊÇÒ»¸ö×Ö·û´®ĞÎÊ½µÄ¸¡µãÊı£¬ÓÃÓÚÒ»´ÎÉèÖÃMarginsµÄËÄ±ßÎªÏàÍ¬µÄ´óĞ¡¡£
+    /// å¸ƒå±€æ—¶ä¸å…¶å®ƒç»„ä»¶å››å‘¨çš„è·ç¦»ã€‚æ­¤å±æ€§æ˜¯ä¸€ä¸ªå­—ç¬¦ä¸²å½¢å¼çš„æµ®ç‚¹æ•°ï¼Œç”¨äºä¸€æ¬¡è®¾ç½®Marginsçš„å››è¾¹ä¸ºç›¸åŒçš„å¤§å°ã€‚
     /// </summary>
     property Margin: string read GetMargin write SetMargin stored False;
     /// <summary>
-    /// ×é¼şÊÇ·ñ¿ÉÊÓ¡£Visible Îª True Ê±ÓĞĞ§£¬InVisible Îª True Ê±£¬Ö»ÏÔÎ»ÖÃ²»ÏÔÊ¾ÄÚÈİ
+    /// ç»„ä»¶æ˜¯å¦å¯è§†ã€‚Visible ä¸º True æ—¶æœ‰æ•ˆï¼ŒInVisible ä¸º True æ—¶ï¼Œåªæ˜¾ä½ç½®ä¸æ˜¾ç¤ºå†…å®¹
     /// </summary>
     property InVisible: Boolean read FInVisible write SetInVisible default False;
     /// <summary>
-    /// ×é¼ş¿í¶Èµ÷½Ú·½Ê½£¬CustomSize, Ö¸¶¨µÄ¹Ì¶¨´óĞ¡; WrapContent ËæÄÚÈİ¾ö¶¨£» FillParent£¬Ìî³äÈİÆ÷¡£
+    /// ç»„ä»¶å®½åº¦è°ƒèŠ‚æ–¹å¼ï¼ŒCustomSize, æŒ‡å®šçš„å›ºå®šå¤§å°; WrapContent éšå†…å®¹å†³å®šï¼› FillParentï¼Œå¡«å……å®¹å™¨ã€‚
     /// </summary>
     property WidthSize: TViewSize read FWidthSize write SetWidthSize default TViewSize.CustomSize;
     /// <summary>
-    /// ×é¼ş¸ß¶Èµ÷½Ú·½Ê½£¬CustomSize, Ö¸¶¨µÄ¹Ì¶¨´óĞ¡; WrapContent ËæÄÚÈİ¾ö¶¨£» FillParent£¬Ìî³äÈİÆ÷¡£
+    /// ç»„ä»¶é«˜åº¦è°ƒèŠ‚æ–¹å¼ï¼ŒCustomSize, æŒ‡å®šçš„å›ºå®šå¤§å°; WrapContent éšå†…å®¹å†³å®šï¼› FillParentï¼Œå¡«å……å®¹å™¨ã€‚
     /// </summary>
     property HeightSize: TViewSize read FHeightSize write SetHeightSize default TViewSize.CustomSize;
     /// <summary>
-    /// ×é¼şµÄ×îĞ¡¿í¶È¡£µ±AdjustViewBoundsÎªTrueÊ±ÓĞĞ§¡£
+    /// ç»„ä»¶çš„æœ€å°å®½åº¦ã€‚å½“AdjustViewBoundsä¸ºTrueæ—¶æœ‰æ•ˆã€‚
     /// </summary>
     property MinWidth;
     /// <summary>
-    /// ×é¼şµÄ×îĞ¡¸ß¶È¡£µ±AdjustViewBoundsÎªTrueÊ±ÓĞĞ§¡£
+    /// ç»„ä»¶çš„æœ€å°é«˜åº¦ã€‚å½“AdjustViewBoundsä¸ºTrueæ—¶æœ‰æ•ˆã€‚
     /// </summary>
     property MinHeight;
     /// <summary>
-    /// ×é¼şµÄ×î´ó¿í¶È¡£µ±AdjustViewBoundsÎªTrueÊ±ÓĞĞ§¡£
+    /// ç»„ä»¶çš„æœ€å¤§å®½åº¦ã€‚å½“AdjustViewBoundsä¸ºTrueæ—¶æœ‰æ•ˆã€‚
     /// </summary>
     property MaxWidth;
     /// <summary>
-    /// ×é¼şµÄ×î´ó¸ß¶È¡£µ±AdjustViewBoundsÎªTrueÊ±ÓĞĞ§¡£
+    /// ç»„ä»¶çš„æœ€å¤§é«˜åº¦ã€‚å½“AdjustViewBoundsä¸ºTrueæ—¶æœ‰æ•ˆã€‚
     /// </summary>
     property MaxHeight;
     /// <summary>
-    /// ×é¼ş±¾Éí×÷ÎªÈİÆ÷Ê±£¬ÄÚ²¿µÄÖØÁ¦¡£Ò²¾ÍÊÇ×Ó×é¼şµÄÎ»ÓÚÈİÆ÷µÄÎ»ÖÃ¡£
-    ///    LeftTop, ×óÉÏ½Ç;
-    ///    LeftBottom, ×óÏÂ½Ç;
-    ///    RightTop, ÓÒÉÏ½Ç;
-    ///    RightBottom, ÓÒÏÂ½Ç;
-    ///    CenterVertical, ´¹Ö±¾ÓÖĞ£¨¿É×óÓÒÒÆ¶¯£©;
-    ///    CenterHorizontal, Ë®Æ½¾ÓÖĞ£¨¿ÉÉÏÏÂÒÆ¶¯£©;
-    ///    CenterHBottom, µ×²¿Ë®Æ½¾ÓÖĞ;
-    ///    CenterVRight, ¿¿ÓÒ´¹Ö±¾ÓÖĞ;
-    ///    Center, ÍêÈ«¾ÓÖĞ;
+    /// ç»„ä»¶æœ¬èº«ä½œä¸ºå®¹å™¨æ—¶ï¼Œå†…éƒ¨çš„é‡åŠ›ã€‚ä¹Ÿå°±æ˜¯å­ç»„ä»¶çš„ä½äºå®¹å™¨çš„ä½ç½®ã€‚
+    ///    LeftTop, å·¦ä¸Šè§’;
+    ///    LeftBottom, å·¦ä¸‹è§’;
+    ///    RightTop, å³ä¸Šè§’;
+    ///    RightBottom, å³ä¸‹è§’;
+    ///    CenterVertical, å‚ç›´å±…ä¸­ï¼ˆå¯å·¦å³ç§»åŠ¨ï¼‰;
+    ///    CenterHorizontal, æ°´å¹³å±…ä¸­ï¼ˆå¯ä¸Šä¸‹ç§»åŠ¨ï¼‰;
+    ///    CenterHBottom, åº•éƒ¨æ°´å¹³å±…ä¸­;
+    ///    CenterVRight, é å³å‚ç›´å±…ä¸­;
+    ///    Center, å®Œå…¨å±…ä¸­;
     /// </summary>
     property Gravity: TLayoutGravity read GetGravity write SetGravity;
     /// <summary>
-    /// ÊÓÍ¼ÔÚÏßĞÔ²¼¾Ö TLinearLayout Ê±£¬Æä¿í¶È»ò¸ß¶ÈÔÚÈİÆ÷ÖĞËùÕ¼µÄ´óĞ¡±ÈÀı¡£
-    /// ÉèÎª>0Ê±£¬²¼¾Ö×é¼ş»á°´±ÈÀı×Ô¶¯µ÷Õû×é¼ş´óĞ¡¡£Ö»ÓĞÈİÆ÷ÊÇTLinearLayoutÊ±ÓĞĞ§¡£
+    /// è§†å›¾åœ¨çº¿æ€§å¸ƒå±€ TLinearLayout æ—¶ï¼Œå…¶å®½åº¦æˆ–é«˜åº¦åœ¨å®¹å™¨ä¸­æ‰€å çš„å¤§å°æ¯”ä¾‹ã€‚
+    /// è®¾ä¸º>0æ—¶ï¼Œå¸ƒå±€ç»„ä»¶ä¼šæŒ‰æ¯”ä¾‹è‡ªåŠ¨è°ƒæ•´ç»„ä»¶å¤§å°ã€‚åªæœ‰å®¹å™¨æ˜¯TLinearLayoutæ—¶æœ‰æ•ˆã€‚
     /// </summary>
     property Weight: Single read GetWeight write SetWeight;
 
@@ -1652,14 +1652,14 @@ type
   end;
 
   /// <summary>
-  /// »ù±¾ÊÓÍ¼×é
+  /// åŸºæœ¬è§†å›¾ç»„
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TViewGroup = class(TView, IViewGroup)
   private
   protected
     /// <summary>
-    /// ÊÇ·ñĞèÒª×Ô¶¯µ÷Õû´óĞ¡
+    /// æ˜¯å¦éœ€è¦è‡ªåŠ¨è°ƒæ•´å¤§å°
     /// </summary>
     function IsAdjustSize(View: IView; Align: TAlignLayout;
       AParentOrientation: TOrientation): Boolean;
@@ -1679,16 +1679,16 @@ type
   end;
 
   /// <summary>
-  /// ÏßĞÔ²¼¾Ö
+  /// çº¿æ€§å¸ƒå±€
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TLinearLayout = class(TViewGroup)
   private
   protected
     /// <summary>
-    /// ²éÕÒ×îºóÒ»¸öĞèÒª×Ô¶¯µ÷Õû´óĞ¡µÄ×é¼ş
-    /// <param name="AControl">Êä³öĞèÒª×Ô¶¯µ÷Õû´óĞ¡µÄ×é¼ş</param>
-    /// <param name="AdjustSize">Êä³ö×Ô¶¯µ÷Õû´óĞ¡×é¼şµÄ¿ÉÓÃ¿Õ¼ä</param>
+    /// æŸ¥æ‰¾æœ€åä¸€ä¸ªéœ€è¦è‡ªåŠ¨è°ƒæ•´å¤§å°çš„ç»„ä»¶
+    /// <param name="AControl">è¾“å‡ºéœ€è¦è‡ªåŠ¨è°ƒæ•´å¤§å°çš„ç»„ä»¶</param>
+    /// <param name="AdjustSize">è¾“å‡ºè‡ªåŠ¨è°ƒæ•´å¤§å°ç»„ä»¶çš„å¯ç”¨ç©ºé—´</param>
     /// </summary>
     function AdjustAutoSizeControl(out AControl: TControl; out AdjustSize: Single): Boolean;
 
@@ -1704,7 +1704,7 @@ type
   end;
   
   /// <summary>
-  /// Ïà¶Ô²¼¾Ö
+  /// ç›¸å¯¹å¸ƒå±€
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TRelativeLayout = class(TViewGroup)
@@ -1723,15 +1723,15 @@ type
   end;
 
   /// <summary>
-  /// ¸ñ×Ó²¼¾ÖÊ±À­ÉìÄ£Ê½
+  /// æ ¼å­å¸ƒå±€æ—¶æ‹‰ä¼¸æ¨¡å¼
   /// </summary>
-  TViewStretchMode = (None {ÎŞ},
-    SpacingWidth {×Ô¶¯µ÷Õû¼ä¾à£¬Ê¹³äÂú²¼¾Ö},
-    ColumnWidth {×Ô¶¯µ÷Õû¿í¶È£¬Ê¹³äÂú²¼¾Ö},
-    SpacingWidthUniform {×Ô¶¯µ÷Õû¼ä¾à(Æ½¾ù¼ä¸ô)£¬Ê¹³äÂú²¼¾Ö});
+  TViewStretchMode = (None {æ— },
+    SpacingWidth {è‡ªåŠ¨è°ƒæ•´é—´è·ï¼Œä½¿å……æ»¡å¸ƒå±€},
+    ColumnWidth {è‡ªåŠ¨è°ƒæ•´å®½åº¦ï¼Œä½¿å……æ»¡å¸ƒå±€},
+    SpacingWidthUniform {è‡ªåŠ¨è°ƒæ•´é—´è·(å¹³å‡é—´éš”)ï¼Œä½¿å……æ»¡å¸ƒå±€});
 
   /// <summary>
-  /// ¸ñ×Ó²¼¾Ö
+  /// æ ¼å­å¸ƒå±€
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TGridsLayout = class(TViewGroup)
@@ -1774,67 +1774,67 @@ type
   protected
     procedure DoRealign; override;
     procedure PaintBackground; override;
-    procedure DrawDivider(Canvas: TCanvas);   // »­·Ö¸ôÏß
+    procedure DrawDivider(Canvas: TCanvas);   // ç”»åˆ†éš”çº¿
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     /// <summary>
-    /// ¸ñ×ÓÊıÁ¿
+    /// æ ¼å­æ•°é‡
     /// </summary>
     property Count: Integer read GetCount;
     /// <summary>
-    /// ¾ö¶ÔµÄÁĞÊı
+    /// å†³å¯¹çš„åˆ—æ•°
     /// </summary>
     property AbsoluteColumnsNum: Integer read GetAbsoluteColumnsNum;
   published
     /// <summary>
-    /// ÁĞÊı, <= 0 Ê±Îª×Ô¶¯
+    /// åˆ—æ•°, <= 0 æ—¶ä¸ºè‡ªåŠ¨
     /// </summary>
     property ColumnCount: Integer read FNumColumns write SetNumColumns default 0;
     /// <summary>
-    /// ÁĞ¿í¶È
+    /// åˆ—å®½åº¦
     /// </summary>
     property ColumnWidth: Single read FColumnWidth write SetColumnWidth stored IsStoredColumnWidth;
     /// <summary>
-    /// ÁĞ¸ß¶È
+    /// åˆ—é«˜åº¦
     /// </summary>
     property ColumnHeight: Single read FColumnHeight write SetColumnHeight stored IsStoredColumnHeight;
     /// <summary>
-    /// ·Ö¸ôÏßÑÕÉ«
+    /// åˆ†éš”çº¿é¢œè‰²
     /// </summary>
     property Divider: TAlphaColor read GetDivider write SetDivider default CDefaultDividerColor;
     /// <summary>
-    /// Á½ÁĞÖ®¼äµÄ¼ä¾à
+    /// ä¸¤åˆ—ä¹‹é—´çš„é—´è·
     /// </summary>
     property SpacingHorizontal: Single read FHorizontalSpacing write SetHorizontalSpacing;
     /// <summary>
-    /// Á½ĞĞÖ®¼äµÄ¼ä¾à
+    /// ä¸¤è¡Œä¹‹é—´çš„é—´è·
     /// </summary>
     property SpacingVertical: Single read FVerticalSpacing write SetVerticalSpacing;
     /// <summary>
-    /// ¼ä¾à´Ó±ß¿ò¿ªÊ¼Ëã (Îª False Ê±£¬×óÓÒÉÏÏÂËÄ±ßµÄ¼ä¾àÎª0)
+    /// é—´è·ä»è¾¹æ¡†å¼€å§‹ç®— (ä¸º False æ—¶ï¼Œå·¦å³ä¸Šä¸‹å››è¾¹çš„é—´è·ä¸º0)
     /// </summary>
     property SpacingBorder: Boolean read FSpacingBorder write SetSpacingBorder default True;
     /// <summary>
-    /// Ëõ·ÅÓëÁĞ¿í´óĞ¡µ÷Õû·½Ê½
+    /// ç¼©æ”¾ä¸åˆ—å®½å¤§å°è°ƒæ•´æ–¹å¼
     /// </summary>
     property StretchMode: TViewStretchMode read FStretchMode write SetStretchMode default TViewStretchMode.None;
     /// <summary>
-    /// Ç¿ÖÆÊ¹ÓÃÁĞ´óĞ¡¡£´ËÊ±²»ÔÙ¼ì²âÃ¿¸ö¸ñ×ÓµÄ¿í¶È¸ß¶ÈÊÇ·ñĞèÒª×Ô¶¯´óĞ¡
+    /// å¼ºåˆ¶ä½¿ç”¨åˆ—å¤§å°ã€‚æ­¤æ—¶ä¸å†æ£€æµ‹æ¯ä¸ªæ ¼å­çš„å®½åº¦é«˜åº¦æ˜¯å¦éœ€è¦è‡ªåŠ¨å¤§å°
     /// </summary>
     property ForceColumnSize: Boolean read FForceColumnSize write SetForceColumnSize default False;
   end;
 
 
-// ´¦ÀíÏûÏ¢
+// å¤„ç†æ¶ˆæ¯
 procedure ProcessMessages;
-// Ä£Äâµã»÷
+// æ¨¡æ‹Ÿç‚¹å‡»
 procedure SimulateClick(AControl: TControl; const x, y: single);
-// Ìæ»»²»Í¸Ã÷ÑÕÉ«
+// æ›¿æ¢ä¸é€æ˜é¢œè‰²
 procedure ReplaceOpaqueColor(ABmp: TBitmap; const Color: TAlphaColor);
-// ÆÁÄ»Ëõ·Å
+// å±å¹•ç¼©æ”¾
 function GetScreenScale: single;
-// »ñÈ¡×é¼şËùÊôµÄ´°¿Ú
+// è·å–ç»„ä»¶æ‰€å±çš„çª—å£
 function GetParentForm(AObj: TFmxObject): TCustomForm;
 
 function ViewStateToString(const State: TViewStates): string;
@@ -1842,7 +1842,7 @@ function ComponentStateToString(const State: TComponentState): string;
 
 var
   /// <summary>
-  /// Accessory Í¼ÏñÁĞ±í
+  /// Accessory å›¾åƒåˆ—è¡¨
   /// </summary>
   FAccessoryImages: TViewAccessoryImageList;
 
@@ -1855,20 +1855,20 @@ uses
   UI.Ani;
 
 resourcestring
-  SInvViewValue = 'ÎŞĞ§µÄÊÓÍ¼×´Ì¬Öµ: %d';
-  SNotAllowSelf = '²»ÔÊĞíÉè¶¨Îª×Ô¼º';
-  SMustSameParent = '±ØĞëÖ¸¶¨Ò»¸öÓëµ±Ç°×é¼şËùÊôÊÓÍ¼ÖĞµÄÍ¬¼¶ĞÖµÜ×é¼ş';
-  SLocateFailed = '´æÔÚÑ­»·ÒıÓÃ';
-  SRefOutLimitMax = '×é¼şÒıÓÃ²ã¼¶³¬¹ıÉÏÏŞÖµ: 256';
-  SUnsupportPropertyType = '²»Ö§³ÖµÄÊôĞÔÀàĞÍ.';
+  SInvViewValue = 'æ— æ•ˆçš„è§†å›¾çŠ¶æ€å€¼: %d';
+  SNotAllowSelf = 'ä¸å…è®¸è®¾å®šä¸ºè‡ªå·±';
+  SMustSameParent = 'å¿…é¡»æŒ‡å®šä¸€ä¸ªä¸å½“å‰ç»„ä»¶æ‰€å±è§†å›¾ä¸­çš„åŒçº§å…„å¼Ÿç»„ä»¶';
+  SLocateFailed = 'å­˜åœ¨å¾ªç¯å¼•ç”¨';
+  SRefOutLimitMax = 'ç»„ä»¶å¼•ç”¨å±‚çº§è¶…è¿‡ä¸Šé™å€¼: 256';
+  SUnsupportPropertyType = 'ä¸æ”¯æŒçš„å±æ€§ç±»å‹.';
 
 var
   /// <summary>
-  /// APP ×´Ì¬Ìõ¸ß¶È (Android Æ½Ì¨ÓĞĞ§)
+  /// APP çŠ¶æ€æ¡é«˜åº¦ (Android å¹³å°æœ‰æ•ˆ)
   /// </summary>
   StatusHeight: Single = 0;
   /// <summary>
-  /// APP µ×²¿ĞéÄâ¼ü¸ß¶È (Android Æ½Ì¨ÓĞĞ§)
+  /// APP åº•éƒ¨è™šæ‹Ÿé”®é«˜åº¦ (Android å¹³å°æœ‰æ•ˆ)
   /// </summary>
   NavigationBarHeight: Single = 0;
   {$IFDEF ANDROID}
@@ -1986,7 +1986,7 @@ begin
     if Assigned(List) and (List.Count > 0) then begin
       if List.Count > 256 then
         raise EViewError.Create(SRefOutLimitMax);
-      if (List.IndexOf(View) >= 0) then // ÖØ¸´ÒıÓÃ
+      if (List.IndexOf(View) >= 0) then // é‡å¤å¼•ç”¨
         raise EViewError.Create(SLocateFailed);
     end;
     Layout := View.GetLayout;
@@ -2019,7 +2019,7 @@ begin
   end;
 end;
 
-// ¼ì²é×é¼şÒıÓÃÊÇ·ñ´æÔÚËÀÑ­»·¡£·µ»ØTrue±íÊ¾²»´æÔÚ
+// æ£€æŸ¥ç»„ä»¶å¼•ç”¨æ˜¯å¦å­˜åœ¨æ­»å¾ªç¯ã€‚è¿”å›Trueè¡¨ç¤ºä¸å­˜åœ¨
 function CheckRecursionState(const Control: IView): Boolean;
 var
   List: TInterfaceList;
@@ -2079,7 +2079,7 @@ begin
   end;
 end;
 
-// ¸ĞĞ» Flying Wang
+// æ„Ÿè°¢ Flying Wang
 type
   JSystemPropertiesClass = interface(IJavaClass)
     ['{C14AB573-CC6F-4087-A1FB-047E92F8E718}']
@@ -2148,7 +2148,7 @@ begin
 end;
 {$ENDIF}
 
-{ À´×Ô KernowSoftwareFMX }
+{ æ¥è‡ª KernowSoftwareFMX }
 procedure ProcessMessages;
 {$IFDEF IOS}
 var
@@ -2166,7 +2166,7 @@ begin
 end;
 {$ENDIF}
 
-{ À´×Ô KernowSoftwareFMX }
+{ æ¥è‡ª KernowSoftwareFMX }
 procedure ReplaceOpaqueColor(ABmp: TBitmap; const Color: TAlphaColor);
 var
   x, y: Integer;
@@ -2592,8 +2592,8 @@ begin
 
   if Bmp.FRemoveBlackLine then begin
     {$IFNDEF MSWINDOWS}
-    // ÒÆ¶¯Æ½Ì¨£¬Ê¹ÓÃPPI¼ÆËã³ö1¸ödpËùÕ¼ÓÃµÄÏñË÷
-    // ¸Ğ¾õÖ±½ÓÉèÎª2Ğ§¹û¸üºÃ
+    // ç§»åŠ¨å¹³å°ï¼Œä½¿ç”¨PPIè®¡ç®—å‡º1ä¸ªdpæ‰€å ç”¨çš„åƒç´¢
+    // æ„Ÿè§‰ç›´æ¥è®¾ä¸º2æ•ˆæœæ›´å¥½
     AO := 2; //1 * GetPPI(Self.FView as TFmxObject) / 160;
     //if AO < 0 then AO := 1;
     {$ELSE}
@@ -2609,7 +2609,7 @@ begin
       Canvas.DrawBitmap(Bmp.Bitmap, RectF(AO, AO, Bmp.Bitmap.Width - AO, Bmp.Bitmap.Height - AO),
         ARect, AOpacity);
   end else begin
-    // ¾Å¹¬¸ñ»æÍ¼
+    // ä¹å®«æ ¼ç»˜å›¾
     BW := Bmp.Bitmap.Width;
     BH := Bmp.Bitmap.Height;
 
@@ -2618,49 +2618,49 @@ begin
     BR := Bmp.FBounds.Right;
     BB := Bmp.FBounds.Bottom;
 
-    // ×óÉÏ
+    // å·¦ä¸Š
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(AO, AO, BL + AO, BT + AO),
       RectF(ARect.Left, ARect.Top, ARect.Left + BL, ARect.Top + BT),
       AOpacity);
-    // ¶¥²¿
+    // é¡¶éƒ¨
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BL + AO, AO, BW - BR - AO, BT + AO),
       RectF(ARect.Left + BL, ARect.Top, ARect.Right - BR, ARect.Top + BT),
       AOpacity);
-    // ÓÒÉÏ
+    // å³ä¸Š
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BW - BR - AO, AO, BW - AO, BT + AO),
       RectF(ARect.Right - BR, ARect.Top, ARect.Right, ARect.Top + BT),
       AOpacity);
 
-    // ×óÖĞ
+    // å·¦ä¸­
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(AO, BT + AO, BL + AO, BH - BB - AO),
       RectF(ARect.Left, ARect.Top + BT, ARect.Left + BL, ARect.Bottom - BB),
       AOpacity);
-    // ÖĞ¼ä
+    // ä¸­é—´
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BL + AO, BT + AO, BW - BR - AO, BH - BB - AO),
       RectF(ARect.Left + BL, ARect.Top + BT, ARect.Right - BR, ARect.Bottom - BB),
       AOpacity);
-    // ÓÒÖĞ
+    // å³ä¸­
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BW - BR - AO, BT + AO, BW - AO, BH - BB - AO),
       RectF(ARect.Right - BR, ARect.Top + BT, ARect.Right, ARect.Bottom - BB),
       AOpacity);
 
-    // ×óÏÂ
+    // å·¦ä¸‹
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(AO, BH - BB - AO, BL + AO, BH - AO),
       RectF(ARect.Left, ARect.Bottom - BB, ARect.Left + BL, ARect.Bottom),
       AOpacity);
-    // ÏÂÖĞ
+    // ä¸‹ä¸­
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BL + AO, BH - BB - AO, BW - BR - AO, BH - AO),
       RectF(ARect.Left + BL, ARect.Bottom - BB, ARect.Right - BR, ARect.Bottom),
       AOpacity);
-    // ÓÒÏÂ
+    // å³ä¸‹
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BW - BR - AO, BH - BB - AO, BW - AO, BH - AO),
       RectF(ARect.Right - BR, ARect.Bottom - BB, ARect.Right, ARect.Bottom),
@@ -3667,7 +3667,7 @@ end;
 procedure TView.Click;
 begin
   {$IFNDEF MSWINDOWS}
-  if Abs(FDownUpOffset) > 10 then // ·ÀÖ¹¹ö¶¯Ê±´¥·¢µã»÷ÊÂ¼ş
+  if Abs(FDownUpOffset) > 10 then // é˜²æ­¢æ»šåŠ¨æ—¶è§¦å‘ç‚¹å‡»äº‹ä»¶
     Exit;
   if Assigned(OnClick) then
     PlayClickEffect;
@@ -4655,7 +4655,7 @@ begin
   if not Assigned(FAudioManager) then
     Exit;
   RingerMode := FAudioManager.getRingerMode;
-  // ¾²Òô»òÕßÕğ¶¯Ê±²»·¢³öÉùÒô
+  // é™éŸ³æˆ–è€…éœ‡åŠ¨æ—¶ä¸å‘å‡ºå£°éŸ³
   if (ringerMode = TJAudioManager.JavaClass.RINGER_MODE_SILENT) or
     (ringerMode = TJAudioManager.JavaClass.RINGER_MODE_VIBRATE) then
     Exit;
@@ -5057,31 +5057,31 @@ begin
     Realign;
 end;
 
-// ´Ë´¦µÄ×Ô¶¯µ÷Õû´óĞ¡£¬ÊÇÏà¶ÔÓÚ¸¸¼¶ÏßĞÔ²¼¾Ö×é¼şÏà·´·½Ïò¶øÑÔ£¬Ò²¾ÍÊÇÔÚÏßĞÔ²¼¾ÖÖĞ
-// ÊÇ·ñÒªµ÷Õû×é¼şµÄ¿í¶È»ò¸ß¶È
+// æ­¤å¤„çš„è‡ªåŠ¨è°ƒæ•´å¤§å°ï¼Œæ˜¯ç›¸å¯¹äºçˆ¶çº§çº¿æ€§å¸ƒå±€ç»„ä»¶ç›¸åæ–¹å‘è€Œè¨€ï¼Œä¹Ÿå°±æ˜¯åœ¨çº¿æ€§å¸ƒå±€ä¸­
+// æ˜¯å¦è¦è°ƒæ•´ç»„ä»¶çš„å®½åº¦æˆ–é«˜åº¦
 function TViewGroup.IsAdjustSize(View: IView; Align: TAlignLayout;
   AParentOrientation: TOrientation): Boolean;
 begin
   if Assigned(View) then begin
-    // ÊµÏÖÁË IView ½Ó¿Ú
+    // å®ç°äº† IView æ¥å£
     if AParentOrientation = TOrientation.Horizontal then
-      // µ±¸¸¼¶ÏßĞÔ²¼¾Ö×é¼şÎªË®Æ½·½ÏòÊ±£¬¸ß¶ÈËæ¸¸×éÔòĞèÒªµ÷Õû¸ß¶È
+      // å½“çˆ¶çº§çº¿æ€§å¸ƒå±€ç»„ä»¶ä¸ºæ°´å¹³æ–¹å‘æ—¶ï¼Œé«˜åº¦éšçˆ¶ç»„åˆ™éœ€è¦è°ƒæ•´é«˜åº¦
       Result := (View.GetHeightSize = TViewSize.FillParent)
     else
-      // µ±¸¸×éÏßĞÔ²¼¾Ö×é¼şÎª´¹Ö±·½ÏòÊ±£¬ÅĞ¶ÏÊÇ·ñĞèÒªµ÷Õû¿í¶È
+      // å½“çˆ¶ç»„çº¿æ€§å¸ƒå±€ç»„ä»¶ä¸ºå‚ç›´æ–¹å‘æ—¶ï¼Œåˆ¤æ–­æ˜¯å¦éœ€è¦è°ƒæ•´å®½åº¦
       Result := (View.GetWidthSize = TViewSize.FillParent);
   end else if (Align = TAlignLayout.None) or (Align = TAlignLayout.Scale) then
-    // Align ²»»áµ÷Õû´óĞ¡
+    // Align ä¸ä¼šè°ƒæ•´å¤§å°
     Result := False
   else if AParentOrientation = TOrientation.Horizontal then
-    // ÕâĞ© Align ÖµĞèÒªµ÷Õû×é¼ş¸ß¶È
+    // è¿™äº› Align å€¼éœ€è¦è°ƒæ•´ç»„ä»¶é«˜åº¦
     Result := Align in [TAlignLayout.Left, TAlignLayout.Right,
       TAlignLayout.MostLeft, TAlignLayout.MostRight,
       TAlignLayout.Client, TAlignLayout.Contents,
       TAlignLayout.HorzCenter, TAlignLayout.Vertical, TAlignLayout.Fit,
       TAlignLayout.FitLeft, TAlignLayout.FitRight]
   else
-    // ÕâĞ© Align ÖµĞèÒªµ÷Õû×é¼ş¿í¶È
+    // è¿™äº› Align å€¼éœ€è¦è°ƒæ•´ç»„ä»¶å®½åº¦
     Result := Align in [TAlignLayout.Top, TAlignLayout.Bottom,
       TAlignLayout.MostTop, TAlignLayout.MostBottom,
       TAlignLayout.Client, TAlignLayout.Contents,
@@ -5142,42 +5142,42 @@ begin
 
   FDisableAlign := True;
 
-  // µÃµ½¸¸¼¶×é¼şµÄ×î´ó¸ß¿í
+  // å¾—åˆ°çˆ¶çº§ç»„ä»¶çš„æœ€å¤§é«˜å®½
   MaxW := GetParentMaxWidth;
   MaxH := GetParentMaxHeight;
 
-  // µÃµ½×Ó×é¼şµÄ¿ªÊ¼×ø±ê
+  // å¾—åˆ°å­ç»„ä»¶çš„å¼€å§‹åæ ‡
   CurPos := TPointD.Create(Padding.Left, Padding.Top);
   W := Width - CurPos.X - Padding.Right;
   H := Height - CurPos.Y - Padding.Bottom;
   CtrlCount := ControlsCount;
 
-  // Èç¹û³¤¿í > 0 ºÍ×Ó¿Ø¼ş > 0 Ê±²Å´¦Àí²¼¾Ö
+  // å¦‚æœé•¿å®½ > 0 å’Œå­æ§ä»¶ > 0 æ—¶æ‰å¤„ç†å¸ƒå±€
   if ((W > 0) and (H > 0)) or (CtrlCount > 0) then begin
-    // »ñÈ¡ËùÓĞ×Ó×é¼şµÄÖØÁ¦´óĞ¡Ö®ºÍ
+    // è·å–æ‰€æœ‰å­ç»„ä»¶çš„é‡åŠ›å¤§å°ä¹‹å’Œ
     WeightSum := GetWeightSum(Fix);
     IsWeight := WeightSum > 0;
     LAdjustControl := nil;
-    // Èç¹û WeightSum ´óÓÚ0£¬ËµÃ÷Ê¹ÓÃÁËÖØÁ¦, Ôò²»½øĞĞ×é¼ş×Ô¶¯´óĞ¡´¦ÀíÁË
+    // å¦‚æœ WeightSum å¤§äº0ï¼Œè¯´æ˜ä½¿ç”¨äº†é‡åŠ›, åˆ™ä¸è¿›è¡Œç»„ä»¶è‡ªåŠ¨å¤§å°å¤„ç†äº†
     LIsAdjustSize := (WeightSum <= 0) and AdjustAutoSizeControl(LAdjustControl, LAdjustSize);
 
-    // Èç¹ûÃ»ÓĞ×Ô¶¯µ÷ÕûÖ¸¶¨·½ÏòÉÏµÄ´óĞ¡£¬Ôò¸ù¾İÖØÁ¦£¬×Ô¶¯¾ö¶¨×é¼şµÄ¿ªÊ¼Î»ÖÃ
+    // å¦‚æœæ²¡æœ‰è‡ªåŠ¨è°ƒæ•´æŒ‡å®šæ–¹å‘ä¸Šçš„å¤§å°ï¼Œåˆ™æ ¹æ®é‡åŠ›ï¼Œè‡ªåŠ¨å†³å®šç»„ä»¶çš„å¼€å§‹ä½ç½®
     if (not LIsAdjustSize) then begin
       if Orientation = TOrientation.Horizontal then begin
-        // Ë®Æ½²¼¾Ö
+        // æ°´å¹³å¸ƒå±€
         if FGravity in [TLayoutGravity.CenterHorizontal, TLayoutGravity.CenterHBottom, TLayoutGravity.Center] then
-          // Ë®Æ½¾ÓÖĞ
+          // æ°´å¹³å±…ä¸­
           CurPos.X := (W - Fix) / 2 + Padding.Left
         else if FGravity in [TLayoutGravity.RightTop, TLayoutGravity.RightBottom, TLayoutGravity.CenterVRight] then
-          // ÓÒ±ß
+          // å³è¾¹
           CurPos.X := W - Fix + Padding.Left;
       end else begin
-        // ´¹Ö±²¼¾Ö
+        // å‚ç›´å¸ƒå±€
         if FGravity in [TLayoutGravity.CenterVertical, TLayoutGravity.CenterVRight, TLayoutGravity.Center] then
-          // ´¹Ö±¾ÓÖĞ
+          // å‚ç›´å±…ä¸­
           CurPos.Y := (H - Fix) / 2 + Padding.Top
         else if FGravity in [TLayoutGravity.LeftBottom, TLayoutGravity.RightBottom, TLayoutGravity.CenterHBottom] then
-          // µ×±ß
+          // åº•è¾¹
           CurPos.Y := H - Fix + Padding.Top;
       end;
     end;
@@ -5185,7 +5185,7 @@ begin
     for I := 0 to CtrlCount - 1 do begin
       Control := Controls[I];
       {$IFDEF MSWINDOWS}
-      // Èç¹ûÔÚÉè¼Æ×´Ì¬£¬×é¼şÊÇ DesignerControl Ê±ºöÂÔ
+      // å¦‚æœåœ¨è®¾è®¡çŠ¶æ€ï¼Œç»„ä»¶æ˜¯ DesignerControl æ—¶å¿½ç•¥
       if (csDesigning in ComponentState) then begin
         if Supports(Control, IDesignerControl) then
           Continue;
@@ -5195,27 +5195,27 @@ begin
       {$ENDIF}
       if not Control.Visible then Continue;
 
-      // µÃµ½×é¼şIView½Ó¿Ú£¬¼°ÊÇ·ñÆôÓÃ×î´ó×îĞ¡´óĞ¡ÏŞÖÆ
+      // å¾—åˆ°ç»„ä»¶IViewæ¥å£ï¼ŒåŠæ˜¯å¦å¯ç”¨æœ€å¤§æœ€å°å¤§å°é™åˆ¶
       View := nil;
       if (Supports(Control, IView, View)) then begin
         SaveAdjustViewBounds := View.GetAdjustViewBounds;
       end else
         SaveAdjustViewBounds := False;
 
-      // ÅĞ¶Ï×é¼şÔÚÁíÒ»¸ö·½ÏòÊÇ·ñĞèÒª×Ô¶¯´óĞ¡
+      // åˆ¤æ–­ç»„ä»¶åœ¨å¦ä¸€ä¸ªæ–¹å‘æ˜¯å¦éœ€è¦è‡ªåŠ¨å¤§å°
       LAutoSize := IsAdjustSize(View, Control.Align, FOrientation);
 
-      // Ë®Æ½²¼¾Ö
+      // æ°´å¹³å¸ƒå±€
       if FOrientation = TOrientation.Horizontal then begin
-        // ¼ÆËã Left
+        // è®¡ç®— Left
         VL := CurPos.X + Control.Margins.Left;
 
-        // ¼ÆËã¿í¶È
+        // è®¡ç®—å®½åº¦
         if Assigned(View) and (WeightSum > 0) and (View.GetWeight > 0) then begin
-          // Èç¹ûÊ¹ÓÃÖØÁ¦£¬Ôò¸ù¾İÖØÁ¦¼ÆËã¿í¶È
+          // å¦‚æœä½¿ç”¨é‡åŠ›ï¼Œåˆ™æ ¹æ®é‡åŠ›è®¡ç®—å®½åº¦
           VW := (W - Fix) / WeightSum * View.GetWeight - Control.Margins.Left - Control.Margins.Right;
         end else if Control = LAdjustControl then begin
-          // Èç¹ûÊÇĞèÒª×Ô¶¯µ÷Õû´óĞ¡µÄ×é¼ş
+          // å¦‚æœæ˜¯éœ€è¦è‡ªåŠ¨è°ƒæ•´å¤§å°çš„ç»„ä»¶
           VW := LAdjustSize - Control.Margins.Right - Control.Margins.Left;
         end else begin
           VW := Control.Width;
@@ -5223,7 +5223,7 @@ begin
 
         //LogD(Format('I: %d, WeightSum: %.3f, Fix: %.2f, VW: %.2f', [I, WeightSum, Fix, Control.Width]));
 
-        // ¼ì²â¿í¶È´óĞ¡ÏŞÖÆ
+        // æ£€æµ‹å®½åº¦å¤§å°é™åˆ¶
         if SaveAdjustViewBounds then begin
           if (View.GetMaxWidth > 0) and (VW > View.GetMaxWidth) then
             VW := View.GetMaxWidth;
@@ -5232,11 +5232,11 @@ begin
         end;
 
         if LAutoSize then begin
-          // ×Ô¶¯¸ß¶È
+          // è‡ªåŠ¨é«˜åº¦
           VT := CurPos.Y + Control.Margins.Top;
           VH :=  H - VT - Control.Margins.Bottom + Padding.Top;
 
-          // ¼ì²â¸ß¶È´óĞ¡ÏŞÖÆ
+          // æ£€æµ‹é«˜åº¦å¤§å°é™åˆ¶
           if SaveAdjustViewBounds then begin
             if (View.GetMaxHeight > 0) and (VH > View.GetMaxHeight) then
               VH := View.GetMaxHeight;
@@ -5246,7 +5246,7 @@ begin
         end else begin
           VH := Control.Height;
 
-          // ¼ì²â¸ß¶È´óĞ¡ÏŞÖÆ
+          // æ£€æµ‹é«˜åº¦å¤§å°é™åˆ¶
           if SaveAdjustViewBounds then begin
             if (View.GetMaxHeight > 0) and (VH > View.GetMaxHeight) then
               VH := View.GetMaxHeight;
@@ -5254,30 +5254,30 @@ begin
               VH := View.GetMinHeight;
           end;
 
-          // ·Ç×Ô¶¯¸ß¶ÈÊ±£¬ÒÔÖØÁ¦ÉèÖÃÀ´µ÷ÕûÎ»ÖÃ
+          // éè‡ªåŠ¨é«˜åº¦æ—¶ï¼Œä»¥é‡åŠ›è®¾ç½®æ¥è°ƒæ•´ä½ç½®
           case FGravity of
             TLayoutGravity.LeftTop, TLayoutGravity.RightTop:
-              // ¶¥²¿
+              // é¡¶éƒ¨
               VT := CurPos.Y + Control.Margins.Top;
             TLayoutGravity.LeftBottom, TLayoutGravity.RightBottom, TLayoutGravity.CenterHBottom:
-              // µ×²¿
+              // åº•éƒ¨
               VT := H - VH - Control.Margins.Bottom + Padding.Top;
             TLayoutGravity.CenterVertical, TLayoutGravity.Center, TLayoutGravity.CenterVRight:
-              // ¾ÓÖĞ
+              // å±…ä¸­
               VT := (H - (VH + Control.Margins.Top + Control.Margins.Bottom)) / 2 + Padding.Top + Control.Margins.Top;
           else
             begin
               if Align in [TAlignLayout.None, TAlignLayout.Scale] then
-                // ×Ô¶¨ÒåÎ»ÖÃ
+                // è‡ªå®šä¹‰ä½ç½®
                 VT := Control.Position.Y
               else
-                // Ê¹ÓÃ Align ÊôĞÔ£¬Ä¬ÈÏ×óÉÏ½Ç
+                // ä½¿ç”¨ Align å±æ€§ï¼Œé»˜è®¤å·¦ä¸Šè§’
                 VT := CurPos.Y + Control.Margins.Top;
             end;
           end;
         end;
 
-        // ¸ù¾İ Align À´µ÷Õûµ¥¸ö×é¼şµÄÎ»ÖÃ
+        // æ ¹æ® Align æ¥è°ƒæ•´å•ä¸ªç»„ä»¶çš„ä½ç½®
         if not LAutoSize then begin
           case Control.Align of
             TAlignLayout.Bottom, TAlignLayout.MostBottom:
@@ -5287,28 +5287,28 @@ begin
           end;
         end;
 
-        // ÖØÖÃÖØÁ¦ÉèÖÃ
+        // é‡ç½®é‡åŠ›è®¾ç½®
         if Assigned(View) and (View.GetWeight > 0) then begin
           Fix := Fix + VW + Control.Margins.Left + Control.Margins.Right;
           WeightSum := WeightSum - View.GetWeight;
         end;
 
-      // ´¹Ö±²¼¾Ö
+      // å‚ç›´å¸ƒå±€
       end else begin
 
-        // ¼ÆËã Top
+        // è®¡ç®— Top
         VT := CurPos.Y + Control.Margins.Top;
-        // ¼ÆËã¸ß¶È
+        // è®¡ç®—é«˜åº¦
         if Assigned(View) and (WeightSum > 0) and (View.GetWeight > 0) then begin
-          // Èç¹ûÊ¹ÓÃÖØÁ¦£¬Ôò¸ù¾İÖØÁ¦¼ÆËã¿í¶È
+          // å¦‚æœä½¿ç”¨é‡åŠ›ï¼Œåˆ™æ ¹æ®é‡åŠ›è®¡ç®—å®½åº¦
           VH := (H - Fix) / WeightSum * View.GetWeight - Control.Margins.Top - Control.Margins.Bottom;
         end else if Control = LAdjustControl then begin
-          // Èç¹ûÊÇĞèÒª×Ô¶¯µ÷Õû´óĞ¡µÄ×é¼ş
+          // å¦‚æœæ˜¯éœ€è¦è‡ªåŠ¨è°ƒæ•´å¤§å°çš„ç»„ä»¶
           VH := LAdjustSize - Control.Margins.Bottom - Control.Margins.Top;
         end else
           VH := Control.Height;
 
-        // ¼ì²â¸ß¶È´óĞ¡ÏŞÖÆ
+        // æ£€æµ‹é«˜åº¦å¤§å°é™åˆ¶
         if SaveAdjustViewBounds then begin
           if (View.GetMaxHeight > 0) and (VH > View.GetMaxHeight) then
             VH := View.GetMaxHeight;
@@ -5317,11 +5317,11 @@ begin
         end;
 
         if LAutoSize then begin
-          // ×Ô¶¯¿í¶È
+          // è‡ªåŠ¨å®½åº¦
           VL := CurPos.X + Control.Margins.Left;
           VW := W - VL - Control.Margins.Right + Padding.Left;
 
-          // ¼ì²â¿í¶È´óĞ¡ÏŞÖÆ
+          // æ£€æµ‹å®½åº¦å¤§å°é™åˆ¶
           if SaveAdjustViewBounds then begin
             if (View.GetMaxWidth > 0) and (VW > View.GetMaxWidth) then
               VW := View.GetMaxWidth;
@@ -5331,7 +5331,7 @@ begin
         end else begin
           VW := Control.Width;
 
-          // ¼ì²â¿í¶È´óĞ¡ÏŞÖÆ
+          // æ£€æµ‹å®½åº¦å¤§å°é™åˆ¶
           if SaveAdjustViewBounds then begin
             if (View.GetMaxWidth > 0) and (VW > View.GetMaxWidth) then
               VW := View.GetMaxWidth;
@@ -5339,30 +5339,30 @@ begin
               VW := View.GetMinWidth;
           end;
 
-          // ·Ç×Ô¶¯¿í¶ÈÊ±£¬ÒÔÖØÁ¦ÉèÖÃÀ´µ÷ÕûÎ»ÖÃ
+          // éè‡ªåŠ¨å®½åº¦æ—¶ï¼Œä»¥é‡åŠ›è®¾ç½®æ¥è°ƒæ•´ä½ç½®
           case FGravity of
             TLayoutGravity.LeftTop, TLayoutGravity.LeftBottom:
-              // ×ó±ß
+              // å·¦è¾¹
               VL := CurPos.X + Control.Margins.Left;
             TLayoutGravity.RightTop, TLayoutGravity.RightBottom, TLayoutGravity.CenterVRight:
-              // ÓÒ±ß
+              // å³è¾¹
               VL := W - VW - Control.Margins.Right + Padding.Left;
             TLayoutGravity.CenterHBottom, TLayoutGravity.Center:
-              // ÖĞ¼ä
+              // ä¸­é—´
               VL := (W - (VW + Control.Margins.Left + Control.Margins.Right)) / 2 + Padding.Left + Control.Margins.Left;
           else
             begin
               if Align in [TAlignLayout.None, TAlignLayout.Scale] then
-                // ×Ô¶¨ÒåÎ»ÖÃ
+                // è‡ªå®šä¹‰ä½ç½®
                 VL := Control.Position.X
               else
-                // Ê¹ÓÃ Align ÊôĞÔ£¬Ä¬ÈÏ×óÉÏ½Ç
+                // ä½¿ç”¨ Align å±æ€§ï¼Œé»˜è®¤å·¦ä¸Šè§’
                 VL := CurPos.X + Control.Margins.Left;
             end;
           end;
         end;
 
-        // ¸ù¾İ Align À´µ÷Õûµ¥¸ö×é¼şµÄÎ»ÖÃ
+        // æ ¹æ® Align æ¥è°ƒæ•´å•ä¸ªç»„ä»¶çš„ä½ç½®
         if not LAutoSize then begin
           case Control.Align of
             TAlignLayout.Right, TAlignLayout.MostRight:
@@ -5372,7 +5372,7 @@ begin
           end;
         end;
 
-        // ÖØÖÃÖØÁ¦ÉèÖÃ
+        // é‡ç½®é‡åŠ›è®¾ç½®
         if Assigned(View) and (View.GetWeight > 0) then begin
           Fix := Fix + VH + Control.Margins.Top + Control.Margins.Bottom;
           WeightSum := WeightSum - View.GetWeight;
@@ -5381,36 +5381,36 @@ begin
 
 //      LogD(Format('I: %d, Name: %s, Width: %.2f, VW: %.2f', [I, Control.Name, Control.Width, VW]));
 
-      // µ÷Õû×é¼ş´óĞ¡
+      // è°ƒæ•´ç»„ä»¶å¤§å°
       if Assigned(View) then begin
         Control.SetBounds(VL, VT, VW, VH);
         //SetAdjustViewBounds(SaveAdjustViewBounds);
       end else
         Control.SetBounds(VL, VT, VW, VH);
 
-      // ÖØĞÂ¼ÆËãFix£¬ÒÔ×é¼şµ÷ÕûºóµÄÕæÊµ´óĞ¡Îª×¼
+      // é‡æ–°è®¡ç®—Fixï¼Œä»¥ç»„ä»¶è°ƒæ•´åçš„çœŸå®å¤§å°ä¸ºå‡†
       if FOrientation = TOrientation.Horizontal then
         Fix := Fix + Control.Width - VW
       else
         Fix := Fix + Control.Height - VH;
 
-      // ¸üĞÂµ±Ç°×ø±ê
+      // æ›´æ–°å½“å‰åæ ‡
       if FOrientation = TOrientation.Horizontal then begin
         CurPos.X := VL + Control.Width + Control.Margins.Right;
       end else
         CurPos.Y := VT + Control.Height + Control.Margins.Bottom;
     end;
 
-    // ÅĞ¶ÏÊÇ·ñ×é¼ş´óĞ¡ÎªËæÄÚÈİ¡£Èç¹ûÊÇ£¬¸ù¾İÄÚÈİ´óĞ¡µ÷Õû´óĞ¡
+    // åˆ¤æ–­æ˜¯å¦ç»„ä»¶å¤§å°ä¸ºéšå†…å®¹ã€‚å¦‚æœæ˜¯ï¼Œæ ¹æ®å†…å®¹å¤§å°è°ƒæ•´å¤§å°
     if Orientation = TOrientation.Horizontal then begin
       VW := CurPos.X + Padding.Right;
       VH := Height;
 
-      // ¸ß¶È³¬¹ıÉÏÏŞ
+      // é«˜åº¦è¶…è¿‡ä¸Šé™
       if (VW > MaxW) and (MaxW > 0) then begin
-        // Èç¹ûÊ¹ÓÃÁË Weight
+        // å¦‚æœä½¿ç”¨äº† Weight
         if IsWeight then begin
-          // »ñÈ¡×îºóÊ¹ÓÃ Weight ÊôĞÔµÄ×é¼ş£¬ÖØĞÂµ÷Õû´óĞ¡
+          // è·å–æœ€åä½¿ç”¨ Weight å±æ€§çš„ç»„ä»¶ï¼Œé‡æ–°è°ƒæ•´å¤§å°
           ReSizeView := GetLastWeightView();
           if Assigned(ReSizeView) then begin
             ReSizeView.TempMaxWidth := ReSizeView.Width - (VW - MaxW);
@@ -5427,11 +5427,11 @@ begin
       VW := Width;
       VH := CurPos.Y + Padding.Bottom;
 
-      // ¸ß¶È³¬¹ıÉÏÏŞ
+      // é«˜åº¦è¶…è¿‡ä¸Šé™
       if (VH > MaxH) and (MaxH > 0) then begin
-        // Èç¹ûÊ¹ÓÃÁË Weight
+        // å¦‚æœä½¿ç”¨äº† Weight
         if IsWeight then begin
-          // »ñÈ¡×îºóÊ¹ÓÃ Weight ÊôĞÔµÄ×é¼ş£¬ÖØĞÂµ÷Õû´óĞ¡
+          // è·å–æœ€åä½¿ç”¨ Weight å±æ€§çš„ç»„ä»¶ï¼Œé‡æ–°è°ƒæ•´å¤§å°
           ReSizeView := GetLastWeightView();
           if Assigned(ReSizeView) then begin
             ReSizeView.TempMaxHeight := ReSizeView.Height - (VH - MaxH);
@@ -5466,12 +5466,12 @@ begin
     IsAW := False;
     IsAH := False;
 
-    // ÔÚË®Æ½ÉÏÊÇ·ñ×Ô¶¯´óĞ¡
+    // åœ¨æ°´å¹³ä¸Šæ˜¯å¦è‡ªåŠ¨å¤§å°
     IsASW := IsAdjustSize(nil, Align, TOrientation.Vertical);
-    // ÔÚ´¹Ö±ÉÏÊÇ·ñ×Ô¶¯´óĞ¡
+    // åœ¨å‚ç›´ä¸Šæ˜¯å¦è‡ªåŠ¨å¤§å°
     IsASH := IsAdjustSize(nil, Align, TOrientation.Horizontal);
 
-    // Ë®Æ½·½Ïò
+    // æ°´å¹³æ–¹å‘
     if (FOrientation = TOrientation.Horizontal) and (not IsASW) then begin
       if WidthSize = TViewSize.WrapContent then begin
         AWidth := Padding.Left + Padding.Right;
@@ -5488,7 +5488,7 @@ begin
         AWidth := 0;
     end;
 
-    // ´¹Ö±·½Ïò
+    // å‚ç›´æ–¹å‘
     if (FOrientation = TOrientation.Vertical) and (not IsASH) then begin
       if HeightSize = TViewSize.WrapContent then begin
         AHeight := Padding.Top + Padding.Bottom;
@@ -5505,7 +5505,7 @@ begin
         AHeight := 0;
     end;
 
-    // Èç¹ûÓĞĞèÒª×Ô¶¯´óĞ¡µÄ£¬Ôò½«×Ó¿Ø¼ş´óĞ¡¼ÓÆğÀ´
+    // å¦‚æœæœ‰éœ€è¦è‡ªåŠ¨å¤§å°çš„ï¼Œåˆ™å°†å­æ§ä»¶å¤§å°åŠ èµ·æ¥
     if IsAW or IsAH or IsASW or IsASH then begin
       for I := 0 to ControlsCount - 1 do begin
         Control := Controls[I];
@@ -5541,9 +5541,9 @@ begin
     if FDisableAlign then
       Exit;
 
-    // ÔÚË®Æ½ÉÏÊÇ·ñ×Ô¶¯´óĞ¡
+    // åœ¨æ°´å¹³ä¸Šæ˜¯å¦è‡ªåŠ¨å¤§å°
     IsASW := IsAdjustSize(Self, Align, TOrientation.Vertical);
-    // ÔÚ´¹Ö±ÉÏÊÇ·ñ×Ô¶¯´óĞ¡
+    // åœ¨å‚ç›´ä¸Šæ˜¯å¦è‡ªåŠ¨å¤§å°
     IsASH := IsAdjustSize(Self, Align, TOrientation.Horizontal);
 
     IsAW := (WidthSize = TViewSize.WrapContent) and (not IsASW);
@@ -5552,7 +5552,7 @@ begin
     if IsAW then AWidth := 0;
     if IsAH then AHeight := 0;
 
-    // Èç¹ûÓĞĞèÒª×Ô¶¯´óĞ¡µÄ£¬Ôò½«×Ó¿Ø¼ş´óĞ¡¼ÓÆğÀ´
+    // å¦‚æœæœ‰éœ€è¦è‡ªåŠ¨å¤§å°çš„ï¼Œåˆ™å°†å­æ§ä»¶å¤§å°åŠ èµ·æ¥
     if IsAW or IsAH then begin
       for I := 0 to ControlsCount - 1 do begin
         Control := Controls[I];
@@ -5589,11 +5589,11 @@ var
   NewSize: Single;
 begin
   Result := False;
-  AControl := nil;  // ×¢Òâ£º¶«¾©°æ out ²ÎÊıºó£¬ÕâÀï¼´Ê¹»áÄ¬ÈÏÉèÎª nil £¬µ«ÔÚ Release Ä£Ê½ÎŞĞ§
+  AControl := nil;  // æ³¨æ„ï¼šä¸œäº¬ç‰ˆ out å‚æ•°åï¼Œè¿™é‡Œå³ä½¿ä¼šé»˜è®¤è®¾ä¸º nil ï¼Œä½†åœ¨ Release æ¨¡å¼æ— æ•ˆ
   AdjustSize := 0;
   NewSize := 0;
 
-  // µÃµ½Ò»¸öÏà·´µÄ²¼¾Ö·½Ãæ£¬ÓÃÓÚ IsAutoSize
+  // å¾—åˆ°ä¸€ä¸ªç›¸åçš„å¸ƒå±€æ–¹é¢ï¼Œç”¨äº IsAutoSize
   FO := FOrientation;
   if FO = TOrientation.Horizontal then
     AO := TOrientation.Vertical
@@ -5607,7 +5607,7 @@ begin
     if IsDesignerControl(Control) then Continue;
     {$ENDIF}
     
-    // Èç¹û»¹Ã»ÓĞÕÒµ½ĞèÒª×Ô¶¯´óĞ¡µÄ×é¼ş£¬Ôò½øĞĞ¼ì²â
+    // å¦‚æœè¿˜æ²¡æœ‰æ‰¾åˆ°éœ€è¦è‡ªåŠ¨å¤§å°çš„ç»„ä»¶ï¼Œåˆ™è¿›è¡Œæ£€æµ‹
     if (AControl = nil) then begin
       View := nil;
       Supports(Control, IView, View);
@@ -5616,14 +5616,14 @@ begin
         Continue;
       end;
     end;
-    //  ÀÛ¼Ó·Ç×Ô¶¯´óĞ¡¿Ø¼şµÄ´óĞ¡
+    //  ç´¯åŠ éè‡ªåŠ¨å¤§å°æ§ä»¶çš„å¤§å°
     if FO = TOrientation.Horizontal then
       NewSize := NewSize + Control.Margins.Left + Control.Width + Control.Margins.Right
     else
       NewSize := NewSize + Control.Margins.Top + Control.Height + Control.Margins.Bottom;
   end;
 
-  // Èç¹û´æÔÚÓĞĞèÒª×Ô¶¯´óĞ¡µÄ×é¼ş£¬Ôòµ÷ÕûÆä´óĞ¡
+  // å¦‚æœå­˜åœ¨æœ‰éœ€è¦è‡ªåŠ¨å¤§å°çš„ç»„ä»¶ï¼Œåˆ™è°ƒæ•´å…¶å¤§å°
   if AControl <> nil then begin
     Result := True;
     if FO = TOrientation.Horizontal then
@@ -5879,7 +5879,7 @@ begin
   IsAH := (HeightSize = TViewSize.WrapContent) and
     (not IsAdjustSize(nil, Align, TOrientation.Horizontal));
 
-  // Èç¹ûÓĞĞèÒª×Ô¶¯´óĞ¡µÄ£¬Ôò½«×Ó¿Ø¼ş´óĞ¡¼ÓÆğÀ´
+  // å¦‚æœæœ‰éœ€è¦è‡ªåŠ¨å¤§å°çš„ï¼Œåˆ™å°†å­æ§ä»¶å¤§å°åŠ èµ·æ¥
   if IsAW or IsAH then begin
 
     if IsAW then AWidth := 0;
@@ -5921,7 +5921,7 @@ var
   Layout: TViewLayout;
 begin
   if not (csDestroying in ComponentState) then begin
-    // É¾³ı¶ÔÏóÊ±£¬½â³ıËùÓĞÒıÓÃµ½ËüµÄµØ·½
+    // åˆ é™¤å¯¹è±¡æ—¶ï¼Œè§£é™¤æ‰€æœ‰å¼•ç”¨åˆ°å®ƒçš„åœ°æ–¹
     for I := 0 to ControlsCount - 1 do begin
       Item := Controls[I];
       if Supports(Item, IView, View) then begin
@@ -6710,7 +6710,7 @@ var
     FFiled: TRttiField;
     V: TValue;
   begin
-    // Ê¹ÓÃ RTTi ÉèÖÃÆäËüÊôĞÔ
+    // ä½¿ç”¨ RTTi è®¾ç½®å…¶å®ƒå±æ€§
     FContext := TRttiContext.Create;
     try
       FType := FContext.GetType(TGlyphImageLink);
@@ -7886,7 +7886,7 @@ begin
 
   FDisableAlign := True;
 
-  // µÃµ½×Ó×é¼şµÄ¿ªÊ¼×ø±ê
+  // å¾—åˆ°å­ç»„ä»¶çš„å¼€å§‹åæ ‡
   if FSpacingBorder then begin
     CurPos := TPointD.Create(Padding.Left + FHorizontalSpacing, Padding.Top + FVerticalSpacing);
     VW := Width - CurPos.X - Padding.Right - FHorizontalSpacing;
@@ -7914,11 +7914,11 @@ begin
   VL := 0;
   {$ENDIF}
 
-  // Èç¹û³¤¿í > 0 ºÍ×Ó¿Ø¼ş > 0 Ê±²Å´¦Àí²¼¾Ö
+  // å¦‚æœé•¿å®½ > 0 å’Œå­æ§ä»¶ > 0 æ—¶æ‰å¤„ç†å¸ƒå±€
   if ((VW > 0) and (VH > 0)) or (CtrlCount > 0) then begin
     AW := VW + CurPos.X;
 
-    // ¸ù¾İÀ­ÉìÄ£Ê½£¬¼ÆËã³öÃ¿ÁĞµÄ¿í¶È¡¢¿Õ°×´óĞ¡ºÍÊµ¼ÊÊ¹ÓÃµÄÀ­ÉìÄ£Ê½
+    // æ ¹æ®æ‹‰ä¼¸æ¨¡å¼ï¼Œè®¡ç®—å‡ºæ¯åˆ—çš„å®½åº¦ã€ç©ºç™½å¤§å°å’Œå®é™…ä½¿ç”¨çš„æ‹‰ä¼¸æ¨¡å¼
     LStretchMode := FStretchMode;
     case FStretchMode of
       TViewStretchMode.None:
@@ -8014,7 +8014,7 @@ begin
       Control := Controls[I];
       if not Control.Visible then Continue;
       {$IFDEF MSWINDOWS}
-      // Èç¹ûÔÚÉè¼Æ×´Ì¬£¬×é¼şÊÇ DesignerControl Ê±ºöÂÔ
+      // å¦‚æœåœ¨è®¾è®¡çŠ¶æ€ï¼Œç»„ä»¶æ˜¯ DesignerControl æ—¶å¿½ç•¥
       if IsDesignerControl(Control) then
         Continue;
       {$ENDIF}
@@ -8032,7 +8032,7 @@ begin
         Inc(FLastRows);
       end;
 
-      // µÃµ½×é¼şIView½Ó¿Ú£¬¼°ÊÇ·ñÆôÓÃ×î´ó×îĞ¡´óĞ¡ÏŞÖÆ
+      // å¾—åˆ°ç»„ä»¶IViewæ¥å£ï¼ŒåŠæ˜¯å¦å¯ç”¨æœ€å¤§æœ€å°å¤§å°é™åˆ¶
       View := nil;
       if (Supports(Control, IView, View)) then
         SaveAdjustViewBounds := View.GetAdjustViewBounds
@@ -8040,7 +8040,7 @@ begin
         SaveAdjustViewBounds := False;
 
       case LStretchMode of
-        TViewStretchMode.None: // ²»×Ô¶¯µ÷Õû´óĞ¡
+        TViewStretchMode.None: // ä¸è‡ªåŠ¨è°ƒæ•´å¤§å°
           begin
             if FForceColumnSize then
               LAutoSize := True
@@ -8056,12 +8056,12 @@ begin
               end;
             end;
             if LAutoSize then begin
-              // ×Ô¶¯¿í¶È
+              // è‡ªåŠ¨å®½åº¦
               VL := CurPos.X + Control.Margins.Left;
               VW := LItemWidth - Control.Margins.Left - Control.Margins.Right;
             end else begin
               VW := Control.Width;
-              // ·Ç×Ô¶¯¿í¶È
+              // éè‡ªåŠ¨å®½åº¦
               case FGravity of
                 TLayoutGravity.LeftTop, TLayoutGravity.LeftBottom:
                   VL := CurPos.X + Control.Margins.Left;
@@ -8087,7 +8087,7 @@ begin
             CurPos.X := CurPos.X + LItemWidth + FHorizontalSpacing;
           end;
 
-        TViewStretchMode.SpacingWidth: // ×Ô¶¯µ÷Õû¼ä¸ô¾àÀë
+        TViewStretchMode.SpacingWidth: // è‡ªåŠ¨è°ƒæ•´é—´éš”è·ç¦»
           begin
             VL := CurPos.X + Control.Margins.Left;
             VW := LItemWidth - Control.Margins.Left - Control.Margins.Right;
@@ -8111,7 +8111,7 @@ begin
         Continue;
       end;
 
-      // ÅĞ¶Ï×é¼şÔÚ´¹Ö±·½ÏòÊÇ·ñ×Ô¶¯´óĞ¡
+      // åˆ¤æ–­ç»„ä»¶åœ¨å‚ç›´æ–¹å‘æ˜¯å¦è‡ªåŠ¨å¤§å°
       if FForceColumnSize then
         LAutoSize := True
       else begin
@@ -8126,7 +8126,7 @@ begin
         end;
       end;
 
-      // ¼ì²â¿í¶È´óĞ¡ÏŞÖÆ
+      // æ£€æµ‹å®½åº¦å¤§å°é™åˆ¶
       if SaveAdjustViewBounds then begin
         if (View.GetMaxWidth > 0) and (VW > View.GetMaxWidth) then
           VW := View.GetMaxWidth;
@@ -8135,10 +8135,10 @@ begin
       end;
 
       if LAutoSize then begin
-        // ×Ô¶¯¸ß¶ÈÊ±
+        // è‡ªåŠ¨é«˜åº¦æ—¶
         VT := CurPos.Y + Control.Margins.Top;
         VH := LItemHeight - Control.Margins.Bottom - Control.Margins.Top;
-        // ¼ì²â¸ß¶È´óĞ¡ÏŞÖÆ
+        // æ£€æµ‹é«˜åº¦å¤§å°é™åˆ¶
         if SaveAdjustViewBounds then begin
           if (View.GetMaxHeight > 0) and (VH > View.GetMaxHeight) then
             VH := View.GetMaxHeight;
@@ -8146,17 +8146,17 @@ begin
             VH := View.GetMinHeight;
         end;
       end else begin
-        // ·Ç×Ô¶¯¸ß¶ÈÊ±£¬ÒÔÖØÁ¦ÉèÖÃÀ´µ÷ÕûÎ»ÖÃ
+        // éè‡ªåŠ¨é«˜åº¦æ—¶ï¼Œä»¥é‡åŠ›è®¾ç½®æ¥è°ƒæ•´ä½ç½®
         VH := Control.Height;
         case FGravity of
           TLayoutGravity.LeftTop, TLayoutGravity.RightTop:
-            // ¶¥²¿
+            // é¡¶éƒ¨
             VT := CurPos.Y + Control.Margins.Top;
           TLayoutGravity.LeftBottom, TLayoutGravity.RightBottom, TLayoutGravity.CenterHBottom:
-            // µ×²¿
+            // åº•éƒ¨
             VT := CurPos.Y + (LItemHeight - VH - Control.Margins.Bottom);
           TLayoutGravity.CenterVertical, TLayoutGravity.Center, TLayoutGravity.CenterVRight:
-            // ¾ÓÖĞ
+            // å±…ä¸­
             VT := CurPos.Y + (LItemHeight - (VH + Control.Margins.Top + Control.Margins.Bottom)) * 0.5 + Control.Margins.Top;
         else 
           begin
@@ -8174,7 +8174,7 @@ begin
         end;
       end;
 
-      // µ÷Õû×é¼ş´óĞ¡
+      // è°ƒæ•´ç»„ä»¶å¤§å°
       if Assigned(View) then begin
         Control.SetBounds(VL, VT, VW, VH);
       end else
@@ -8185,7 +8185,7 @@ begin
     if FLastRows = 1 then
       FLastColumns := CtrlCount;
 
-    // ÅĞ¶ÏÊÇ·ñ×é¼ş´óĞ¡ÎªËæÄÚÈİ¡£Èç¹ûÊÇ£¬¸ù¾İÄÚÈİ´óĞ¡µ÷Õû´óĞ¡
+    // åˆ¤æ–­æ˜¯å¦ç»„ä»¶å¤§å°ä¸ºéšå†…å®¹ã€‚å¦‚æœæ˜¯ï¼Œæ ¹æ®å†…å®¹å¤§å°è°ƒæ•´å¤§å°
     if (WidthSize = TViewSize.WrapContent) then begin
       if LColumns > CtrlCount then
         LColumns := CtrlCount;
@@ -8228,7 +8228,7 @@ begin
     S := 0
   else
     S := 1;
-  // ´¹Ö±·½Ïò
+  // å‚ç›´æ–¹å‘
   if FVerticalSpacing > 0 then begin
     J := FLastRows;
     if FSpacingBorder then begin
@@ -8247,7 +8247,7 @@ begin
     end;
   end;
 
-  // Ë®Æ½·½Ïò
+  // æ°´å¹³æ–¹å‘
   if FHorizontalSpacing > 0 then begin
     J := FLastColumns;
     if not FSpacingBorder then
@@ -8737,13 +8737,13 @@ var
     TextSet.FillText(Canvas, RectF(X, Y, R.Right, R.Bottom), LText, Opacity, LColor,
           TextSet.FillTextFlags, @S, Canvas.Scale, TTextAlign.Leading, TTextAlign.Leading);
 
-    if Item.Link >= 0 then // ¼ÇÂ¼³¬Á´½ÓÇøÓò
+    if Item.Link >= 0 then // è®°å½•è¶…é“¾æ¥åŒºåŸŸ
       FLinkRange[Item.Link] := RectF(X, Y, X + S.Width, Y + S.Height);
 
      X := X + S.Width;
   end;
 
-  // Flag ·Ç0Ê±ÓÃÓÚ¼ÆËã´óĞ¡
+  // Flag é0æ—¶ç”¨äºè®¡ç®—å¤§å°
   procedure DrawWordWarpText(const LText: string; const Item: THtmlTextItem; const LColor: TAlphaColor; 
     var X, Y: Single; const LX, MW: Single; var S: TSizeF; Flag: Integer = 0);
   var
@@ -8764,7 +8764,7 @@ var
 
 
     if Item.Link >= 0 then begin
-      // ³¬Á´½Ó²»»»ĞĞ
+      // è¶…é“¾æ¥ä¸æ¢è¡Œ
       if X > LX then begin
         TextSet.TextSize(LText, S, Canvas.Scale);
         if X + S.Width > MW then begin
@@ -8782,13 +8782,13 @@ var
         X := X + S.Width;
         S.Width := Max(LW, X);
       end;
-      if S.Height > CharH then begin  // ³¬Á´½Ó»»ĞĞºó£¬Î²²¿²»ÔÙ¸úÆäËüÄÚÈİ
+      if S.Height > CharH then begin  // è¶…é“¾æ¥æ¢è¡Œåï¼Œå°¾éƒ¨ä¸å†è·Ÿå…¶å®ƒå†…å®¹
         Y := Y + S.Height;
         X := LX;
       end;       
 
     end else begin
-      // ×Ô¶¯»»ĞĞ
+      // è‡ªåŠ¨æ¢è¡Œ
       P := PChar(LText);
       PE := P + Length(LText);
       while P < PE do begin
@@ -8896,7 +8896,7 @@ begin
   FFont.Assign(TextSet.Font);
 
   if LWordWarp then begin
-    TextSet.TextSize('yhÖĞ', S, Canvas.Scale);
+    TextSet.TextSize('yhä¸­', S, Canvas.Scale);
     CharW := S.Width / 4;
     CharH := S.Height;
   end;
@@ -8908,7 +8908,7 @@ begin
   end;
 
   if ASize <> nil then begin
-    // ²âËã¸ß¶È
+    // æµ‹ç®—é«˜åº¦
     ASize.Width := S.Width;
     ASize.Height := S.Height;  
       
@@ -9175,7 +9175,7 @@ procedure TViewHtmlText.ParseHtmlText(const Text: string);
               ReadStyleProperty(Item, Value);
           end
         );
-      end else if StrLComp(P, 'a ', 2) = 0 then begin  // a ³¬Á´½Ó
+      end else if StrLComp(P, 'a ', 2) = 0 then begin  // a è¶…é“¾æ¥
         Inc(P, 1);
         ReadProperty(Item, P, PE, 
           procedure (var Item: THtmlTextItem; const Key, Value: string)
@@ -9352,7 +9352,7 @@ procedure TViewHtmlText.ParseHtmlText(const Text: string);
           SetString(LE, P, P1 - P);
           LE := LowerCase(Trim(LE));
 
-          if LE = 'br' then begin // »»ĞĞ
+          if LE = 'br' then begin // æ¢è¡Œ
             AddItem(PLineBreak, 1, LS);
             LS := '';
             P := P1 + 1;
@@ -9374,7 +9374,7 @@ procedure TViewHtmlText.ParseHtmlText(const Text: string);
 
       P := P1 + 1;
 
-      if LS = 'br' then begin // »»ĞĞ
+      if LS = 'br' then begin // æ¢è¡Œ
         AddItem(PLineBreak, 1, LS);
         SkipSpace(P);
         LS := '';
