@@ -1,8 +1,8 @@
-{*******************************************************}
+﻿{*******************************************************}
 {                                                       }
-{       FMX UI EditView 编辑框                          }
+{       FMX UI EditView Edit box                        }
 {                                                       }
-{       版权所有 (C) 2016 YangYxd                       }
+{       all rights reserved (C) 2016 YangYxd            }
 {                                                       }
 {*******************************************************}
 
@@ -523,11 +523,11 @@ const
   LOUPE_OFFSET = 10;
   IMEWindowGap = 2; // 2 is small space between conrol and IME window
 
-  CutStyleName = '剪切'; //Do not localize
-  CopyStyleName = '复制'; //Do not localize
-  PasteStyleName = '粘贴'; //Do not localize
-  DeleteStyleName = '删除'; //Do not localize
-  SelectAllStyleName = '选择全部'; //Do not localize
+  CutStyleName = 'Cut'; //Do not localize
+  CopyStyleName = 'Copy'; //Do not localize
+  PasteStyleName = 'Paste'; //Do not localize
+  DeleteStyleName = 'Delete'; //Do not localize
+  SelectAllStyleName = 'Select All'; //Do not localize
 
   CaretColorStyleResouceName = 'caretcolor';
   LeftSelectionPointStyleResourceName = 'leftselectionpoint';
@@ -1072,10 +1072,10 @@ end;
 function TCustomEditView.CheckGravity(const SrcX, EditRectWidth, WholeTextWidth: Single): Single;
 begin
   case FGravity of
-    // 中间
+    // intermediate
     TLayoutGravity.CenterHorizontal, TLayoutGravity.Center, TLayoutGravity.CenterHBottom:
       Result := SrcX + ((EditRectWidth - WholeTextWidth) / 2);
-    // 右边
+    // right
     TLayoutGravity.RightTop, TLayoutGravity.RightBottom, TLayoutGravity.CenterVRight:
       Result := SrcX + (EditRectWidth - WholeTextWidth);
   else
@@ -2703,16 +2703,16 @@ begin
     Size.cx := Max(Width - Pos.X, 0);
     Size.cy := Max(Height - Pos.Y, 0);
 
-    // 计算行高
+    // Calculate row height
     FLineHeight := Max(Min(Size.cy, FTextHeight + Max(1, Round(FTextHeight / 10))), 0);
 
-    // 计算出内容区矩形
+    // Calculate the content area rectangle
     FContentRect := RectF(Pos.X + Padding.Left, Pos.Y + Padding.Top,
       Size.cx - Padding.Right, Size.cy - Padding.Bottom);
     if Assigned(FDrawable) and (not FDrawable.IsEmpty) then
       FDrawable.AdjustDraw(Canvas, FContentRect, False, DrawState);
 
-    // 计算出文本顶部位置
+    // Calculate the top position of the text
     case FText.VertAlign of
       TTextAlign.Center:
         FLineTop := FContentRect.Top + Max((FContentRect.Height - FLineHeight) / 2, 0);
@@ -3317,7 +3317,7 @@ end;
 
 initialization
   {$IFDEF ANDROID}
-  // 解决 Android 下键盘事件不响应的问题
+  // Solve the problem that the keyboard event in Android does not respond
   //RegisterKeyMapping(23, 23, TKeyKind.Functional);
   {$ENDIF}
 
