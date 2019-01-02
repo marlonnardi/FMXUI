@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       异步任务处理模式                                }
+{ Asynchronous task processing mode                     }
 {                                                       }
-{       版权所有 (C) 2016 YangYxd                       }
+{ Copyright (C) 2016 YangYxd                            }
 {                                                       }
 {*******************************************************}
 
@@ -27,7 +27,7 @@ type
   end;
 
   /// <summary>
-  /// 异步任务处理
+  /// Asynchronous task processing
   /// </summary>
   TAsync = class(TObject)
   private
@@ -53,19 +53,19 @@ type
     destructor Destroy; override;
 
     /// <summary>
-    /// 开始执行
+    /// Begin execution
     /// </summary>
     procedure Execute(); virtual;
 
     procedure Start();
 
     /// <summary>
-    /// 异步执行过程 （非线程安全）
+    /// Asynchronous execution (non-thread safe)
     /// </summary>
     function SetExecute(AValue: TExecuteEvent): TAsync; overload;
     function SetExecute(AValue: TExecuteEventA): TAsync; overload;
     /// <summary>
-    /// 异步执行完成后需要执行的过程 （线程安全）
+    /// The process that needs to be performed after the asynchronous execution is completed (thread safe)
     /// </summary>
     function SetExecuteComplete(AValue: TExecuteEvent): TAsync; overload;
     function SetExecuteComplete(AValue: TExecuteEventA): TAsync; overload;
@@ -76,7 +76,7 @@ type
     function SetTag(Value: NativeInt): TAsync;
 
     /// <summary>
-    /// Windows 平台， 需要 Com 支持时调用以实现线程 Com 初始化
+    /// Windows platform, need to be called when Com support is implemented to implement thread Com initialization
     /// </summary>
     procedure ComNeeded(AInitFlags: Cardinal = 0);
 
@@ -90,7 +90,7 @@ type
 implementation
 
 var
-  FAsyncRef: Integer = 0; // 异步任务计数器
+  FAsyncRef: Integer = 0; // Asynchronous task counter
 
 { TAsync }
 
@@ -223,12 +223,12 @@ begin
   if Assigned(FAsync) then begin
     try
       try
-        // 先执行异步任务
+        // Perform asynchronous tasks first
         FAsync.DoExecute;
       except
       end;
       try
-        // 然后执行同步任务
+        // Then perform a synchronization task
         if FAsync.IsNeedExecuteComplete then
           Synchronize(Self, FAsync.DoExecuteComplete);
       except
@@ -241,7 +241,7 @@ begin
   end;
 end;
 
-// 等待所有线程关闭
+// Waiting for all threads to close
 procedure WaitAsyncFinish(const ATimeout: Cardinal = 5000);
 var
   T: Cardinal;
