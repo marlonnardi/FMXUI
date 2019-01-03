@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI 日志输出模块                             }
+{               FMX UI Log Output Module                }
 {                                                       }
-{       版权所有 (C) 2013      YangYxd                  }
+{              Copyright (C) 2013 YangYxd               }
 {                                                       }
 {*******************************************************}
 
@@ -31,10 +31,10 @@ const
 
 type
   /// <summary>
-  /// 输出信息类型
+  /// Output information type
   /// </summary>
-  TTraceSeverity = (tsDebug {调试信息}, tsInformation {信息}, tsWarning {警告},
-    tsError {错误});
+  TTraceSeverity = (tsDebug {璋冭瘯淇℃伅}, tsInformation {淇℃伅}, tsWarning {璀﹀憡},
+    tsError {閿欒});
   TTraceSeverities = set of TTraceSeverity;
 
 const
@@ -47,7 +47,7 @@ var
   FOnWriteLog: TOnWriteLogEvent = nil;
 {$ENDIF}
 
-// 写日志
+// Write log
 procedure Log(sev: TTraceSeverity; const text: string);
 procedure LogD(const text: string); inline; // tsDeubg
 procedure LogW(const text: string); inline; // tsWarning
@@ -59,13 +59,13 @@ procedure LogE(Sender: TObject; const Title: string; E: Exception); overload; //
 
 {$IFDEF UseUDP}
 /// <summary>
-/// 设置远程调试服务器地址
+/// Set the remote debug server address
 /// </summary>
 procedure LogRemoteDebugSvrAddr(const RemoteAddr: string; RemotePort: Word);
 {$ENDIF}
 
 var
-  SevToStr: array [TTraceSeverity] of string = ('调试', '信息', '警告', '错误');
+  SevToStr: array [TTraceSeverity] of string = ('debug', 'information', 'warning', 'error');
 
 implementation
 
@@ -95,7 +95,7 @@ type
     procedure SetBufferSize(Value: Integer);
   end;
 
-  // 输出调试信息
+  // Output debugging information
   TDebugTrace = class(TInterfacedObject, ITrace)
   public
     procedure FillWrite;
@@ -106,7 +106,7 @@ type
   end;
 
   {$IFDEF UseUDP}
-  // 输出远程调试信息
+  // Output remote debugging information
   TRemoteDebugTrace = class(TInterfacedObject, ITrace)
   private
     udp: TIocpUdpSocket;
