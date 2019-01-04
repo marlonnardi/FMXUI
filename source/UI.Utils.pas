@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMXUI 常用函数库                                }
+{       FMXUI Common Function Library                   }
 {                                                       }
-{       版权所有 (C) 2016 YangYxd                       }
+{       Copyright (C) 2016 YangYxd                      }
 {                                                       }
 {*******************************************************}
 
@@ -10,7 +10,7 @@ unit UI.Utils;
 
 interface
 
-{.$DEFINE HASHClash} // 统计Hash冲突
+{.$DEFINE HASHClash} // Statistical hash conflict
 
 uses
   {$IFDEF MSWINDOWS}Windows, ShellAPI, {$ENDIF}
@@ -54,61 +54,61 @@ uses
   System.Classes, System.Types, System.UITypes, System.SysUtils, System.Math.Vectors,
   FMX.Types, FMX.StdCtrls, FMX.Platform, FMX.Controls, FMX.InertialMovement;
 
-// 获取当前时间
+// Get current time
 function GetTimestamp: Int64;
-// 获取当前时间，结果表示当时时间距离1970年1月1日0时0分0秒0毫秒的毫秒数
+// Get the current time, the result shows the number of milliseconds at that time from 0:00, 0:00, 0 milliseconds on January 1, 1970
 function CurrentTimeMillis(): Int64;
-// Java时间戳转为Delphi时间
+// Java timestamps converted to Delphi time
 function JavaTimeToDateTime(const V: Int64): TDateTime;
 
-// 插值函数 - 颜色
+// Interpolation function - color
 function LerpColor(const A, B: TAlphaColor; T: Single): TAlphaColor;
-// 插值函数 - 浮点数
+// Interpolation function - floating point number
 function LerpFolat(const A, B: Double; T: Single): Double;
-// 获取当前设备PPI
+// Get the current device PPI
 function GetPPI(Context: TFmxObject): Single;
 
-// 跳过空格
+// Skip spaces
 procedure SkipSpace(var P: PChar);
 
-// 隐藏手机号中间的四位数字
+// Hide the four digits in the middle of the phone number
 function HideMobilePhone(const Mobile: string ):String;
-// 隐藏用户中文姓名中的前部内容，只显示最后一个字
+// Hide the front content of the user's Chinese name, only the last word
 function HideUserName(const Name: string): string;
-// 检测是否是有效的手机号码
+// Check if it is a valid mobile number
 function IsMobileNumber(const Value: string): boolean;
-// 从字符串中提取出第一个有效的手机号码
+// Extract the first valid mobile number from the string
 function TrimMobileNumber(const Value: string): string;
-// 格式化手机号码为 130 1000 1000 这种样式
+// Format the phone number to 130 1000 1000 This style
 function FormatMobile(const Phone: string): string;
-// 将一个代表流量大小的数字转为字符串
+// Convert a number representing the size of the traffic to a string
 function GetFlowStr(const V: Double): string;
-// 获取版本信息
+// Get version information
 function GetVersionName(): string;
 
-// 打开网址
+// Open URL
 function OpenURL(const URL: string): Boolean;
 
-// Android: 自动升级 - 获取下载的apk文件保存目录
+// Android: Automatic upgrade - Get the downloaded apk file save directory
 function GetInstallDir(): string;
-// Android: 自动升级 - 安装apk （由于 Android 7.0 之后系统变化，所以需要 authorities）
-//  - ApkFileName 安装包文件名称 (不包含路径)
-//  - authorities 在AndroidManifest.xml中application段中自定义provider中android:authorities值
+// Android: Automatic upgrade - install apk (requires authorities due to system changes after Android 7.0)
+//  - ApkFileName Install package file name (without path)
+//  - authorities Customize the android:authorities value in the application section in the AndroidManifest.xml
 function InstallApk(const ApkFileName, authorities: string): Boolean;
 
-// 调用移动平台的分享功能
+// Call the sharing function of the mobile platform
 procedure Share(const AControl: TControl; const Title, Msg: string);
 
-// 统计字符串字符数
+// Statistics string characters
 function CharCount(const S: string): Integer;
 
-// 字符串指针转为数字
+// String pointer to number
 function PCharToIntDef(const S: pchar; Len: Integer; def: NativeInt = 0): NativeInt;
 function PCharToFloatDef(const S: pchar; Len: Integer; def: Double = 0): Double;
 function PHexToIntDef(const S: pchar; Len: Integer; def: NativeInt = 0): NativeInt;
 function PCharToStr(const S: PChar; Len: Integer): string;
 
-// Html颜色转为Color
+// Html color to Color
 function HtmlColorToColor(const V: string; const DefaultValue: TAlphaColor = 0): TAlphaColor;
 function Text2Color(const s:string): TAlphaColor;
 function Hex2Color(const s: string): TAlphaColor;
@@ -120,10 +120,10 @@ function RectSF(const Left, Top, Width, Height: Single): TRectF;
 function OffsetRectD(var R: TRectD; const DX, DY: Double): Boolean;
 function GetRectF(const R: TRectD): TRectF;
 
-// 计算角度(0~360)
+// Calculate the angle (0~360)
 function GetAngle(const CX, CY, X, Y: Single): Single;
 
-// 判断两个方法是否相等
+// Determine if the two methods are equal
 function EqulsMethod(const A, B: TNotifyEvent): Boolean;
 
 type
@@ -133,7 +133,7 @@ type
   {$ifend}
   Number = NativeInt;
   NumberU = NativeUInt;
-  /// 桶内元素的哈希值列表
+  /// List of hash values for elements in the bucket
   THashType = UInt64;
 
   PPIntHashItem = ^PIntHashItem;
@@ -148,10 +148,10 @@ type
       3: (AsPointer: Pointer);
   end;
 
-  /// <summary>删除哈希表一个元素的通知</summary>
-  /// <param name="ATable">哈希表对象</param>
-  /// <param name="AHash">要删除的对象的哈希值</param>
-  /// <param name="AData">要删除的对象数据指针</param>
+  /// <summary>delete the notification of an element of the hash table</summary>
+聽聽/// <param name="ATable">hash table object</param>
+聽聽/// <param name="AHash">Hash value of the object to be deleted</param>
+聽聽/// <param name="AData">Object data pointer to be deleted</param>
   TYXDIntHashItemFreeNotify = procedure (Item: PIntHashItem) of object;
 
   TOnCanDelete = reference to function (const Key: THashType): Boolean;
@@ -439,13 +439,13 @@ function GetAngle(const CX, CY, X, Y: Single): Single;
 begin
   Result := Math.ArcTan2(Abs(X - CX), Abs(Y - CY)) * 180 / PI;
   if (X > CX) and (Y > CY) then
-    Result := 90 - Result // 右下角
+    Result := 90 - Result // Bottom right corner
   else if (X < CX) and (Y > CY) then
-    Result := 90 + Result // 左下角
+    Result := 90 + Result // Lower left corner
   else if (X < CX) and (Y < CY) then
-    Result := 180 + (90 - Result) // 左上角
+    Result := 180 + (90 - Result) // Upper left corner
   else
-    Result := 270 + Result // 右上角
+    Result := 270 + Result // Upper right corner
 end;
 
 function EqulsMethod(const A, B: TNotifyEvent): Boolean;
@@ -677,7 +677,7 @@ end;
 function GetInstallDir(): string;
 begin
   {$IFDEF ANDROID}
-  // 说明：将 file_paths.xml 添加到 res/xml 中
+  // Description: Add file_paths.xml to res/xml
   Result := JStringToString(TAndroidHelper.Activity.getFilesDir.getPath()) + '/';
   {$ELSE}
   Result := '';
