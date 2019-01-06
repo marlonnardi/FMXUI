@@ -1,4 +1,4 @@
-{*******************************************************}
+﻿{*******************************************************}
 {                                                       }
 {       FMXUI Common Function Library                   }
 {                                                       }
@@ -149,9 +149,9 @@ type
   end;
 
   /// <summary>delete the notification of an element of the hash table</summary>
-  /// <param name="ATable">hash table object</param>
-  /// <param name="AHash">Hash value of the object to be deleted</param>
-  /// <param name="AData">Object data pointer to be deleted</param>
+  /// <param name="ATable">hash table object</param>
+  /// <param name="AHash">Hash value of the object to be deleted</param>
+  /// <param name="AData">Object data pointer to be deleted</param>
   TYXDIntHashItemFreeNotify = procedure (Item: PIntHashItem) of object;
 
   TOnCanDelete = reference to function (const Key: THashType): Boolean;
