@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{   FMX UI Toast Auto Desaparecer Componente do Prompt  }
+{       FMX UI Toast Automatic disappearance            }
 {                                                       }
-{   Copyright (C) 2016 YangYxd                          }
+{       Copyright (C) 2016 YangYxd                      }
 {                                                       }
 {*******************************************************}
 
