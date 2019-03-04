@@ -1855,20 +1855,20 @@ uses
   UI.Ani;
 
 resourcestring
-  SInvViewValue = '无效的视图状态值: %d';
-  SNotAllowSelf = '不允许设定为自己';
-  SMustSameParent = '必须指定一个与当前组件所属视图中的同级兄弟组件';
-  SLocateFailed = '存在循环引用';
-  SRefOutLimitMax = '组件引用层级超过上限值: 256';
-  SUnsupportPropertyType = '不支持的属性类型.';
+  SInvViewValue = 'Invalid view state value: %d';
+  SNotAllowSelf = 'Not allowed to set yourself';
+  SMustSameParent = 'Must specify a sibling component in the view to which the current component belongs';
+  SLocateFailed = 'Circular reference';
+  SRefOutLimitMax = 'Component reference level exceeds upper limit: 256';
+  SUnsupportPropertyType = 'Unsupported attribute type.';
 
 var
   /// <summary>
-  /// APP 状态条高度 (Android 平台有效)
+  /// APP status bar height (valid for Android platform)
   /// </summary>
   StatusHeight: Single = 0;
   /// <summary>
-  /// APP 底部虚拟键高度 (Android 平台有效)
+  /// APP bottom virtual key height (effective for Android platform)
   /// </summary>
   NavigationBarHeight: Single = 0;
   {$IFDEF ANDROID}
