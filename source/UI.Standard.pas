@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI 标准组件单元                             }
+{       FMX UI Standard component unit                  }
 {                                                       }
-{       版权所有 (C) 2016 YangYxd                       }
+{       all rights reserved (C) 2016 YangYxd            }
 {                                                       }
 {*******************************************************}
 
@@ -42,11 +42,11 @@ type
   end;
 
 type
-  TRingViewStyle = (Rectangle {矩形}, Circle {圆形}, Ellipse {椭圆});
+  TRingViewStyle = (Rectangle {鐭╁舰}, Circle {鍦嗗舰}, Ellipse {妞渾});
 
 type
   /// <summary>
-  /// 空心图形视图
+  /// Hollow graphic view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TRingView = class(TView)
@@ -79,36 +79,36 @@ type
     function PointInObject(X, Y: Single): Boolean; override;
   published
     /// <summary>
-    /// 外层样式
+    /// Outer style
     /// </summary>
     property KindOuter: TRingViewStyle read FOuter write SetOuter default TRingViewStyle.Rectangle;
     /// <summary>
-    /// 内层样式
+    /// Inner style
     /// </summary>
     property KindInner: TRingViewStyle read FInner write SetInner default TRingViewStyle.Ellipse;
     /// <summary>
-    /// 内层与外层之间的距离
+    /// Distance between inner and outer layers
     /// </summary>
     property Distance: Single read FDistance write SetDistance stored IsStoredDistance;
     /// <summary>
-    /// 开始角度，当 Style 不是 Rectangle 时有效
+    /// Start angle, valid when Style is not a Rectangle
     /// </summary>
     property AngleStart: Single read FStartAngle write SetStartAngle;
     /// <summary>
-    /// 角度，当 Style 不是 Rectangle 时有效
+    /// Angle, valid when Style is not a Rectangle
     /// </summary>
     property AngleEnd: Single read FAngle write SetEndAngle;
     /// <summary>
-    /// 是否是能点击到路径上
+    /// Is it possible to click on the path?
     /// </summary>
     property ClickInPath: Boolean read FClickInPath write FClickInPath default True;
   end;
 
 type
   /// <summary>
-  /// 进度视图类型
+  /// Progress view type
   /// </summary>
-  TProgressKind = (Horizontal {水平}, Vertical {垂直}, CircleRing {圆环});
+  TProgressKind = (Horizontal {姘村钩}, Vertical {鍨傜洿}, CircleRing {鍦嗙幆});
 
 type
   TDrawableProgress = class(TDrawable)
@@ -130,7 +130,7 @@ type
 
 type
   /// <summary>
-  /// 进度视图
+  /// Progress view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TProgressView = class(TView)
@@ -166,49 +166,49 @@ type
     destructor Destroy; override;
   published
     /// <summary>
-    /// 最小值
+    /// Minimum value
     /// </summary>
     property Min: Int64 read FMin write SetMinValue default 0;
     /// <summary>
-    /// 最大值
+    /// Maximum
     /// </summary>
     property Max: Int64 read FMax write SetMaxValue default 100;
     /// <summary>
-    /// 当前值
+    /// The current value
     /// </summary>
     property Value: Int64 read FValue write SetProValue default 50;
     /// <summary>
-    /// 前景层样式 (显示值的绘制)
+    /// Foreground layer style (drawing of displayed values)
     /// </summary>
     property ForeGround: TDrawableProgress read FForeGround write SetForeGround;
     /// <summary>
-    /// 开始角度
+    /// Starting angle
     /// </summary>
     property StartAngle: Single read FStartAngle write SetStartAngle;
     /// <summary>
-    /// 进度条类型
+    /// Progress bar type
     /// </summary>
     property Kind: TProgressKind read FKind write SetKind default TProgressKind.Horizontal;
     /// <summary>
-    /// 前存在边框时，空出边框位置
+    /// Empty border position when there is a border
     /// </summary>
     property PaddingBorder: Boolean read FPaddingBorder write SetPaddingBorder default False;
     /// <summary>
-    /// 当前值变更事件
+    /// Current value change event
     /// </summary>
     property OnValueChange: TNotifyEvent read FOnValueChange write FOnValueChange;
   end;
 
 type
   TImageScaleType = (
-    None, {无}
-    Matrix, {矩阵}
-    Center, {在视图中心显示图片，并且不缩放图片}
-    CenterCrop, {按比例缩放图片，使得图片长 (宽)的大于等于视图的相应维度}
-    CenterInside, {按比例缩放图片，使得图片长 (宽)的小于等于视图的相应维度}
-    FitCenter, {按比例缩放图片到视图的最小边，居中显示}
-    FitStart, { 把图片按比例扩大/缩小到视图的最小边，显示在视图的上部分位置}
-    FitEnd  {按比例缩放图片到视图的最小边，显示在视图的下部分位置}
+    None, {No}
+    Matrix, {matrix}
+    Center, {Display a picture in the center of the view without zooming the picture}
+    CenterCrop, {Scale the image proportionally so that the length (width) of the image is greater than or equal to the corresponding dimension of the view}
+    CenterInside, {Scale the image proportionally so that the length (width) of the image is less than or equal to the corresponding dimension of the view}
+    FitCenter, {Scale the image to the smallest side of the view, centered}
+    FitStart, {Scales up/down the image to the smallest side of the view, showing it in the upper part of the view}
+    FitEnd  {Scale the image to the smallest side of the view, showing it in the lower part of the view}
   );
 
 type
@@ -231,18 +231,18 @@ type
     destructor Destroy; override;
   published
     /// <summary>
-    /// 可绘制图像
+    /// Drawable image
     /// </summary>
     property Image: TDrawable read GetImage write SetImage;
     /// <summary>
-    /// 缩放类型
+    /// Zoom type
     /// </summary>
     property ScaleType: TImageScaleType read FScaleType write SetScaleType default TImageScaleType.None;
   end;
 
 type
   /// <summary>
-  /// 图像浏览器  {由 TksImageViewer 改写}
+  /// Image Browser {Rewritten by TksImageViewer}
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TImageViewerEx = class(TView)
@@ -287,7 +287,7 @@ type
     property Image: TBitmap read FBitmap write SetBitmap;
     property Zoom: integer read FZoom write SetZoom default 100;
     /// <summary>
-    /// 是否拉伸
+    /// Whether to stretch
     /// </summary>
     property Stretch: Boolean read FStretch write SetStretch default False;
 
@@ -305,7 +305,7 @@ type
   PRectD = ^TRectD;
 
   /// <summary>
-  /// 滚动视图
+  /// Scroll view
   /// </summary>
   TScrollView = class(TView, IViewTouch)
   private const
@@ -444,36 +444,36 @@ type
     procedure ScrollBy(const Dx, Dy: Double);
     procedure ScrollTo(const Dx, Dy: Double);
 
-    // 刷新开始
+    // Refresh start
     procedure PullRefreshStart(); virtual;
 
     property VScrollBarValue: Double read GetVScrollBarValue write SetVScrollBarValue;
     property HScrollBarValue: Double read GetHScrollBarValue write SetHScrollBarValue;
-    // 获取滚动条所在位置的百分比
+    // Get the percentage of the scrollbar where it is located
     property ScrollValueV: Single read GetScrollValueV;
-    // 获取滚动条所在位置的百分比
+    // Get the percentage of the scrollbar where it is located
     property ScrollValueH: Single read GetScrollValueH;
-    // 是否可以垂直滚动
+    // Whether it can scroll vertically
     property CanVScroll: Boolean read FCanScrollV;
-    // 是否可以水平滚动
+    // Is it possible to scroll horizontally?
     property CanHScroll: Boolean read FCanScrollH;
     /// <summary>
-    /// 是否启用鼠标拖动滚动功能 （在非移动平台上设置有效）
+    /// Whether to enable mouse drag scrolling (valid on non-mobile platforms)
     /// </summary>
     property DragScroll: Boolean read FDragScroll write SetDragScroll default False;
     /// <summary>
-    /// 拖动时是否只能单向
+    /// Whether it can only be one way when dragging
     /// </summary>
     property DragOneWay: Boolean read FDragOneWay write SetDragOneWay default False;
-    // 是否显示滚动条
+    // Whether to display the scroll bar
     property ShowScrollBars: Boolean read FShowScrollBars write SetShowScrollBars default True;
-    // 视口位置
+    // Viewport position
     property ViewportPosition: TPointD read GetViewportPosition write SetViewportPosition;
-    // 滚动条宽度
+    // Scroll bar width
     property ScrollbarWidth: Single read FScrollbarWidth write SetScrollbarWidth stored IsStoredScrollbarWidth;
-    // 滚动伸展区颜色
+    // Rolling stretch color
     property ScrollStretchGlowColor: TAlphaColor read FScrollingStretchGlowColor write FScrollingStretchGlowColor stored IsStoredScrollStretchGlowColor;
-    // 滚动条最小改变值
+    // Scroll bar minimum change value
     property ScrollSmallChangeFraction: Single read GetScrollSmallChangeFraction write SetScrollSmallChangeFraction stored IsStoredScrollSmallChangeFraction;
     property OnScrollChange: TNotifyEvent read FOnScrollChange write FOnScrollChange;
   published
@@ -483,7 +483,7 @@ type
   TVertScrollView = class;
 
   /// <summary>
-  /// 滚动视图内容
+  /// Scroll view content
   /// </summary>
   TViewScrollContent = class(TLinearLayout, IContent)
   private
@@ -509,7 +509,7 @@ type
   end;
 
   /// <summary>
-  /// 垂直滚动视图
+  /// Vertical scroll view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TVertScrollView = class(TScrollView)
@@ -520,12 +520,12 @@ type
     FEnablePullRefresh: Boolean;
     FEnablePullLoad: Boolean;
 
-    // 下拉刷新，上拉加载更多
-    FState: TListViewState;      // 列表视图状态
-    FHeader: IListViewHeader;    // 头部下拉刷新列表视图
-    FFooter: IListViewHeader;    // 尾部上拉加载更多视图
+    // Pull down refresh, pull up load more
+    FState: TListViewState;      // List view state
+    FHeader: IListViewHeader;    // Head pull down refresh list view
+    FFooter: IListViewHeader;    // Tail pull up to load more views
 
-    FLastScrollValue: Double; // 上次滚动条位置
+    FLastScrollValue: Double; // Last scroll bar position
     FOffsetScroll: Single;
 
     FOnInitFooter: TOnInitHeader;
@@ -538,7 +538,7 @@ type
     function GetContentControlItem(const Index: Integer): TControl;
   protected
     function CreateScroll: TScrollBar; override;
-    procedure InvalidateContentSize(); override; // 计算内容区大小
+    procedure InvalidateContentSize(); override; // Calculate the size of the content area
     procedure VScrollChange(Sender: TObject); override;
     function AllowInitScrollbar: Boolean; override;
     procedure DoPullLoad(Sender: TObject);
@@ -585,14 +585,14 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    // 刷新开始
+    // Refresh start
     procedure PullRefreshStart(); override;
-    // 刷新完成
+    // Refresh completed
     procedure PullRefreshComplete();
-    // 加载更多完成
+    // Load more complete
     procedure PullLoadComplete();
 
-    // 内部控件数量
+    // Number of internal controls
     property ContentControlsCount: Integer read GetContentChildCount;
     property ContentControls[const Index: Integer]: TControl read GetContentControlItem;
   published
@@ -606,28 +606,28 @@ type
     property ScrollSmallChangeFraction;
 
     /// <summary>
-    /// 是否启用下拉刷新
+    /// Whether to enable pull-down refresh
     /// </summary>
     property EnablePullRefresh: Boolean read FEnablePullRefresh write SetEnablePullRefresh default False;
     /// <summary>
-    /// 是否启用上拉加载更多
+    /// Whether to enable pull-up loading more
     /// </summary>
     property EnablePullLoad: Boolean read FEnablePullLoad write SetEnablePullLoad default False;
 
     /// <summary>
-    /// 加载 Footer 事件, 如果不设置，将在需要时加载默认的 Footer
+    /// Load the Footer event, if not set, will load the default Footer when needed
     /// </summary>
     property OnInitFooter: TOnInitHeader read FOnInitFooter write FOnInitFooter;
     /// <summary>
-    /// 加载 Header 事件, 如果不设置，将在需要时加载默认的 Header
+    /// Load Header event, if not set, will load the default Header when needed
     /// </summary>
     property OnInitHeader: TOnInitHeader read FOnInitHeader write FOnInitHeader;
     /// <summary>
-    /// 下拉刷新事件
+    /// Pulldown refresh event
     /// </summary>
     property OnPullRefresh: TNotifyEvent read FOnPullRefresh write FOnPullRefresh;
     /// <summary>
-    /// 上拉加载更多事件
+    /// Pull up to load more events
     /// </summary>
     property OnPullLoad: TNotifyEvent read FOnPullLoad write FOnPullLoad;
 
@@ -636,12 +636,12 @@ type
 
 type
   /// <summary>
-  /// 水平滚动视图
+  /// Horizontal scroll view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   THorzScrollView = class(TVertScrollView)
   protected
-    procedure InvalidateContentSize(); override; // 计算内容区大小
+    procedure InvalidateContentSize(); override; // Calculate the size of the content area
     procedure HScrollChange(Sender: TObject); override;
 
     procedure DoRealignContent; override;
@@ -652,7 +652,7 @@ type
 
 type
   /// <summary>
-  /// 文本视图
+  /// Text view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TTextView = class(TScrollView, ICaption{$IF CompilerVersion > 30.0}, IAcceleratorKeyReceiver{$ENDIF})
@@ -765,7 +765,7 @@ type
 
 type
   /// <summary>
-  /// 按钮视图
+  /// Button view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TButtonView = class(TStyleView)
@@ -887,39 +887,39 @@ type
     property Text: string read GetText;
   published
     /// <summary>
-    /// 是否自动大小
+    /// Whether it is automatic size
     /// </summary>
     property AutoSize: Boolean read FAutoSize write SetAutoSize;
     /// <summary>
-    /// 目标View
+    /// Target view
     /// </summary>
     property TargetView: IView read FTargetView write SetTargetView;
     /// <summary>
-    /// 效果样式
+    /// Effect style
     /// </summary>
     property Style: TBadgeStyle read FStyle write SetStyle default TBadgeStyle.NumberText;
     /// <summary>
-    /// 当 Style 为 NumberText 时，显示 Value 的最大值
+    /// Shows the maximum value of Value when Style is a NumberText
     /// </summary>
     property MaxValue: Integer read FMaxValue write SetMaxValue default 99;
     /// <summary>
-    /// 当 Style 为 NumberText 时，要显示的数值
+    /// The value to display when Style is NumberText
     /// </summary>
     property Value: Integer read FValue write SetValue default 0;
     /// <summary>
-    /// 当 Style 为 NumberText 时，数值大于MaxValue时，要在属部加入的内容，如 "+"
+    /// When Style is NumberText, when the value is greater than MaxValue, the content to be added to the genre, such as "+"
     /// </summary>
     property ValueOutTail: string read FValueOutTail write SetValueOutTail;
     /// <summary>
-    /// 背景颜色
+    /// background color
     /// </summary>
     property Background: TBadgeBackground read FBackground write SetBackground;
     /// <summary>
-    /// 字体设置
+    /// Font setting
     /// </summary>
     property TextSettings: TSimpleTextSettings read FText write SetTextSettings;
     /// <summary>
-    /// 当 Style 为 Icon 时，要显示的图标
+    /// Icon to display when Style is Icon
     /// </summary>
     property Icon: TBrush read GetIcon write SetIcon;
 
@@ -956,11 +956,11 @@ type
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   published
     /// <summary>
-    /// 填充刷子
+    /// Filling brush
     /// </summary>
     property Fill: TBrush read GetFill write SetFill;
     /// <summary>
-    /// 边框画笔
+    /// Border brush
     /// </summary>
     property Border: TStrokeBrush read GetStroke write SetStroke;
   end;
@@ -990,25 +990,25 @@ type
     property OnChange: TNotifyEvent read FOnChanged write FOnChanged;
   published
     /// <summary>
-    /// 激活时
+    /// When activated
     /// </summary>
     property ItemDefault: TPathViewStyle read GetDefaultStyle write SetDefaultStyle;
     /// <summary>
-    /// 激活时
+    /// When activated
     /// </summary>
     property ItemActivated: TPathViewStyle read GetActiveStyle write SetActiveStyle;
     /// <summary>
-    /// 鼠标悬停时
+    /// Mouse over
     /// </summary>
     property ItemHovered: TPathViewStyle read GetHoverStyle write SetHoverStyle;
     /// <summary>
-    /// 按下时
+    /// When pressed
     /// </summary>
     property ItemPressed: TPathViewStyle read GetPressedStyle write SetPressedStyle;
   end;
 
   /// <summary>
-  /// 单个路径信息
+  /// Single path information
   /// </summary>
   TPathViewItem = class(TCollectionItem)
   private
@@ -1046,7 +1046,7 @@ type
     destructor Destroy; override;
     procedure ApplayScale;
     /// <summary>
-    /// 路径
+    /// path
     /// </summary>
     property Path: TPathData read GetPath write SetPath;
     property Owner: TControl read FOwner write SetOwner;
@@ -1054,15 +1054,15 @@ type
   published
     property PathData: string read FPathData write SetPathData;
     /// <summary>
-    /// 是否可视
+    /// Is it visible?
     /// </summary>
     property Visible: Boolean read FVisible write SetVisible default True;
     /// <summary>
-    /// 样式
+    /// style
     /// </summary>
     property Style: TPathViewStyles read GetStyle write SetStyle;
     /// <summary>
-    /// 缩放
+    /// Zoom
     /// </summary>
     property ScaleX: Single read FScaleX write SetScaleX stored IsStoreScaleX;
     property ScaleY: Single read FScaleY write SetScaleY stored IsStoreScaleY;
@@ -1070,13 +1070,13 @@ type
     property SizeWidth: Single read FWidth;
     property SizeHeight: Single read FHeight;
     /// <summary>
-    /// 位置
+    /// position
     /// </summary>
     property Gravity: TLayoutGravity read FGravity write SetGravity default TLayoutGravity.None;
   end;
 
   /// <summary>
-  /// 路径集合
+  /// Path set
   /// </summary>
   TPathViewCollection = class(TCollection)
   protected
@@ -1126,37 +1126,37 @@ type
 
     function PointInObject(X, Y: Single): Boolean; override;
 
-    /// <summary>查找指定位置对应的路径项目</summary>
-    /// <param name="LocalPoint">要查找的路径内的一个点坐标</param>
-    /// <returns>返回找到的路径，如果没找到，返回空</returns>
+    /// <summary>Find the path item corresponding to the specified location</summary>
+    /// <param name="LocalPoint">a point coordinate within the path to find</param>
+    /// <returns>Return the found path, if not found, return empty</returns>
     function ItemAt(const LocalPoint: TPointF): TPathViewItem;
-    /// <summary>查找指定位置对应的路径项目</summary>
-    /// <param name="LocalPoint">要查找的路径内的一个点坐标</param>
-    /// <returns>返回找到的路径的索引，如果没找到，返回-1</returns>
+    /// <summary>Find the path item corresponding to the specified location</summary>
+    /// <param name="LocalPoint">a point coordinate within the path to find</param>
+    /// <returns>Returns the index of the found path, if not found, returns -1</returns>
     function IndexAt(const LocalPoint: TPointF): Integer;
 
     /// <summary>
-    /// 路径集合
+    /// Path set
     /// </summary>
     property Paths: TPathViewCollection read FPaths write SetPaths;
     /// <summary>
-    /// 激活的路径索引号
+    /// Activated path index number
     /// </summary>
     property ActiveIndex: Integer read FActiveIndex write SetActiveIndex default -1;
     /// <summary>
-    /// 当前鼠标指向的路径索引号
+    /// The path index number to which the current mouse points
     /// </summary>
     property HoverIndex: Integer read FHoverIndex;
     /// <summary>
-    /// 当前按下的路径索引号
+    /// The currently pressed path index number
     /// </summary>
     property PressedIndex: Integer read FPressedIndex;
     /// <summary>
-    /// 返回 Paths 数量
+    /// Returns the number of Paths
     /// </summary>
     property PathCount: Integer read GetPathCount;
     /// <summary>
-    /// 是否是能点击到路径上
+    /// Is it possible to click on the path?
     /// </summary>
     property ClickInPath: Boolean read FClickInPath write FClickInPath default False;
 
@@ -1166,7 +1166,7 @@ type
 
 type
   /// <summary>
-  /// 多重路径可视组件
+  /// Multipath visual component
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TMultiPathView = class(TCustomMultiPathView)
@@ -1185,7 +1185,7 @@ type
   TScanBufferEvent = procedure (Sender: TObject; ABitmap: TBitmap) of object;
 
   /// <summary>
-  /// 摄像头图像显示器
+  /// Camera image display
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TCameraViewer = class(TView)
@@ -1261,7 +1261,7 @@ var
 begin
   if FInFitSize or (not FAdjustViewBounds) then
     Exit;
-  if TextSettings.WordWrap then begin // 只有需要自动换行时，才需要判断父级组件的宽度
+  if TextSettings.WordWrap then begin // Only need to automatically wrap, you need to determine the width of the parent component
     W := GetParentMaxWidth;
     H := GetParentMaxHeight;
   end else begin
@@ -1467,7 +1467,7 @@ begin
           if Assigned(FScrollH) and (FCanScrollH) then begin
             SR := GetRectF(FContentBounds^);
             SR.Top := R.Top;
-            // windows平台显示滚动条，其它平台会自动隐藏
+            // Windows platform displays scroll bars, other platforms will automatically hide
             if FShowScrollBars then
               SR.Bottom := R.Bottom{$IFDEF MSWINDOWS} - FScrollH.Height{$ENDIF}
             else
@@ -1515,10 +1515,10 @@ begin
     Exit;
   FInFitSize := True;
   try
-    // 计算出文本区域的最大宽度，如果为0，则不自动换行
+    // Calculate the maximum width of the text area. If it is 0, it will not wrap automatically.
     if FText.WordWrap then begin
       V := AWidth - Padding.Left - Padding.Right - Margins.Left - Margins.Right;
-      // 如果有icon，并且是在左边或右边，则还需要减去icon大小
+      // If there is an icon and it is on the left or right, you need to subtract the icon size.
       IconS := GetDrawableWidth;
       if (IconS > 0) and (FDrawable.Position in [TDrawablePosition.Left, TDrawablePosition.Right]) then
         V := V - IconS - FDrawable.Padding;
@@ -1529,7 +1529,7 @@ begin
     end else
       V := 0;
 
-    // 计算文本区域大小
+    // Calculate the size of the text area
     if Assigned(FHtmlText) and FText.WordWrap then begin
       if Scene.GetSceneScale >= 0 then
         FHtmlText.CalcTextSize(Canvas, TextSettings, RectF(0, 0, V, $FFFFFF), ASize)
@@ -1954,7 +1954,7 @@ end;
 
 procedure TButtonView.SetScrollbar(const Value: TViewScroll);
 begin
-  FScrollbar := Value; // 不初始化滚动条
+  FScrollbar := Value; // Do not initialize scroll bars
 end;
 
 { TScrollView }
@@ -2041,10 +2041,10 @@ var
   P: TPointD;
 begin
   if FDragOneWay then begin
-    // 只允许单向拖动时
+    // Only allowed to drag in one direction
     if FLastTouchTracking = [] then
       FLastTouchTracking := FAniCalculations.TouchTracking;
-    // 开始滚动时，就决定好方向
+    // When you start scrolling, you decide the direction
     if FScrollStart then begin
       FScrollStart := False;
       P := FAniCalculations.DownPoint;
@@ -2062,7 +2062,7 @@ end;
 
 procedure TScrollView.AniMouseUp(const Touch: Boolean; const X, Y: Single);
 begin
-//  if FScrollTrackPressed then  // 更新一下按钮时的位置，不然会回弹
+//  if FScrollTrackPressed then  // Update the position of the button, or it will rebound
 //    SetRttiValue<TPointD>(FAniCalculations, 'FDownPosition', ViewportPosition);
   FAniCalculations.MouseUp(X, Y);
   if (FAniCalculations.LowVelocity) or (not FAniCalculations.Animation) then
@@ -2122,9 +2122,9 @@ begin
       end;
     end;
     if CanInheritedCMGesture(EventInfo) then
-      inherited CMGesture(EventInfo); // 向上级传递
+      inherited CMGesture(EventInfo); // Pass to the superior
   end else
-    inherited CMGesture(EventInfo); // 向上级传递
+    inherited CMGesture(EventInfo); // Pass to the superior
 end;
 
 procedure TScrollView.ContentAddObject(const AObject: TFmxObject);
@@ -2319,9 +2319,9 @@ begin
       if not Assigned(LScroll) then
         Exit;
       {$IFNDEF NEXTGEN}
-      // 非移动平台，在拖动滚动条后，动态更新滚动条的值
+      // Non-mobile platform, dynamically update the value of the scroll bar after dragging the scroll bar
       FTrackChanging := GetRttiValue<Boolean>(LScroll, 'FTrackChanging');
-      SetRttiValue<Boolean>(LScroll, 'FTrackChanging', False); // 临时将此变量设为False，否则为忽略本次调整
+      SetRttiValue<Boolean>(LScroll, 'FTrackChanging', False); // Temporarily set this variable to False, otherwise ignore this adjustment.
       try
         UpdateScrollBar(LScroll, FScrollbar, ValueOffset);
       finally
@@ -2545,7 +2545,7 @@ begin
       {$IF CompilerVersion < 32}
       if not Released then begin
       {$ELSE}
-      if Assigned(Self) then begin  // Tokyo 弃用 Released ，永远返回 False
+      if Assigned(Self) then begin  // Tokyo deprecates Released and returns False forever
       {$ENDIF}
         if (FCachedAutoShowing <> FAniCalculations.AutoShowing) and not FAniCalculations.AutoShowing then
           InvalidateContentSize;
@@ -2942,7 +2942,7 @@ begin
   R := ViewRect;
   if AScrollBar = TViewScroll.Vertical then begin
     {$IFDEF NEXTGEN}
-    FCanScrollV := True; // 移动平台始终能滚动
+    FCanScrollV := True; // Mobile platforms always scroll
     {$ELSE}
     FCanScrollV := FContentBounds.Height > R.Height;
     {$ENDIF}
@@ -2959,7 +2959,7 @@ begin
     end;
   end else if AScrollBar = TViewScroll.Horizontal then begin
     {$IFDEF NEXTGEN}
-    FCanScrollH := True; // 移动平台始终能滚动
+    FCanScrollH := True; // Mobile platforms always scroll
     {$ELSE}
     FCanScrollH := FContentBounds.Width > R.Width;
     {$ENDIF}
@@ -3130,7 +3130,7 @@ procedure TProgressView.PaintBackground;
     H := Height;
     LOpacity := GetAbsoluteOpacity;
 
-    // 画背景
+    // Picture background
     if Assigned(FBackground) then begin
       R := RectF(FBackground.Padding.Left, FBackground.Padding.Top,
         W - FBackground.Padding.Right, H - FBackground.Padding.Bottom);
@@ -3157,7 +3157,7 @@ procedure TProgressView.PaintBackground;
       end;
     end;
 
-    // 画前景
+    // Painting foreground
     if Assigned(FForeGround) then begin
       V := FForeGround.GetStateItem(DrawState);
       if V <> nil then
@@ -3169,15 +3169,15 @@ begin
   if AbsoluteInVisible then
     Exit;
   case FKind of
-    Horizontal: // 水平
+    Horizontal: // Level
       begin
         DoDrawHorizontal();
       end;
-    Vertical: // 垂直
+    Vertical: // vertical
       begin
         DoDrawVertical();
       end;
-    CircleRing: // 圆环
+    CircleRing: // Ring
       begin
         DoDrawCircleRing();
       end;
@@ -3326,7 +3326,7 @@ begin
     Width - Padding.Right - FImage.Padding.Right,
     Height - Padding.Bottom - FImage.Padding.Bottom);
 
-  // 如果不是图像，直接缓制，不管 ScaleType
+  // If it is not an image, directly mitigate, regardless of ScaleType
   if (Img.Kind <> TBrushKind.Bitmap) or (FScaleType = TImageScaleType.None) then begin
     FImage.DrawBrushTo(Canvas, Img, R);
     Exit;
@@ -4002,16 +4002,16 @@ var
 begin
   if FClickInPath and (not AbsoluteInVisible) and (not FInPaintTo) and (FPath.Count > 0) then begin
     if (FOuter = TRingViewStyle.Circle) and (FInner = TRingViewStyle.Circle) then begin
-      // 圆环
+      // Ring
       LP := AbsoluteToLocal(PointF(X, Y));
       if FStartAngle = FAngle then
-        Result := False  // 夹角为0时不显示
+        Result := False  // Not displayed when the angle is 0
       else begin
-        // 判断是否在圆环内
+        // Determine if it is inside the ring
         Result := Sqr(LP.X - FCenter.X) + Sqr(LP.Y - FCenter.Y) <= Sqr(FRadius);
         if Result then
           Result := Sqr(LP.X - FCenter.X) + Sqr(LP.Y - FCenter.Y) >= Sqr(FRadius - FDistance);
-        // 在圆环内时，判断是否在指定夹角内
+        // When in the ring, judge whether it is within the specified angle
         if Result and (FAngle - FStartAngle < 360) then begin
           LS := FStartAngle;
           LE := FAngle;
@@ -5289,7 +5289,7 @@ procedure TVertScrollView.AniMouseUp(const Touch: Boolean; const X, Y: Single);
 begin
   inherited AniMouseUp(Touch, X, Y);
 
-  // 下拉刷新处理
+  // Pulldown refresh processing
   if FEnablePullRefresh then begin
     if Assigned(FHeader) and (FState = TListViewState.PullDownOK) and Assigned(FOnPullRefresh) then begin
       FHeader.DoUpdateState(TListViewState.PullDownFinish, 0);
@@ -5305,7 +5305,7 @@ begin
       DoPullRefreshComplete;
   end;
 
-  // 上拉加载更多
+  // Pull up load more
   if FEnablePullLoad then begin
     if (FState = TListViewState.PullUpOK) then
       DoPullLoad(Self);
@@ -5315,7 +5315,7 @@ end;
 procedure TVertScrollView.CheckMouseLeftState;
 begin
   {$IFNDEF NEXTGEN}
-  // 检查鼠标左键是否松开
+  // Check if the left mouse button is released
   if Assigned(Self) and DragScroll and (not FMouseEnter) then begin
     {$IFDEF MSWINDOWS}
     if GetAsyncKeyState(VK_LBUTTON) = 0 then
@@ -5455,7 +5455,7 @@ begin
 
     FFooter.DoUpdateState(TListViewState.PullUpComplete, 0);
 
-    // 加载完成，回弹
+    // Loading completed, rebound
     TFrameAnimator.DelayExecute(Self,
       procedure (Sender: TObject)
       var
@@ -5499,7 +5499,7 @@ begin
       VScrollBarValue := VScrollBarValue - H;
     end;
 
-    // 刷新完成，回弹
+    // Refresh completed, rebound
     TFrameAnimator.DelayExecute(Self,
       procedure (Sender: TObject)
       begin
@@ -5573,7 +5573,7 @@ var
 begin
   ScrollValue := VScrollBarValue;
 
-  // 下拉刷新
+  // Pull down to refresh
   if Assigned(FHeader) and FEnablePullRefresh then begin
     View := FHeader as TControl;
     if (V > 0) or (FState = TListViewState.PullDownFinish) then begin
@@ -5618,7 +5618,7 @@ begin
     end;
   end;
 
-  // 上拉加载更多
+  // Pull up load more
   if Assigned(FFooter) and FEnablePullLoad then begin
     View := FFooter as TControl;
     if V + FContent.Height < Height - Padding.Bottom - FOffsetScroll then begin
@@ -5701,7 +5701,7 @@ begin
       FOnInitFooter(Self, FFooter);
     if not Assigned(FFooter) then
       FFooter := TListViewDefaultFooter.Create(Self);
-    FFooter.SetStateHint(TListViewState.None, '上拉加载更多');
+    FFooter.SetStateHint(TListViewState.None, 'Pull up load more');
     (FFooter as TControl).Parent := Self;
     (FFooter as TControl).Stored := False;
     (FFooter as TControl).Visible := False;
@@ -5870,7 +5870,7 @@ function TVertScrollView.ObjectAtPoint(AScreenPoint: TPointF): IControl;
 begin
   Result := inherited;
   {$IFNDEF NEXTGEN}
-  if DragScroll and (not (csDesigning in ComponentState)) then begin // 如果允许拖动
+  if DragScroll and (not (csDesigning in ComponentState)) then begin // If dragging is allowed
     if FMouseDown then
       Exit;
     //LogD('FMouseDown: ' + BoolToStr(FMouseDown));
@@ -6081,7 +6081,7 @@ end;
 function TViewScrollContent.ObjectAtPoint(P: TPointF): IControl;
 begin
   if Assigned(FScrollBox.FAniCalculations) and (FScrollBox.FAniCalculations.Shown) then
-    Result := nil   // 手势滚动中，不允许点击子项
+    Result := nil   // Gesture scrolling, no sub-items are allowed
   else
     Result := inherited ObjectAtPoint(P);
 //  if Result <> nil then
