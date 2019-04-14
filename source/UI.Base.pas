@@ -70,7 +70,7 @@ type
   TViewClass = class of TControl;
 
   /// <summary>
-  /// 视图状态
+  /// View state
   /// </summary>
   TViewState = (None {正常}, Pressed {按下}, Focused {取得焦点}, Hovered {悬停},
     Selected{选中}, Checked{复选}, Enabled{禁用}, Activated{激活}, Custom {自定义});
@@ -88,12 +88,12 @@ type
   TViewBrushKind = (None, Solid, Gradient, Bitmap, Resource, Patch9Bitmap, AccessoryBitmap, SVGImage);
 
   /// <summary>
-  /// 附件样式
+  /// Attachment style
   /// </summary>
   TViewAccessoryStyle = (Accessory, Path);
 
   /// <summary>
-  /// 附图类型
+  /// Type of drawing
   /// </summary>
   TViewAccessoryType = (None, More, Checkmark, Detail, Ellipses, Flag, Back, Refresh,
     Action, Play, Rewind, Forwards, Pause, Stop, Add, Prior,
@@ -114,14 +114,14 @@ type
 
   TControlHelper = class Helper for TControl
   public
-    // 为指定控件设置焦点
+    // Set focus for the specified control
     function SetFocusObject(V: TControl): Boolean;
-    // 进入下一个焦点控件
+    // Go to the next focus control
     procedure FocusToNext();
   end;
 
   /// <summary>
-  /// 列表视图状态
+  /// List view state
   /// </summary>
   TListViewState = (None {无},  PullChangeing,
     PullDownStart {下拉开始}, PullDownOK {下拉到位}, PullDownFinish {下拉松开}, PullDownComplete {下拉完成},
@@ -129,28 +129,28 @@ type
   );
 
   /// <summary>
-  /// 列表 Header 或 Footer 接口
+  /// List Header or Footer interface
   /// </summary>
   IListViewHeader = interface
     ['{44F6F649-D173-4BEC-A38D-F03436ED55BC}']
     /// <summary>
-    /// 更新状态
+    /// update status
     /// </summary>
     procedure DoUpdateState(const State: TListViewState;
       const ScrollValue: Double);
     /// <summary>
-    /// 设置各种状态要显示的消息
+    /// Set various status to display messages
     /// </summary>
     procedure SetStateHint(const State: TListViewState; const Msg: string);
     function GetVisible: Boolean;
     /// <summary>
-    /// 可视状态
+    /// Visual state
     /// </summary>
     property Visible: Boolean read GetVisible;
   end;
 
   /// <summary>
-  /// 加载 Header 或 Footer 事件
+  /// Load Header or Footer events
   /// </summary>
   TOnInitHeader = procedure (Sender: TObject; var NewFooter: IListViewHeader) of object;
 
@@ -187,7 +187,7 @@ type
   end;
 
   /// <summary>
-  /// 9 宫格位图
+  /// 9 grid map
   /// </summary>
   TPatch9Bitmap = class(TBrushBitmap)
   private
@@ -201,7 +201,7 @@ type
     procedure Assign(Source: TPersistent); override;
   published
     property Bounds: TPatchBounds read FBounds write SetBounds;
-    // 是否移除黑线(.9.png一般会有一条黑线，移除时，等于是将原图截掉最外围的1像索)
+    // Whether to remove the black line (.9.png usually has a black line, when removed, it is equal to the original picture to cut off the outermost 1 line)
     property BlackLine: Boolean read FRemoveBlackLine write SetRemoveBlackLine default False;
   end;
 
@@ -304,17 +304,17 @@ type
   end;
 
   /// <summary>
-  /// 绘制位置
+  /// Drawing position
   /// </summary>
   TDrawablePosition = (Left, Right, Top, Bottom, Center);
 
   /// <summary>
-  /// 绘制样式
+  /// Drawing style
   /// </summary>
   TDrawableKind = (None, Circle, Ellipse);
 
   /// <summary>
-  /// 可绘制对象
+  /// Drawable object
   /// </summary>
   TDrawableBase = class(TPersistent)
   private
@@ -396,22 +396,22 @@ type
     procedure SetBitmap(State: TViewState; const Value: TBitmap); overload;
     procedure SetBitmap(State: TViewState; const Value: TBrushBitmap); overload;
 
-    // 是否为空
+    // Is it empty?
     property IsEmpty: Boolean read FIsEmpty;
 
     property OnChanged: TNotifyEvent read FOnChanged write FOnChanged;
-    // 边框圆角
+    // Border fillet
     property XRadius: Single read FXRadius write SetXRadius;
     property YRadius: Single read FYRadius write SetYRadius;
     property Corners: TCorners read FCorners write SetCorners stored IsStoredCorners;
     property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
 
-    // 背景样式
+    // Background style
     property Kind: TDrawableKind read FKind write SetKind default TDrawableKind.None;
   end;
 
   /// <summary>
-  /// 可绘制对象
+  /// Drawable object
   /// </summary>
   TDrawable = class(TDrawableBase)
   private
@@ -448,7 +448,7 @@ type
   end;
 
   /// <summary>
-  /// 边框样式
+  /// Border style
   /// </summary>
   TViewBorderStyle = (None {无边框},
     RectBorder {四周矩形边框,会使用圆角设置},
@@ -540,7 +540,7 @@ type
   end;
 
   /// <summary>
-  /// 可绘制刷子组件
+  /// Drawable brush assembly
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TDrawableBrush = class(TComponent, IGlyph, IInterfaceComponentReference)
@@ -584,7 +584,7 @@ type
   end;
 
   /// <summary>
-  /// 可绘制图标
+  /// Drawable icon
   /// </summary>
   TDrawableIcon = class(TDrawableBase, IInterface, IGlyph, IInterfaceComponentReference)
   private
@@ -625,7 +625,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     /// <summary>
-    /// 绘制，并调整原来的区域
+    /// Draw and adjust the original area
     /// </summary>
     procedure AdjustDraw(Canvas: TCanvas; var R: TRectF; ExecDraw: Boolean; AState: TViewState);
 
@@ -660,7 +660,7 @@ type
   end;
 
   /// <summary>
-  /// 颜色属性
+  /// Color attribute
   /// </summary>
   TViewColor = class(TPersistent)
   private
@@ -704,7 +704,7 @@ type
 
     procedure Assign(Source: TPersistent); override;
 
-    // 根据当前状态获取颜色，如果颜色为 Null 则返回上一次获取到的颜色
+    // Gets the color based on the current state, if the color is Null, returns the last acquired color
     function GetStateColor(State: TViewState): TAlphaColor;
 
     function GetColor(State: TViewState): TAlphaColor;
@@ -740,7 +740,7 @@ type
   end;
 
   /// <summary>
-  /// 视图布局属性
+  /// View layout properties
   /// </summary>
   TViewLayout = class(TPersistent)
   private
@@ -817,19 +817,19 @@ type
   end;
 
   /// <summary>
-  /// 内容重力
+  /// Content gravity
   /// </summary>
   TLayoutGravity = (None, LeftTop, LeftBottom, RightTop, RightBottom,
     CenterVertical, CenterHorizontal, CenterHBottom, CenterVRight, Center);
 
   /// <summary>
-  /// 提示样式
+  /// Prompt style
   /// </summary>
   TBadgeStyle = (EmptyText {空白}, NumberText {数字值 (显示数字)},
     NewText {显示New文本}, HotText {显示Hot文本}, Icon {显示指定的图像});
 
   /// <summary>
-  /// 标记提示接口
+  /// Tag prompt interface
   /// </summary>
   IViewBadge = interface(IInterface)
     ['{493E5A10-0227-46AE-A17A-3B31D1B04D71}']
@@ -851,7 +851,7 @@ type
   end;
 
   /// <summary>
-  /// 视图布局属性接口
+  /// View layout property interface
   /// </summary>
   IView = interface(IInterface)
     ['{9C2D9DB0-9D59-4A9D-BC47-53928194544E}']
@@ -926,7 +926,7 @@ type
   end;
 
   /// <summary>
-  /// 视图组接口
+  /// View group interface
   /// </summary>
   IViewGroup = interface(IView)
     ['{73A1B9E5-D4AF-4956-A15F-73B0B8EDADF9}']
@@ -936,7 +936,7 @@ type
   end;
 
   /// <summary>
-  /// 触摸事件支持
+  /// Touch event support
   /// </summary>
   IViewTouch = interface(IInterface)
     ['{ADA36492-479A-468E-A813-59CC1940612A}']
@@ -1006,7 +1006,7 @@ type
       const ATextAlign: TTextAlign; const AVTextAlign: TTextAlign = TTextAlign.Center;
       State: TViewState = TViewState.None); overload;
 
-    // 计算 Text 真实大小
+    // Calculate the true size of Text
     procedure TextSize(const AText: string; var ASize: TSizeF; const SceneScale: Single; 
       const MaxWidth: Single = -1; AWordWrap: Boolean = False);
 
@@ -1041,7 +1041,7 @@ type
   end;
 
   /// <summary>
-  /// 字体设置
+  /// Font setting
   /// </summary>
   TTextSettings = class(TTextSettingsBase)
   private
@@ -1068,7 +1068,7 @@ type
   end;
 
   /// <summary>
-  /// Html解析中间结果 (仅支持字体颜色、样式部分)
+  /// Html parsing intermediate results (only supports font color, style part)
   /// </summary>
   THtmlTextItem = record
     P: PChar;
@@ -1116,11 +1116,11 @@ type
 
     procedure Assign(Source: TPersistent); override;
 
-    // 绘制到画布中
+    // Draw into the canvas
     procedure Draw(Canvas: TCanvas; TextSet: UI.Base.TTextSettings; const R: TRectF;
       const Opacity: Single; State: TViewState; ASize: PSizeF = nil);
 
-    // 计算大小
+    // Calculated size
     procedure CalcTextSize(Canvas: TCanvas; TextSet: UI.Base.TTextSettings; const R: TRectF;
       var ASize: TSizeF);
 
@@ -1150,7 +1150,7 @@ type
   end;
 
   /// <summary>
-  /// 滚动动画控制器
+  /// Scrolling animation controller
   /// </summary>
   TScrollCalculations = class (TAniCalculationsEx)
   private
@@ -1223,7 +1223,7 @@ type
   end;
 
   /// <summary>
-  /// 基本视图
+  /// Basic view
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TView = class(TViewBase, IView)
@@ -1355,13 +1355,13 @@ type
     procedure DoClickEvent; virtual;
 
 
-    // 限制组件最大和最小大小
+    // Limit component maximum and minimum size
     procedure DoAdjustViewBounds(var ANewWidth, ANewHeight: Single); virtual;
-    // 布局变化了
+    // The layout has changed
     procedure DoLayoutChanged(Sender: TObject); virtual;
-    // 大小改变了
+    // The size has changed
     procedure DoChangeSize(var ANewWidth, ANewHeight: Single); virtual;
-    // 开始计算大小
+    // Start calculating size
     procedure DoRecalcSize(var AWidth, AHeight: Single); virtual;
 
     procedure DoMouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single); virtual;
@@ -1404,15 +1404,15 @@ type
     {$ENDIF}
   public
     /// <summary>
-    /// 滚动条样式
+    /// Scroll bar style
     /// </summary>
     property ScrollBars: TViewScroll read FScrollbar write SetScrollbar default TViewScroll.None;
     /// <summary>
-    /// 禁止鼠标滚动
+    /// Do not allow mouse scrolling
     /// </summary>
     property DisableMouseWheel: Boolean read FDisableMouseWheel write SetDisableMouseWheel default False;
     /// <summary>
-    /// 滚动动画控制器
+    /// Scrolling animation controller
     /// </summary>
     property AniCalculations: TScrollCalculations read GetAniCalculations;
 
@@ -1453,16 +1453,16 @@ type
     procedure StartTriggerAnimationWait(const AInstance: TFmxObject; const ATrigger: string); override;
 
     /// <summary>
-    /// 开始拖动窗口
+    /// Start dragging the window
     /// </summary>
     procedure StartWindowDrag;
 
     /// <summary>
-    /// 获取状态栏高度
+    /// Get status bar height
     /// </summary>
     class function GetStatusHeight: Single;
     /// <summary>
-    /// 获取底部虚拟键高度
+    /// Get the bottom virtual key height
     /// </summary>
     class function GetNavigationBarHeight: Single;
 
@@ -1479,120 +1479,120 @@ type
 
     property ParentView: IViewGroup read GetParentView;
     /// <summary>
-    /// 组件的布局方式。Horizontal，水平布局； Vertical，垂直布局。默认为Horizontal。
+    /// How the components are laid out. Horizontal, horizontal layout; Vertical, vertical layout. The default is Horizontal.
     /// </summary>
     property Orientation: TOrientation read GetOrientation write SetOrientation;
     /// <summary>
-    /// 组件当前的状态
+    /// The current state of the component
     /// </summary>
     property ViewState;
     /// <summary>
-    /// 组件当前的绘制状态
+    /// The current drawing state of the component
     /// </summary>
     property DrawState: TViewState read FDrawState;
     /// <summary>
-    /// 组件内容有效区域（返回减去Padding后的值）
+    /// Component content valid area (return minus the value after Padding)
     /// </summary>
     property ViewRect: TRectF read GetViewRect;
     property ViewRectD: TRectD read GetViewRectD;
 
     /// <summary>
-    /// 临时最大高度, 设置为0时，恢复原始的MaxHeight
+    /// Temporary maximum height, set to 0, restore the original MaxHeight
     /// </summary>
     property TempMaxHeight: Single read FMaxHeight write SetTempMaxHeight;
     /// <summary>
-    /// 临时最大高度, 设置为0时，恢复原始的MaxWidth
+    /// Temporary maximum height, set to 0, restore the original MaxWidth
     /// </summary>
     property TempMaxWidth: Single read FMaxWidth write SetTempMaxWidth;
     /// <summary>
-    /// 提示标记视图
+    /// Prompt mark view
     /// </summary>
     property BadgeView: IViewBadge read FBadgeView;
     /// <summary>
-    /// 获取父级Form
+    /// Get the parent Form
     /// </summary>
     property ParentForm: TCustomForm read GetParentForm;
 
     property IsChecked: Boolean read GetIsChecked write SetIsChecked;
   published
     /// <summary>
-    /// 组件相对于容器的对齐方式。当容器为非布局组件时有效，在部分布局组件中有效，但不建议使用。
+    /// The alignment of the component relative to the container. Valid when the container is a non-layout component, valid in some layout components, but not recommended.
     /// </summary>
     property Align;
     /// <summary>
-    /// 组件在容器中的缩放和定位方式。当容器为非布局组件时有效。
+    /// The way components are scaled and positioned in the container. Valid when the container is a non-layout component.
     /// </summary>
     property Anchors;
     /// <summary>
-    /// 是否允许根据MaxWidth, MaxHeight, MinWidth, MinHeight属性来限制组件大小
+    /// Whether to allow component size based on MaxWidth, MaxHeight, MinWidth, MinHeight properties
     /// </summary>
     property AdjustViewBounds: Boolean read GetAdjustViewBounds write SetAdjustViewBounds default True;
     /// <summary>
-    /// 视图背景。视图背景是一个TDrawable对象，可通过设置此属性的子项，来实现不同的显示效果，详见TDrawable的属性说明。
+    /// View background. The view background is a TDrawable object, which can be used to set different display effects by setting the children of this property. For details, see the TDrawable property description.
     /// </summary>
     property Background;
     /// <summary>
-    /// 是否响应点击事件。同HitTest属性
+    /// Whether to respond to click events. Same as HitTest property
     /// </summary>
     property Clickable: Boolean read GetClickable write SetClickable default False;
     /// <summary>
-    /// 是否剪切超出组件可视区域的图形输出
+    /// Whether to cut the graphic output beyond the visible area of the component
     /// </summary>
     property ClipChildren default True;
     /// <summary>
-    /// 是否选中
+    /// Whether to select
     /// </summary>
     property Checked: Boolean read GetIsChecked write SetIsChecked default False;
     /// <summary>
-    /// 是否允许捕获拖动主窗口
+    /// Whether to allow dragging to drag the main window
     /// </summary>
     property CaptureDragForm: Boolean read GetCaptureDragForm write SetCaptureDragForm default False;
     /// <summary>
-    /// 是否执行动作操作
+    /// Whether to perform an action
     /// </summary>
     property EnableExecuteAction default False;
     /// <summary>
-    /// 相对布局属性。当容器是TRelativeLayout相对布局时有效。Layout是一个TViewLayout对象，详请参考TViewLayout属性说明。
+    /// Relative layout properties. Valid when the container is a RelativeLayout of the RelativeLayout. Layout is a TViewLayout object. Please refer to the TViewLayout property description for details.
     /// </summary>
     property Layout: TViewLayout read GetLayout write SetLayout;
     /// <summary>
-    /// 组件内容四周留白大小。会自动设置Padding的四边会相同的值。
+    /// The content of the component is white around. Will automatically set the same value on the four sides of Padding.
     /// </summary>
     property Paddings: string read GetPaddings write SetPaddings stored False;
     /// <summary>
-    /// 布局时与其它组件四周的距离。此属性是一个字符串形式的浮点数，用于一次设置Margins的四边为相同的大小。
+    /// The distance from the other components during layout. This property is a string of floating point numbers used to set the four sides of Margins to the same size at a time.
     /// </summary>
     property Margin: string read GetMargin write SetMargin stored False;
     /// <summary>
-    /// 组件是否可视。Visible 为 True 时有效，InVisible 为 True 时，只显位置不显示内容
+    /// Whether the component is visible. Valid when Visible is True, when InVisible is True, only the location does not display content
     /// </summary>
     property InVisible: Boolean read FInVisible write SetInVisible default False;
     /// <summary>
-    /// 组件宽度调节方式，CustomSize, 指定的固定大小; WrapContent 随内容决定； FillParent，填充容器。
+    /// Component width adjustment mode, CustomSize, specified fixed size; WrapContent is determined by content; FillParent, fill container.
     /// </summary>
     property WidthSize: TViewSize read FWidthSize write SetWidthSize default TViewSize.CustomSize;
     /// <summary>
-    /// 组件高度调节方式，CustomSize, 指定的固定大小; WrapContent 随内容决定； FillParent，填充容器。
+    /// Component height adjustment mode, CustomSize, specified fixed size; WrapContent is determined by content; FillParent, fill container.
     /// </summary>
     property HeightSize: TViewSize read FHeightSize write SetHeightSize default TViewSize.CustomSize;
     /// <summary>
-    /// 组件的最小宽度。当AdjustViewBounds为True时有效。
+    /// The minimum width of the component. Valid when AdjustViewBounds is True.
     /// </summary>
     property MinWidth;
     /// <summary>
-    /// 组件的最小高度。当AdjustViewBounds为True时有效。
+    /// The minimum height of the component. Valid when AdjustViewBounds is True.
     /// </summary>
     property MinHeight;
     /// <summary>
-    /// 组件的最大宽度。当AdjustViewBounds为True时有效。
+    /// The maximum width of the component. Valid when AdjustViewBounds is True.
     /// </summary>
     property MaxWidth;
     /// <summary>
-    /// 组件的最大高度。当AdjustViewBounds为True时有效。
+    /// The maximum height of the component. Valid when AdjustViewBounds is True.
     /// </summary>
     property MaxHeight;
     /// <summary>
-    /// 组件本身作为容器时，内部的重力。也就是子组件的位于容器的位置。
+    /// The internal gravity of the component itself as a container. That is, the location of the subcomponent at the container.
     ///    LeftTop, 左上角;
     ///    LeftBottom, 左下角;
     ///    RightTop, 右上角;
@@ -1605,8 +1605,7 @@ type
     /// </summary>
     property Gravity: TLayoutGravity read GetGravity write SetGravity;
     /// <summary>
-    /// 视图在线性布局 TLinearLayout 时，其宽度或高度在容器中所占的大小比例。
-    /// 设为>0时，布局组件会按比例自动调整组件大小。只有容器是TLinearLayout时有效。
+    /// When set to >0, the layout component automatically resizes the component proportionally. Only valid when the container is TLinearLayout.
     /// </summary>
     property Weight: Single read GetWeight write SetWeight;
 
@@ -1652,14 +1651,14 @@ type
   end;
 
   /// <summary>
-  /// 基本视图组
+  /// Basic view group
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TViewGroup = class(TView, IViewGroup)
   private
   protected
     /// <summary>
-    /// 是否需要自动调整大小
+    /// Do you need to automatically resize?
     /// </summary>
     function IsAdjustSize(View: IView; Align: TAlignLayout;
       AParentOrientation: TOrientation): Boolean;
@@ -1679,16 +1678,16 @@ type
   end;
 
   /// <summary>
-  /// 线性布局
+  /// Linear layout
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TLinearLayout = class(TViewGroup)
   private
   protected
     /// <summary>
-    /// 查找最后一个需要自动调整大小的组件
-    /// <param name="AControl">输出需要自动调整大小的组件</param>
-    /// <param name="AdjustSize">输出自动调整大小组件的可用空间</param>
+    /// Find the last component that needs to be automatically resized
+    /// <param name="AControl">Output components that need to be automatically resized</param>
+    /// <param name="AdjustSize">Output free space for auto resizing components</param>
     /// </summary>
     function AdjustAutoSizeControl(out AControl: TControl; out AdjustSize: Single): Boolean;
 
@@ -1704,7 +1703,7 @@ type
   end;
   
   /// <summary>
-  /// 相对布局
+  /// Relative layout
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TRelativeLayout = class(TViewGroup)
@@ -1723,7 +1722,7 @@ type
   end;
 
   /// <summary>
-  /// 格子布局时拉伸模式
+  /// Stretch pattern when grid layout
   /// </summary>
   TViewStretchMode = (None {无},
     SpacingWidth {自动调整间距，使充满布局},
@@ -1731,7 +1730,7 @@ type
     SpacingWidthUniform {自动调整间距(平均间隔)，使充满布局});
 
   /// <summary>
-  /// 格子布局
+  /// Grid layout
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TGridsLayout = class(TViewGroup)
@@ -1774,67 +1773,67 @@ type
   protected
     procedure DoRealign; override;
     procedure PaintBackground; override;
-    procedure DrawDivider(Canvas: TCanvas);   // 画分隔线
+    procedure DrawDivider(Canvas: TCanvas);   // Draw a dividing line
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     /// <summary>
-    /// 格子数量
+    /// Number of grids
     /// </summary>
     property Count: Integer read GetCount;
     /// <summary>
-    /// 决对的列数
+    /// Number of columns to be resolved
     /// </summary>
     property AbsoluteColumnsNum: Integer read GetAbsoluteColumnsNum;
   published
     /// <summary>
-    /// 列数, <= 0 时为自动
+    /// Number of columns, automatically when <= 0
     /// </summary>
     property ColumnCount: Integer read FNumColumns write SetNumColumns default 0;
     /// <summary>
-    /// 列宽度
+    /// Column width
     /// </summary>
     property ColumnWidth: Single read FColumnWidth write SetColumnWidth stored IsStoredColumnWidth;
     /// <summary>
-    /// 列高度
+    /// Column height
     /// </summary>
     property ColumnHeight: Single read FColumnHeight write SetColumnHeight stored IsStoredColumnHeight;
     /// <summary>
-    /// 分隔线颜色
+    /// Divider color
     /// </summary>
     property Divider: TAlphaColor read GetDivider write SetDivider default CDefaultDividerColor;
     /// <summary>
-    /// 两列之间的间距
+    /// Spacing between two columns
     /// </summary>
     property SpacingHorizontal: Single read FHorizontalSpacing write SetHorizontalSpacing;
     /// <summary>
-    /// 两行之间的间距
+    /// Spacing between two lines
     /// </summary>
     property SpacingVertical: Single read FVerticalSpacing write SetVerticalSpacing;
     /// <summary>
-    /// 间距从边框开始算 (为 False 时，左右上下四边的间距为0)
+    /// The spacing starts from the border (when False, the distance between the left and right sides is 0)
     /// </summary>
     property SpacingBorder: Boolean read FSpacingBorder write SetSpacingBorder default True;
     /// <summary>
-    /// 缩放与列宽大小调整方式
+    /// Zoom and column width adjustment
     /// </summary>
     property StretchMode: TViewStretchMode read FStretchMode write SetStretchMode default TViewStretchMode.None;
     /// <summary>
-    /// 强制使用列大小。此时不再检测每个格子的宽度高度是否需要自动大小
+    /// Force column size. At this time, it is no longer necessary to detect whether the width of each grid needs an automatic size.
     /// </summary>
     property ForceColumnSize: Boolean read FForceColumnSize write SetForceColumnSize default False;
   end;
 
 
-// 处理消息
+// Processing messages
 procedure ProcessMessages;
-// 模拟点击
+// Simulated click
 procedure SimulateClick(AControl: TControl; const x, y: single);
-// 替换不透明颜色
+// Replace opaque colors
 procedure ReplaceOpaqueColor(ABmp: TBitmap; const Color: TAlphaColor);
-// 屏幕缩放
+// Screen zoom
 function GetScreenScale: single;
-// 获取组件所属的窗口
+// Get the window to which the component belongs
 function GetParentForm(AObj: TFmxObject): TCustomForm;
 
 function ViewStateToString(const State: TViewStates): string;
@@ -1842,7 +1841,7 @@ function ComponentStateToString(const State: TComponentState): string;
 
 var
   /// <summary>
-  /// Accessory 图像列表
+  /// Accessory Image list
   /// </summary>
   FAccessoryImages: TViewAccessoryImageList;
 
@@ -1986,7 +1985,7 @@ begin
     if Assigned(List) and (List.Count > 0) then begin
       if List.Count > 256 then
         raise EViewError.Create(SRefOutLimitMax);
-      if (List.IndexOf(View) >= 0) then // 重复引用
+      if (List.IndexOf(View) >= 0) then // Duplicate reference
         raise EViewError.Create(SLocateFailed);
     end;
     Layout := View.GetLayout;
@@ -2019,7 +2018,7 @@ begin
   end;
 end;
 
-// 检查组件引用是否存在死循环。返回True表示不存在
+// Check the component reference for an infinite loop. Return True to indicate that it does not exist
 function CheckRecursionState(const Control: IView): Boolean;
 var
   List: TInterfaceList;
@@ -2079,7 +2078,7 @@ begin
   end;
 end;
 
-// 感谢 Flying Wang
+// Thanks Flying Wang
 type
   JSystemPropertiesClass = interface(IJavaClass)
     ['{C14AB573-CC6F-4087-A1FB-047E92F8E718}']
@@ -2148,7 +2147,7 @@ begin
 end;
 {$ENDIF}
 
-{ 来自 KernowSoftwareFMX }
+{ From KernowSoftwareFMX }
 procedure ProcessMessages;
 {$IFDEF IOS}
 var
@@ -2166,7 +2165,7 @@ begin
 end;
 {$ENDIF}
 
-{ 来自 KernowSoftwareFMX }
+{ From KernowSoftwareFMX }
 procedure ReplaceOpaqueColor(ABmp: TBitmap; const Color: TAlphaColor);
 var
   x, y: Integer;
@@ -2592,8 +2591,8 @@ begin
 
   if Bmp.FRemoveBlackLine then begin
     {$IFNDEF MSWINDOWS}
-    // 移动平台，使用PPI计算出1个dp所占用的像索
-    // 感觉直接设为2效果更好
+    // Mobile platform, using PPI to calculate the number of pixels occupied by 1 dp
+    // Feel directly set to 2 for better effect
     AO := 2; //1 * GetPPI(Self.FView as TFmxObject) / 160;
     //if AO < 0 then AO := 1;
     {$ELSE}
@@ -2609,7 +2608,7 @@ begin
       Canvas.DrawBitmap(Bmp.Bitmap, RectF(AO, AO, Bmp.Bitmap.Width - AO, Bmp.Bitmap.Height - AO),
         ARect, AOpacity);
   end else begin
-    // 九宫格绘图
+    // Nine-square grid drawing
     BW := Bmp.Bitmap.Width;
     BH := Bmp.Bitmap.Height;
 
@@ -2618,49 +2617,49 @@ begin
     BR := Bmp.FBounds.Right;
     BB := Bmp.FBounds.Bottom;
 
-    // 左上
+    // upper left
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(AO, AO, BL + AO, BT + AO),
       RectF(ARect.Left, ARect.Top, ARect.Left + BL, ARect.Top + BT),
       AOpacity);
-    // 顶部
+    // top
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BL + AO, AO, BW - BR - AO, BT + AO),
       RectF(ARect.Left + BL, ARect.Top, ARect.Right - BR, ARect.Top + BT),
       AOpacity);
-    // 右上
+    // Upper right
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BW - BR - AO, AO, BW - AO, BT + AO),
       RectF(ARect.Right - BR, ARect.Top, ARect.Right, ARect.Top + BT),
       AOpacity);
 
-    // 左中
+    // Left middle
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(AO, BT + AO, BL + AO, BH - BB - AO),
       RectF(ARect.Left, ARect.Top + BT, ARect.Left + BL, ARect.Bottom - BB),
       AOpacity);
-    // 中间
+    // intermediate
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BL + AO, BT + AO, BW - BR - AO, BH - BB - AO),
       RectF(ARect.Left + BL, ARect.Top + BT, ARect.Right - BR, ARect.Bottom - BB),
       AOpacity);
-    // 右中
+    // Right middle
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BW - BR - AO, BT + AO, BW - AO, BH - BB - AO),
       RectF(ARect.Right - BR, ARect.Top + BT, ARect.Right, ARect.Bottom - BB),
       AOpacity);
 
-    // 左下
+    // Lower left
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(AO, BH - BB - AO, BL + AO, BH - AO),
       RectF(ARect.Left, ARect.Bottom - BB, ARect.Left + BL, ARect.Bottom),
       AOpacity);
-    // 下中
+    // Lower middle
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BL + AO, BH - BB - AO, BW - BR - AO, BH - AO),
       RectF(ARect.Left + BL, ARect.Bottom - BB, ARect.Right - BR, ARect.Bottom),
       AOpacity);
-    // 右下
+    // Lower right
     Canvas.DrawBitmap(Bmp.Bitmap,
       RectF(BW - BR - AO, BH - BB - AO, BW - AO, BH - AO),
       RectF(ARect.Right - BR, ARect.Bottom - BB, ARect.Right, ARect.Bottom),
@@ -3667,7 +3666,7 @@ end;
 procedure TView.Click;
 begin
   {$IFNDEF MSWINDOWS}
-  if Abs(FDownUpOffset) > 10 then // 防止滚动时触发点击事件
+  if Abs(FDownUpOffset) > 10 then // Prevent click events from being triggered while scrolling
     Exit;
   if Assigned(OnClick) then
     PlayClickEffect;
@@ -4655,7 +4654,7 @@ begin
   if not Assigned(FAudioManager) then
     Exit;
   RingerMode := FAudioManager.getRingerMode;
-  // 静音或者震动时不发出声音
+  // No sound when muted or vibrating
   if (ringerMode = TJAudioManager.JavaClass.RINGER_MODE_SILENT) or
     (ringerMode = TJAudioManager.JavaClass.RINGER_MODE_VIBRATE) then
     Exit;
@@ -5431,7 +5430,7 @@ begin
       if (VH > MaxH) and (MaxH > 0) then begin
         // 如果使用了 Weight
         if IsWeight then begin
-          // 获取最后使用 Weight 属性的组件，重新调整大小
+          // Resize the component that last used the Weight property
           ReSizeView := GetLastWeightView();
           if Assigned(ReSizeView) then begin
             ReSizeView.TempMaxHeight := ReSizeView.Height - (VH - MaxH);
@@ -5466,12 +5465,12 @@ begin
     IsAW := False;
     IsAH := False;
 
-    // 在水平上是否自动大小
+    // Whether it is automatic size at the level
     IsASW := IsAdjustSize(nil, Align, TOrientation.Vertical);
-    // 在垂直上是否自动大小
+    // Whether it is automatic size in the vertical
     IsASH := IsAdjustSize(nil, Align, TOrientation.Horizontal);
 
-    // 水平方向
+    // horizontal direction
     if (FOrientation = TOrientation.Horizontal) and (not IsASW) then begin
       if WidthSize = TViewSize.WrapContent then begin
         AWidth := Padding.Left + Padding.Right;
@@ -5488,7 +5487,7 @@ begin
         AWidth := 0;
     end;
 
-    // 垂直方向
+    // Vertical direction
     if (FOrientation = TOrientation.Vertical) and (not IsASH) then begin
       if HeightSize = TViewSize.WrapContent then begin
         AHeight := Padding.Top + Padding.Bottom;
@@ -5505,7 +5504,7 @@ begin
         AHeight := 0;
     end;
 
-    // 如果有需要自动大小的，则将子控件大小加起来
+    // If you need automatic size, add the size of the child controls
     if IsAW or IsAH or IsASW or IsASH then begin
       for I := 0 to ControlsCount - 1 do begin
         Control := Controls[I];
@@ -5541,9 +5540,9 @@ begin
     if FDisableAlign then
       Exit;
 
-    // 在水平上是否自动大小
+    // Whether it is automatic size at the level
     IsASW := IsAdjustSize(Self, Align, TOrientation.Vertical);
-    // 在垂直上是否自动大小
+    // Whether it is automatic size in the vertical
     IsASH := IsAdjustSize(Self, Align, TOrientation.Horizontal);
 
     IsAW := (WidthSize = TViewSize.WrapContent) and (not IsASW);
@@ -5552,7 +5551,7 @@ begin
     if IsAW then AWidth := 0;
     if IsAH then AHeight := 0;
 
-    // 如果有需要自动大小的，则将子控件大小加起来
+    // If you need automatic size, add the size of the child controls
     if IsAW or IsAH then begin
       for I := 0 to ControlsCount - 1 do begin
         Control := Controls[I];
@@ -5589,11 +5588,11 @@ var
   NewSize: Single;
 begin
   Result := False;
-  AControl := nil;  // 注意：东京版 out 参数后，这里即使会默认设为 nil ，但在 Release 模式无效
+  AControl := nil;  // Note: After the Tokyo version of the out parameter, even if it is set to nil by default, it is invalid in Release mode.
   AdjustSize := 0;
   NewSize := 0;
 
-  // 得到一个相反的布局方面，用于 IsAutoSize
+  // Get an opposite layout aspect for IsAutoSize
   FO := FOrientation;
   if FO = TOrientation.Horizontal then
     AO := TOrientation.Vertical
@@ -5607,7 +5606,7 @@ begin
     if IsDesignerControl(Control) then Continue;
     {$ENDIF}
     
-    // 如果还没有找到需要自动大小的组件，则进行检测
+    // Test if you have not found a component that requires automatic size
     if (AControl = nil) then begin
       View := nil;
       Supports(Control, IView, View);
@@ -5616,14 +5615,14 @@ begin
         Continue;
       end;
     end;
-    //  累加非自动大小控件的大小
+    //  Accumulate the size of non-automatic size controls
     if FO = TOrientation.Horizontal then
       NewSize := NewSize + Control.Margins.Left + Control.Width + Control.Margins.Right
     else
       NewSize := NewSize + Control.Margins.Top + Control.Height + Control.Margins.Bottom;
   end;
 
-  // 如果存在有需要自动大小的组件，则调整其大小
+  // If there is a component that requires automatic size, resize it
   if AControl <> nil then begin
     Result := True;
     if FO = TOrientation.Horizontal then
@@ -5879,7 +5878,7 @@ begin
   IsAH := (HeightSize = TViewSize.WrapContent) and
     (not IsAdjustSize(nil, Align, TOrientation.Horizontal));
 
-  // 如果有需要自动大小的，则将子控件大小加起来
+  //If you need automatic size, add the size of the child controls
   if IsAW or IsAH then begin
 
     if IsAW then AWidth := 0;
@@ -5921,7 +5920,7 @@ var
   Layout: TViewLayout;
 begin
   if not (csDestroying in ComponentState) then begin
-    // 删除对象时，解除所有引用到它的地方
+    // When deleting an object, undo all references to it
     for I := 0 to ControlsCount - 1 do begin
       Item := Controls[I];
       if Supports(Item, IView, View) then begin
@@ -8737,13 +8736,13 @@ var
     TextSet.FillText(Canvas, RectF(X, Y, R.Right, R.Bottom), LText, Opacity, LColor,
           TextSet.FillTextFlags, @S, Canvas.Scale, TTextAlign.Leading, TTextAlign.Leading);
 
-    if Item.Link >= 0 then // 记录超链接区域
+    if Item.Link >= 0 then // Record hyperlink area
       FLinkRange[Item.Link] := RectF(X, Y, X + S.Width, Y + S.Height);
 
      X := X + S.Width;
   end;
 
-  // Flag 非0时用于计算大小
+  // Flag Non-zero for calculating size
   procedure DrawWordWarpText(const LText: string; const Item: THtmlTextItem; const LColor: TAlphaColor; 
     var X, Y: Single; const LX, MW: Single; var S: TSizeF; Flag: Integer = 0);
   var
@@ -8764,7 +8763,7 @@ var
 
 
     if Item.Link >= 0 then begin
-      // 超链接不换行
+      // Hyperlink does not wrap
       if X > LX then begin
         TextSet.TextSize(LText, S, Canvas.Scale);
         if X + S.Width > MW then begin
@@ -8782,13 +8781,13 @@ var
         X := X + S.Width;
         S.Width := Max(LW, X);
       end;
-      if S.Height > CharH then begin  // 超链接换行后，尾部不再跟其它内容
+      if S.Height > CharH then begin  // After the hyperlink is wrapped, the tail is no longer related to other content.
         Y := Y + S.Height;
         X := LX;
       end;       
 
     end else begin
-      // 自动换行
+      // Automatic line break
       P := PChar(LText);
       PE := P + Length(LText);
       while P < PE do begin
@@ -8896,7 +8895,7 @@ begin
   FFont.Assign(TextSet.Font);
 
   if LWordWarp then begin
-    TextSet.TextSize('yh中', S, Canvas.Scale);
+    TextSet.TextSize('Text', S, Canvas.Scale);
     CharW := S.Width / 4;
     CharH := S.Height;
   end;
@@ -8908,7 +8907,7 @@ begin
   end;
 
   if ASize <> nil then begin
-    // 测算高度
+    // Measuring height
     ASize.Width := S.Width;
     ASize.Height := S.Height;  
       
@@ -9175,7 +9174,7 @@ procedure TViewHtmlText.ParseHtmlText(const Text: string);
               ReadStyleProperty(Item, Value);
           end
         );
-      end else if StrLComp(P, 'a ', 2) = 0 then begin  // a 超链接
+      end else if StrLComp(P, 'a ', 2) = 0 then begin  // a Hyperlink
         Inc(P, 1);
         ReadProperty(Item, P, PE, 
           procedure (var Item: THtmlTextItem; const Key, Value: string)
@@ -9352,7 +9351,7 @@ procedure TViewHtmlText.ParseHtmlText(const Text: string);
           SetString(LE, P, P1 - P);
           LE := LowerCase(Trim(LE));
 
-          if LE = 'br' then begin // 换行
+          if LE = 'br' then begin // Wrap
             AddItem(PLineBreak, 1, LS);
             LS := '';
             P := P1 + 1;
