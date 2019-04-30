@@ -10,7 +10,7 @@ uses
 
 type
   /// <summary>
-  /// ListView 默认头部
+  /// ListView default header
   /// </summary>
   TListViewDefaultHeader = class(TFrame, IListViewHeader)
     RelativeLayout1: TRelativeLayout;
@@ -40,10 +40,10 @@ uses
 constructor TListViewDefaultHeader.Create(AOwner: TComponent);
 begin
   inherited;
-  FStatePullDownStart := '下拉刷新';
-  FStatePullDownOK := '松开立即刷新';
-  FStatePullDownFinish := '正在刷新...';
-  FStatePullDownComplete := '刷新完成';
+  FStatePullDownStart := 'Pull down to refresh';
+  FStatePullDownOK := 'Release and refresh immediately';
+  FStatePullDownFinish := 'Refreshing...';
+  FStatePullDownComplete := 'Refresh completed';
 end;
 
 procedure TListViewDefaultHeader.DoUpdateState(const State: TListViewState;
