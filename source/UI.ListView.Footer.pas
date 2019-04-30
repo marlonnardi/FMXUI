@@ -32,13 +32,13 @@ constructor TListViewDefaultFooter.Create(AOwner: TComponent);
 begin
   inherited;
   {$IFDEF MSWINDOWs}
-  FStatePullUpStart := '点击加载更多';
+  FStatePullUpStart := 'Click to load more';
   {$ELSE}
-  FStatePullUpStart := '上拉或点击加载更多';
+  FStatePullUpStart := 'Pull up or click to load more';
   {$ENDIF}
-  FStatePullUpOK := '松开加载更多';
-  FStatePullUpFinish := '正在加载...';
-  FStatePullUpComplete := '加载完成';
+  FStatePullUpOK := 'Release and load more';
+  FStatePullUpFinish := 'loading...';
+  FStatePullUpComplete := 'Loading completed';
 end;
 
 procedure TListViewDefaultFooter.DoUpdateState(const State: TListViewState;
