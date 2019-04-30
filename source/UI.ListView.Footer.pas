@@ -31,7 +31,7 @@ implementation
 constructor TListViewDefaultFooter.Create(AOwner: TComponent);
 begin
   inherited;
-  {$IFDEF MSWINDOWs}
+  {$IFDEF MSWINDOW}
   FStatePullUpStart := 'Click to load more';
   {$ELSE}
   FStatePullUpStart := 'Pull up or click to load more';
