@@ -1874,6 +1874,14 @@ var
   FAudioManager: JAudioManager = nil;
   {$ENDIF}
 
+function AlignToPixel(Canvas: TCanvas; const Rect: TRectF): TRectF;
+begin
+  Result.Left := Canvas.AlignToPixelHorizontally(Rect.Left);
+  Result.Top := Canvas.AlignToPixelVertically(Rect.Top);
+  Result.Right := Result.Left + Round(Rect.Width * Canvas.Scale) / Canvas.Scale; // keep ratio horizontally
+  Result.Bottom := Result.Top + Round(Rect.Height * Canvas.Scale) / Canvas.Scale; // keep ratio vertically
+end;
+
 function ComponentStateToString(const State: TComponentState): string;
 
   procedure Write(var P: PChar; const V: string);
@@ -2536,7 +2544,7 @@ begin
       if Assigned(TViewBrushBase(ABrush).FAccessory) then begin
         Bmp := TViewBrushBase(ABrush).FAccessory.FAccessoryBmp;
         if Assigned(Bmp) then
-          Canvas.DrawBitmap(Bmp, RectF(0, 0, Bmp.Width, Bmp.Height), Canvas.AlignToPixel(ARect), AOpacity);
+          Canvas.DrawBitmap(Bmp, RectF(0, 0, Bmp.Width, Bmp.Height), AlignToPixel(Canvas, ARect), AOpacity);
       end;
     end else if Ord(ABrush.Kind) = Ord(TViewBrushKind.SVGImage) then begin
       if Assigned(TViewBrushBase(ABrush).FSvgImage) then begin
@@ -6838,7 +6846,7 @@ begin
         end;
       TViewBorderStyle.LineTop:
         begin
-          Canvas.FillRect(Canvas.AlignToPixel(RectF(R.Left, R.Top, R.Right, R.Top + FBorder.Width)),
+          Canvas.FillRect(AlignToPixel(Canvas, RectF(R.Left, R.Top, R.Right, R.Top + FBorder.Width)),
             XRadius, YRadius, FCorners, AOpacity, FBorder.Brush, FCornerType);
         end;
       TViewBorderStyle.LineBottom:
