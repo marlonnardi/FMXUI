@@ -1,4 +1,4 @@
-{*******************************************************}
+﻿{*******************************************************}
 {                                                       }
 {       FMX UI Core base unit                           }
 {                                                       }
@@ -48,8 +48,22 @@ uses
 
 const
   AllCurrentPlatforms =
-    pidWin32 or pidWin64 or pidOSX32 or
-    pidiOSSimulator or pidiOSDevice or pidAndroid;
+    pidWin32 or
+    pidWin64 or
+    pidOSX32 or
+    {$IF CompilerVersion >= 33}
+    pidiOSDevice32 or
+    pidiOSDevice64 or
+    pidiOSSimulator32 or
+    pidiOSSimulator64 or
+    pidAndroid32Arm or
+    pidAndroid64Arm
+    {$ELSE}
+    pidiOSSimulator or
+    pidiOSDevice or
+    pidAndroid
+    {$ENDIF}
+    ;
 
 type
   IView = interface;
