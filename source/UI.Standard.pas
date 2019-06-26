@@ -852,6 +852,7 @@ type
     FAutoSize: Boolean;
     FAdjustSizeing: Boolean;
     FValueOutTail: string;
+    FGravity: TLayoutGravity;
     procedure SetValue(const Value: Integer);
     procedure SetMaxValue(const Value: Integer);
     procedure SetTargetView(const Value: IView);
@@ -867,17 +868,17 @@ type
     function GetValue: Integer;
     function GetMaxValue: Integer;
     function GetStyle: TBadgeStyle;
+    procedure MarginsChanged(Sender: TObject);
+    procedure SetGravity(const Value: TLayoutGravity);
   protected
     procedure Paint; override;
     procedure Resize; override;
     procedure DoRealign; override;
     procedure DoAdjustSize; virtual;
     function GetDefaultSize: TSizeF; override;
-    function GetFirstParent: TFmxObject;
     procedure DoChanged(Sender: TObject); virtual;
     procedure DoTextChanged(Sender: TObject); virtual;
     procedure DoMatrixChanged(Sender: TObject); override;
-    procedure AncestorParentChanged; override;
     procedure PaddingChanged; override;
     function GetViewText: string;
   public
@@ -922,6 +923,10 @@ type
     /// Icon to display when Style is Icon
     /// </summary>
     property Icon: TBrush read GetIcon write SetIcon;
+    /// <summary>
+    /// 重力。也就是组件的位于容器的位置。
+    /// </summary>
+    property Gravity: TLayoutGravity read FGravity write SetGravity default TLayoutGravity.RightTop;
 
     property Width;
     property Height;
@@ -3522,6 +3527,8 @@ begin
   SetAcceptsControls(False);
   if csDesigning in ComponentState then
     GetIcon;
+  Margins.OnChange := MarginsChanged;
+  FGravity := TLayoutGravity.RightTop;
 end;
 
 destructor TBadgeView.Destroy;
@@ -3601,9 +3608,47 @@ begin
     Exit;
   FDisableAlign := True;
   P := FTargetView.LocalToAbsolute(TPointF.Zero);
-  Position.Point := PointF(
-    P.X + FTargetView.Width - Width * 0.65 + Margins.Left,
-    P.Y - Height * 0.35 + Margins.Top{$IFDEF ANDROID} - TView.GetStatusHeight{$ENDIF});
+  if Parent is TControl then
+    P := P - TControl(Parent).LocalToAbsolute(TPointF.Zero);
+  case FGravity of
+    TLayoutGravity.None: ;
+    TLayoutGravity.LeftTop:
+      Position.Point := PointF(
+        P.X - Width * 0.35 + Margins.Left,
+        P.Y - Height * 0.35 + Margins.Top);
+    TLayoutGravity.LeftBottom:
+      Position.Point := PointF(
+        P.X - Width * 0.35 + Margins.Left,
+        P.Y + FTargetView.Height - Height * 0.65 + Margins.Top);
+    TLayoutGravity.RightTop:
+      Position.Point := PointF(
+        P.X + FTargetView.Width - Width * 0.65 + Margins.Left,
+        P.Y - Height * 0.35 + Margins.Top);
+    TLayoutGravity.RightBottom:
+      Position.Point := PointF(
+        P.X + FTargetView.Width - Width * 0.65 + Margins.Left,
+        P.Y + FTargetView.Height - Height * 0.65 + Margins.Top);
+    TLayoutGravity.CenterVertical:
+      Position.Point := PointF(
+        P.X - Width * 0.35 + Margins.Left,
+        P.Y + (FTargetView.Height - Height) / 2 + Margins.Top);
+    TLayoutGravity.CenterHorizontal:
+      Position.Point := PointF(
+        P.X + (FTargetView.Width - Width) / 2 + Margins.Left,
+        P.Y - Height * 0.35 + Margins.Top);
+    TLayoutGravity.CenterHBottom:
+      Position.Point := PointF(
+        P.X + (FTargetView.Width - Width) / 2 + Margins.Left,
+        P.Y + FTargetView.Height - Height * 0.65 + Margins.Top);
+    TLayoutGravity.CenterVRight:
+      Position.Point := PointF(
+        P.X + FTargetView.Width - Width * 0.65 + Margins.Left,
+        P.Y + (FTargetView.Height - Height) / 2 + Margins.Top);
+    TLayoutGravity.Center:
+      Position.Point := PointF(
+        P.X + (FTargetView.Width - Width) / 2 + Margins.Left,
+        P.Y + (FTargetView.Height - Height) / 2 + Margins.Top);
+  end;
   FDisableAlign := False;
 end;
 
@@ -3621,20 +3666,6 @@ end;
 function TBadgeView.GetDefaultSize: TSizeF;
 begin
   Result := TSizeF.Create(16, 16);
-end;
-
-function TBadgeView.GetFirstParent: TFmxObject;
-begin
-  Result := Self;
-  while Result.Parent <> nil do begin
-    if csDesigning in ComponentState then begin
-      if Result.Parent.ClassName = 'TControlForm' then
-        Break;
-    end;
-    Result := Result.Parent;
-    if Result is TCustomForm then
-      Break;
-  end;
 end;
 
 function TBadgeView.GetIcon: TBrush;
@@ -3693,6 +3724,11 @@ begin
     Result := (FValue > 0)
 end;
 
+procedure TBadgeView.MarginsChanged(Sender: TObject);
+begin
+  DoRealign;
+end;
+
 procedure TBadgeView.PaddingChanged;
 begin
   inherited PaddingChanged;
@@ -3739,18 +3775,6 @@ begin
   DoRealign;
 end;
 
-procedure TBadgeView.AncestorParentChanged;
-var
-  LParent: TFmxObject;
-begin
-  inherited AncestorParentChanged;
-  if csDesigning in ComponentState then begin
-    LParent := GetFirstParent;
-    if (Parent <> LParent) and (LParent <> nil) and (LParent <> Self) then
-      Parent := LParent;
-  end;
-end;
-
 procedure TBadgeView.SetAutoSize(const Value: Boolean);
 begin
   if FAutoSize <> Value then begin
@@ -3765,6 +3789,15 @@ end;
 procedure TBadgeView.SetBackground(const Value: TBadgeBackground);
 begin
   FBackground.Assign(Value);
+end;
+
+procedure TBadgeView.SetGravity(const Value: TLayoutGravity);
+begin
+  if FGravity <> Value then begin
+    FGravity := Value;
+    DoRealign;
+    Repaint;
+  end;
 end;
 
 procedure TBadgeView.SetIcon(const Value: TBrush);
