@@ -13,6 +13,10 @@ FMXUI
 
 ## Requirement
   Delphi 10 +
+  
+## Project Participant (Thank)
+
+  **[@KngStr](https://github.com/KngStr)**
 
 ## FMXUI Classes
 
