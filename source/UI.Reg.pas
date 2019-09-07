@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI ×é¼ş×¢²áµ¥Ôª                             }
+{       FMX UI ç»„ä»¶æ³¨å†Œå•å…ƒ                             }
 {                                                       }
-{       °æÈ¨ËùÓĞ (C) 2016 YangYxd                       }
+{       ç‰ˆæƒæ‰€æœ‰ (C) 2016 YangYxd                       }
 {                                                       }
 {*******************************************************}
 
@@ -136,7 +136,7 @@ var
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-// ÉèÖÃ»·¾³±äÁ¿
+// è®¾ç½®ç¯å¢ƒå˜é‡
 procedure SetEnvPath(const sName, sValue: string);
 var
   reg : TRegistry;
@@ -149,7 +149,7 @@ begin
     if reg.OpenKey(sLMKey,False) then begin
       reg.WriteString(sName, sValue);
       reg.CloseKey;
-      SetEnvironmentVariable(PChar(sName), PChar(sValue));//¸üĞÂµ±Ç°½ø³ÌµÄ»·¾³±äÁ¿
+      SetEnvironmentVariable(PChar(sName), PChar(sValue));//æ›´æ–°å½“å‰è¿›ç¨‹çš„ç¯å¢ƒå˜é‡
     end;
   except
   end;
@@ -555,7 +555,7 @@ end;
 
 function TViewControlEditor.GetVerb(Index: Integer): string;
 const
-  CmdNames: TArray<string> = ['Ç°ÒÆ', 'ºóÒÆ', 'ÒÆÖÁ×îÇ°', 'ÒÆÖÁ×îºó',
+  CmdNames: TArray<string> = ['Send', 'Back shift', 'Move to the front', 'Move to the end',
     'Copy Background', 'Paste Background', 'Copy Drawable', 'Paste Drawable'];
 begin
   Result := CmdNames[FCmdIndex[Index]];
@@ -609,7 +609,7 @@ begin
     Exit;
   Dialog := TBoundsDesigner.Create(nil);
   try
-    Dialog.Caption := '9¹¬¸ñ»æÍ¼±à¼­Æ÷';
+    Dialog.Caption := '9-square drawing editor';
     Dialog.Bitmap := TPatch9Bitmap(Component).Bitmap;
     Dialog.Bounds := TPatch9Bitmap(Component).Bounds.Rect;
     if Dialog.ShowModal = mrOK then begin
@@ -720,7 +720,7 @@ begin
     Exit;
   Dialog := TGridColumnsDesigner.Create(nil);
   try
-    Dialog.Caption := 'GridView ÁĞÉè¼ÆÆ÷ (Òş²ØµÄÁĞÇëÍ¨¹ıµã»÷¡°ÉÏÒ»Ïî¡±»ò¡°ÏÂÒ»Ïî¡±ÇĞ»»)';
+    Dialog.Caption := 'GridView Column Designer (hidden columns please switch by clicking "Previous" or "Next")';
     Dialog.Columns := TGridView(Component).Columns;
     if Dialog.ShowModal = mrOK then
       TGridView(Component).Columns.Assign(Dialog.Columns);
