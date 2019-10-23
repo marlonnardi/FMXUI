@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI Standard component unit                  }
+{       FMX UI 标准组件单元                             }
 {                                                       }
-{       all rights reserved (C) 2016 YangYxd            }
+{       版权所有 (C) 2016 YangYxd                       }
 {                                                       }
 {*******************************************************}
 
@@ -42,11 +42,11 @@ type
   end;
 
 type
-  TRingViewStyle = (Rectangle {鐭╁舰}, Circle {鍦嗗舰}, Ellipse {妞渾});
+  TRingViewStyle = (Rectangle {矩形}, Circle {圆形}, Ellipse {椭圆});
 
 type
   /// <summary>
-  /// Hollow graphic view
+  /// 空心图形视图
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TRingView = class(TView)
@@ -79,36 +79,36 @@ type
     function PointInObject(X, Y: Single): Boolean; override;
   published
     /// <summary>
-    /// Outer style
+    /// 外层样式
     /// </summary>
     property KindOuter: TRingViewStyle read FOuter write SetOuter default TRingViewStyle.Rectangle;
     /// <summary>
-    /// Inner style
+    /// 内层样式
     /// </summary>
     property KindInner: TRingViewStyle read FInner write SetInner default TRingViewStyle.Ellipse;
     /// <summary>
-    /// Distance between inner and outer layers
+    /// 内层与外层之间的距离
     /// </summary>
     property Distance: Single read FDistance write SetDistance stored IsStoredDistance;
     /// <summary>
-    /// Start angle, valid when Style is not a Rectangle
+    /// 开始角度，当 Style 不是 Rectangle 时有效
     /// </summary>
     property AngleStart: Single read FStartAngle write SetStartAngle;
     /// <summary>
-    /// Angle, valid when Style is not a Rectangle
+    /// 角度，当 Style 不是 Rectangle 时有效
     /// </summary>
     property AngleEnd: Single read FAngle write SetEndAngle;
     /// <summary>
-    /// Is it possible to click on the path?
+    /// 是否是能点击到路径上
     /// </summary>
     property ClickInPath: Boolean read FClickInPath write FClickInPath default True;
   end;
 
 type
   /// <summary>
-  /// Progress view type
+  /// 进度视图类型
   /// </summary>
-  TProgressKind = (Horizontal {姘村钩}, Vertical {鍨傜洿}, CircleRing {鍦嗙幆});
+  TProgressKind = (Horizontal {水平}, Vertical {垂直}, CircleRing {圆环});
 
 type
   TDrawableProgress = class(TDrawable)
@@ -130,7 +130,7 @@ type
 
 type
   /// <summary>
-  /// Progress view
+  /// 进度视图
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TProgressView = class(TView)
@@ -166,49 +166,49 @@ type
     destructor Destroy; override;
   published
     /// <summary>
-    /// Minimum value
+    /// 最小值
     /// </summary>
     property Min: Int64 read FMin write SetMinValue default 0;
     /// <summary>
-    /// Maximum
+    /// 最大值
     /// </summary>
     property Max: Int64 read FMax write SetMaxValue default 100;
     /// <summary>
-    /// The current value
+    /// 当前值
     /// </summary>
     property Value: Int64 read FValue write SetProValue default 50;
     /// <summary>
-    /// Foreground layer style (drawing of displayed values)
+    /// 前景层样式 (显示值的绘制)
     /// </summary>
     property ForeGround: TDrawableProgress read FForeGround write SetForeGround;
     /// <summary>
-    /// Starting angle
+    /// 开始角度
     /// </summary>
     property StartAngle: Single read FStartAngle write SetStartAngle;
     /// <summary>
-    /// Progress bar type
+    /// 进度条类型
     /// </summary>
     property Kind: TProgressKind read FKind write SetKind default TProgressKind.Horizontal;
     /// <summary>
-    /// Empty border position when there is a border
+    /// 前存在边框时，空出边框位置
     /// </summary>
     property PaddingBorder: Boolean read FPaddingBorder write SetPaddingBorder default False;
     /// <summary>
-    /// Current value change event
+    /// 当前值变更事件
     /// </summary>
     property OnValueChange: TNotifyEvent read FOnValueChange write FOnValueChange;
   end;
 
 type
   TImageScaleType = (
-    None, {No}
-    Matrix, {matrix}
-    Center, {Display a picture in the center of the view without zooming the picture}
-    CenterCrop, {Scale the image proportionally so that the length (width) of the image is greater than or equal to the corresponding dimension of the view}
-    CenterInside, {Scale the image proportionally so that the length (width) of the image is less than or equal to the corresponding dimension of the view}
-    FitCenter, {Scale the image to the smallest side of the view, centered}
-    FitStart, {Scales up/down the image to the smallest side of the view, showing it in the upper part of the view}
-    FitEnd  {Scale the image to the smallest side of the view, showing it in the lower part of the view}
+    None, {无}
+    Matrix, {矩阵}
+    Center, {在视图中心显示图片，并且不缩放图片}
+    CenterCrop, {按比例缩放图片，使得图片长 (宽)的大于等于视图的相应维度}
+    CenterInside, {按比例缩放图片，使得图片长 (宽)的小于等于视图的相应维度}
+    FitCenter, {按比例缩放图片到视图的最小边，居中显示}
+    FitStart, { 把图片按比例扩大/缩小到视图的最小边，显示在视图的上部分位置}
+    FitEnd  {按比例缩放图片到视图的最小边，显示在视图的下部分位置}
   );
 
 type
@@ -231,18 +231,18 @@ type
     destructor Destroy; override;
   published
     /// <summary>
-    /// Drawable image
+    /// 可绘制图像
     /// </summary>
     property Image: TDrawable read GetImage write SetImage;
     /// <summary>
-    /// Zoom type
+    /// 缩放类型
     /// </summary>
     property ScaleType: TImageScaleType read FScaleType write SetScaleType default TImageScaleType.None;
   end;
 
 type
   /// <summary>
-  /// Image Browser {Rewritten by TksImageViewer}
+  /// 图像浏览器  {由 TksImageViewer 改写}
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TImageViewerEx = class(TView)
@@ -287,7 +287,7 @@ type
     property Image: TBitmap read FBitmap write SetBitmap;
     property Zoom: integer read FZoom write SetZoom default 100;
     /// <summary>
-    /// Whether to stretch
+    /// 是否拉伸
     /// </summary>
     property Stretch: Boolean read FStretch write SetStretch default False;
 
@@ -302,10 +302,12 @@ type
 type
   TScrollView = class;
   TOnCalcContentBoundsEvent = procedure (Sender: TObject; var ContentBounds: TRectF) of object;
+  TPositionChangeEvent = procedure(Sender: TObject; const OldViewportPosition,
+    NewViewportPosition: TPointD; const ContentSizeChanged: Boolean) of object;
   PRectD = ^TRectD;
 
   /// <summary>
-  /// Scroll view
+  /// 滚动视图
   /// </summary>
   TScrollView = class(TView, IViewTouch)
   private const
@@ -324,6 +326,7 @@ type
     FScrollbarWidth: Single;
 
     FOnScrollChange: TNotifyEvent;
+    FOnViewportPositionChange: TPositionChangeEvent;
 
     function GetViewportPosition: TPointD;
     procedure SetViewportPosition(const Value: TPointD);
@@ -402,6 +405,7 @@ type
     function GetHScrollBar: TScrollBar; override;
     function GetContentBounds: TRectD; override;
     function GetScrollSmallChangeFraction: Single;  override;
+    procedure ViewportPositionChange(const OldViewportPosition, NewViewportPosition: TPointD; const ContentSizeChanged: boolean); virtual;
 
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Single); override;
@@ -444,46 +448,47 @@ type
     procedure ScrollBy(const Dx, Dy: Double);
     procedure ScrollTo(const Dx, Dy: Double);
 
-    // Refresh start
+    // 刷新开始
     procedure PullRefreshStart(); virtual;
 
     property VScrollBarValue: Double read GetVScrollBarValue write SetVScrollBarValue;
     property HScrollBarValue: Double read GetHScrollBarValue write SetHScrollBarValue;
-    // Get the percentage of the scrollbar where it is located
+    // 获取滚动条所在位置的百分比
     property ScrollValueV: Single read GetScrollValueV;
-    // Get the percentage of the scrollbar where it is located
+    // 获取滚动条所在位置的百分比
     property ScrollValueH: Single read GetScrollValueH;
-    // Whether it can scroll vertically
+    // 是否可以垂直滚动
     property CanVScroll: Boolean read FCanScrollV;
-    // Is it possible to scroll horizontally?
+    // 是否可以水平滚动
     property CanHScroll: Boolean read FCanScrollH;
     /// <summary>
-    /// Whether to enable mouse drag scrolling (valid on non-mobile platforms)
+    /// 是否启用鼠标拖动滚动功能 （在非移动平台上设置有效）
     /// </summary>
     property DragScroll: Boolean read FDragScroll write SetDragScroll default False;
     /// <summary>
-    /// Whether it can only be one way when dragging
+    /// 拖动时是否只能单向
     /// </summary>
     property DragOneWay: Boolean read FDragOneWay write SetDragOneWay default False;
-    // Whether to display the scroll bar
+    // 是否显示滚动条
     property ShowScrollBars: Boolean read FShowScrollBars write SetShowScrollBars default True;
-    // Viewport position
+    // 视口位置
     property ViewportPosition: TPointD read GetViewportPosition write SetViewportPosition;
-    // Scroll bar width
+    // 滚动条宽度
     property ScrollbarWidth: Single read FScrollbarWidth write SetScrollbarWidth stored IsStoredScrollbarWidth;
-    // Rolling stretch color
+    // 滚动伸展区颜色
     property ScrollStretchGlowColor: TAlphaColor read FScrollingStretchGlowColor write FScrollingStretchGlowColor stored IsStoredScrollStretchGlowColor;
-    // Scroll bar minimum change value
+    // 滚动条最小改变值
     property ScrollSmallChangeFraction: Single read GetScrollSmallChangeFraction write SetScrollSmallChangeFraction stored IsStoredScrollSmallChangeFraction;
     property OnScrollChange: TNotifyEvent read FOnScrollChange write FOnScrollChange;
+    property OnViewportPositionChange: TPositionChangeEvent read FOnViewportPositionChange write FOnViewportPositionChange;
   published
   end;
 
 type
-  TVertScrollView = class;
+  TPullScrollView = class;
 
   /// <summary>
-  /// Scroll view content
+  /// 滚动视图内容
   /// </summary>
   TViewScrollContent = class(TLinearLayout, IContent)
   private
@@ -509,10 +514,10 @@ type
   end;
 
   /// <summary>
-  /// Vertical scroll view
+  /// 拉动更新滚动视图
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
-  TVertScrollView = class(TScrollView)
+  TPullScrollView = class(TScrollView)
   private const
     CSContentName = 'ContentLayout';
   private
@@ -520,12 +525,12 @@ type
     FEnablePullRefresh: Boolean;
     FEnablePullLoad: Boolean;
 
-    // Pull down refresh, pull up load more
-    FState: TListViewState;      // List view state
-    FHeader: IListViewHeader;    // Head pull down refresh list view
-    FFooter: IListViewHeader;    // Tail pull up to load more views
+    // 下拉刷新，上拉加载更多
+    FState: TListViewState;      // 列表视图状态
+    FHeader: IListViewHeader;    // 头部下拉刷新列表视图
+    FFooter: IListViewHeader;    // 尾部上拉加载更多视图
 
-    FLastScrollValue: Double; // Last scroll bar position
+    FLastScrollValue: Double; // 上次滚动条位置
     FOffsetScroll: Single;
 
     FOnInitFooter: TOnInitHeader;
@@ -538,8 +543,9 @@ type
     function GetContentControlItem(const Index: Integer): TControl;
   protected
     function CreateScroll: TScrollBar; override;
-    procedure InvalidateContentSize(); override; // Calculate the size of the content area
+    procedure InvalidateContentSize(); override; // 计算内容区大小
     procedure VScrollChange(Sender: TObject); override;
+    procedure HScrollChange(Sender: TObject); override;
     function AllowInitScrollbar: Boolean; override;
     procedure DoPullLoad(Sender: TObject);
     procedure AniMouseUp(const Touch: Boolean; const X, Y: Single); override;
@@ -581,18 +587,21 @@ type
     procedure FreeFooter(); virtual;
     procedure DoPullLoadComplete; virtual;
     procedure DoPullRefreshComplete; virtual;
+    function CheckState(AState: TListViewState): Boolean;
+    procedure DoUpdateState(AObject: IListViewHeader;
+      const State: TListViewState; const ScrollValue: Double = 0);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    // Refresh start
+    // 刷新开始
     procedure PullRefreshStart(); override;
-    // Refresh completed
+    // 刷新完成
     procedure PullRefreshComplete();
-    // Load more complete
+    // 加载更多完成
     procedure PullLoadComplete();
 
-    // Number of internal controls
+    // 内部控件数量
     property ContentControlsCount: Integer read GetContentChildCount;
     property ContentControls[const Index: Integer]: TControl read GetContentControlItem;
   published
@@ -606,53 +615,57 @@ type
     property ScrollSmallChangeFraction;
 
     /// <summary>
-    /// Whether to enable pull-down refresh
+    /// 是否启用拉动刷新
     /// </summary>
     property EnablePullRefresh: Boolean read FEnablePullRefresh write SetEnablePullRefresh default False;
     /// <summary>
-    /// Whether to enable pull-up loading more
+    /// 是否启用拉动加载更多
     /// </summary>
     property EnablePullLoad: Boolean read FEnablePullLoad write SetEnablePullLoad default False;
 
     /// <summary>
-    /// Load the Footer event, if not set, will load the default Footer when needed
+    /// 加载 Footer 事件, 如果不设置，将在需要时加载默认的 Footer
     /// </summary>
     property OnInitFooter: TOnInitHeader read FOnInitFooter write FOnInitFooter;
     /// <summary>
-    /// Load Header event, if not set, will load the default Header when needed
+    /// 加载 Header 事件, 如果不设置，将在需要时加载默认的 Header
     /// </summary>
     property OnInitHeader: TOnInitHeader read FOnInitHeader write FOnInitHeader;
     /// <summary>
-    /// Pulldown refresh event
+    /// 下拉刷新事件
     /// </summary>
     property OnPullRefresh: TNotifyEvent read FOnPullRefresh write FOnPullRefresh;
     /// <summary>
-    /// Pull up to load more events
+    /// 上拉加载更多事件
     /// </summary>
     property OnPullLoad: TNotifyEvent read FOnPullLoad write FOnPullLoad;
 
     property OnScrollChange;
+    property OnViewportPositionChange;
   end;
 
-type
   /// <summary>
-  /// Horizontal scroll view
+  /// 垂直滚动视图
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
-  THorzScrollView = class(TVertScrollView)
+  TVertScrollView = class(TPullScrollView)
   protected
-    procedure InvalidateContentSize(); override; // Calculate the size of the content area
-    procedure HScrollChange(Sender: TObject); override;
-
-    procedure DoRealignContent; override;
     procedure DoSetDefaulatScrollBars; override;
-    procedure CreateContentView(); override;
-  public
   end;
 
 type
   /// <summary>
-  /// Text view
+  /// 水平滚动视图
+  /// </summary>
+  [ComponentPlatformsAttribute(AllCurrentPlatforms)]
+  THorzScrollView = class(TPullScrollView)
+  protected
+    procedure DoSetDefaulatScrollBars; override;
+  end;
+
+type
+  /// <summary>
+  /// 文本视图
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TTextView = class(TScrollView, ICaption{$IF CompilerVersion > 30.0}, IAcceleratorKeyReceiver{$ENDIF})
@@ -765,7 +778,7 @@ type
 
 type
   /// <summary>
-  /// Button view
+  /// 按钮视图
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TButtonView = class(TStyleView)
@@ -888,39 +901,39 @@ type
     property Text: string read GetText;
   published
     /// <summary>
-    /// Whether it is automatic size
+    /// 是否自动大小
     /// </summary>
     property AutoSize: Boolean read FAutoSize write SetAutoSize;
     /// <summary>
-    /// Target view
+    /// 目标View
     /// </summary>
     property TargetView: IView read FTargetView write SetTargetView;
     /// <summary>
-    /// Effect style
+    /// 效果样式
     /// </summary>
     property Style: TBadgeStyle read FStyle write SetStyle default TBadgeStyle.NumberText;
     /// <summary>
-    /// Shows the maximum value of Value when Style is a NumberText
+    /// 当 Style 为 NumberText 时，显示 Value 的最大值
     /// </summary>
     property MaxValue: Integer read FMaxValue write SetMaxValue default 99;
     /// <summary>
-    /// The value to display when Style is NumberText
+    /// 当 Style 为 NumberText 时，要显示的数值
     /// </summary>
     property Value: Integer read FValue write SetValue default 0;
     /// <summary>
-    /// When Style is NumberText, when the value is greater than MaxValue, the content to be added to the genre, such as "+"
+    /// 当 Style 为 NumberText 时，数值大于MaxValue时，要在属部加入的内容，如 "+"
     /// </summary>
     property ValueOutTail: string read FValueOutTail write SetValueOutTail;
     /// <summary>
-    /// background color
+    /// 背景颜色
     /// </summary>
     property Background: TBadgeBackground read FBackground write SetBackground;
     /// <summary>
-    /// Font setting
+    /// 字体设置
     /// </summary>
     property TextSettings: TSimpleTextSettings read FText write SetTextSettings;
     /// <summary>
-    /// Icon to display when Style is Icon
+    /// 当 Style 为 Icon 时，要显示的图标
     /// </summary>
     property Icon: TBrush read GetIcon write SetIcon;
     /// <summary>
@@ -937,6 +950,7 @@ type
     property RotationCenter;
     property Margins;
     property Padding;
+    property Enabled;
     property Visible;
     property OnPaint;
   end;
@@ -961,11 +975,11 @@ type
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   published
     /// <summary>
-    /// Filling brush
+    /// 填充刷子
     /// </summary>
     property Fill: TBrush read GetFill write SetFill;
     /// <summary>
-    /// Border brush
+    /// 边框画笔
     /// </summary>
     property Border: TStrokeBrush read GetStroke write SetStroke;
   end;
@@ -995,25 +1009,25 @@ type
     property OnChange: TNotifyEvent read FOnChanged write FOnChanged;
   published
     /// <summary>
-    /// When activated
+    /// 激活时
     /// </summary>
     property ItemDefault: TPathViewStyle read GetDefaultStyle write SetDefaultStyle;
     /// <summary>
-    /// When activated
+    /// 激活时
     /// </summary>
     property ItemActivated: TPathViewStyle read GetActiveStyle write SetActiveStyle;
     /// <summary>
-    /// Mouse over
+    /// 鼠标悬停时
     /// </summary>
     property ItemHovered: TPathViewStyle read GetHoverStyle write SetHoverStyle;
     /// <summary>
-    /// When pressed
+    /// 按下时
     /// </summary>
     property ItemPressed: TPathViewStyle read GetPressedStyle write SetPressedStyle;
   end;
 
   /// <summary>
-  /// Single path information
+  /// 单个路径信息
   /// </summary>
   TPathViewItem = class(TCollectionItem)
   private
@@ -1051,7 +1065,7 @@ type
     destructor Destroy; override;
     procedure ApplayScale;
     /// <summary>
-    /// path
+    /// 路径
     /// </summary>
     property Path: TPathData read GetPath write SetPath;
     property Owner: TControl read FOwner write SetOwner;
@@ -1059,15 +1073,15 @@ type
   published
     property PathData: string read FPathData write SetPathData;
     /// <summary>
-    /// Is it visible?
+    /// 是否可视
     /// </summary>
     property Visible: Boolean read FVisible write SetVisible default True;
     /// <summary>
-    /// style
+    /// 样式
     /// </summary>
     property Style: TPathViewStyles read GetStyle write SetStyle;
     /// <summary>
-    /// Zoom
+    /// 缩放
     /// </summary>
     property ScaleX: Single read FScaleX write SetScaleX stored IsStoreScaleX;
     property ScaleY: Single read FScaleY write SetScaleY stored IsStoreScaleY;
@@ -1075,13 +1089,13 @@ type
     property SizeWidth: Single read FWidth;
     property SizeHeight: Single read FHeight;
     /// <summary>
-    /// position
+    /// 位置
     /// </summary>
     property Gravity: TLayoutGravity read FGravity write SetGravity default TLayoutGravity.None;
   end;
 
   /// <summary>
-  /// Path set
+  /// 路径集合
   /// </summary>
   TPathViewCollection = class(TCollection)
   protected
@@ -1131,37 +1145,37 @@ type
 
     function PointInObject(X, Y: Single): Boolean; override;
 
-    /// <summary>Find the path item corresponding to the specified location</summary>
-    /// <param name="LocalPoint">a point coordinate within the path to find</param>
-    /// <returns>Return the found path, if not found, return empty</returns>
+    /// <summary>查找指定位置对应的路径项目</summary>
+    /// <param name="LocalPoint">要查找的路径内的一个点坐标</param>
+    /// <returns>返回找到的路径，如果没找到，返回空</returns>
     function ItemAt(const LocalPoint: TPointF): TPathViewItem;
-    /// <summary>Find the path item corresponding to the specified location</summary>
-    /// <param name="LocalPoint">a point coordinate within the path to find</param>
-    /// <returns>Returns the index of the found path, if not found, returns -1</returns>
+    /// <summary>查找指定位置对应的路径项目</summary>
+    /// <param name="LocalPoint">要查找的路径内的一个点坐标</param>
+    /// <returns>返回找到的路径的索引，如果没找到，返回-1</returns>
     function IndexAt(const LocalPoint: TPointF): Integer;
 
     /// <summary>
-    /// Path set
+    /// 路径集合
     /// </summary>
     property Paths: TPathViewCollection read FPaths write SetPaths;
     /// <summary>
-    /// Activated path index number
+    /// 激活的路径索引号
     /// </summary>
     property ActiveIndex: Integer read FActiveIndex write SetActiveIndex default -1;
     /// <summary>
-    /// The path index number to which the current mouse points
+    /// 当前鼠标指向的路径索引号
     /// </summary>
     property HoverIndex: Integer read FHoverIndex;
     /// <summary>
-    /// The currently pressed path index number
+    /// 当前按下的路径索引号
     /// </summary>
     property PressedIndex: Integer read FPressedIndex;
     /// <summary>
-    /// Returns the number of Paths
+    /// 返回 Paths 数量
     /// </summary>
     property PathCount: Integer read GetPathCount;
     /// <summary>
-    /// Is it possible to click on the path?
+    /// 是否是能点击到路径上
     /// </summary>
     property ClickInPath: Boolean read FClickInPath write FClickInPath default False;
 
@@ -1171,7 +1185,7 @@ type
 
 type
   /// <summary>
-  /// Multipath visual component
+  /// 多重路径可视组件
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TMultiPathView = class(TCustomMultiPathView)
@@ -1190,7 +1204,7 @@ type
   TScanBufferEvent = procedure (Sender: TObject; ABitmap: TBitmap) of object;
 
   /// <summary>
-  /// Camera image display
+  /// 摄像头图像显示器
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TCameraViewer = class(TView)
@@ -1266,7 +1280,7 @@ var
 begin
   if FInFitSize or (not FAdjustViewBounds) then
     Exit;
-  if TextSettings.WordWrap then begin // Only need to automatically wrap, you need to determine the width of the parent component
+  if TextSettings.WordWrap then begin // 只有需要自动换行时，才需要判断父级组件的宽度
     W := GetParentMaxWidth;
     H := GetParentMaxHeight;
   end else begin
@@ -1472,7 +1486,7 @@ begin
           if Assigned(FScrollH) and (FCanScrollH) then begin
             SR := GetRectF(FContentBounds^);
             SR.Top := R.Top;
-            // Windows platform displays scroll bars, other platforms will automatically hide
+            // windows平台显示滚动条，其它平台会自动隐藏
             if FShowScrollBars then
               SR.Bottom := R.Bottom{$IFDEF MSWINDOWS} - FScrollH.Height{$ENDIF}
             else
@@ -1520,10 +1534,10 @@ begin
     Exit;
   FInFitSize := True;
   try
-    // Calculate the maximum width of the text area. If it is 0, it will not wrap automatically.
+    // 计算出文本区域的最大宽度，如果为0，则不自动换行
     if FText.WordWrap then begin
       V := AWidth - Padding.Left - Padding.Right - Margins.Left - Margins.Right;
-      // If there is an icon and it is on the left or right, you need to subtract the icon size.
+      // 如果有icon，并且是在左边或右边，则还需要减去icon大小
       IconS := GetDrawableWidth;
       if (IconS > 0) and (FDrawable.Position in [TDrawablePosition.Left, TDrawablePosition.Right]) then
         V := V - IconS - FDrawable.Padding;
@@ -1534,7 +1548,7 @@ begin
     end else
       V := 0;
 
-    // Calculate the size of the text area
+    // 计算文本区域大小
     if Assigned(FHtmlText) and FText.WordWrap then begin
       if Scene.GetSceneScale >= 0 then
         FHtmlText.CalcTextSize(Canvas, TextSettings, RectF(0, 0, V, $FFFFFF), ASize)
@@ -1928,7 +1942,8 @@ begin
   inherited Create(AOwner);
   Clickable := True;
   CanFocus := True;
-  Padding.Rect := RectF(4, 4, 4, 4);
+  Padding.DefaultValue := RectF(4, 4, 4, 4);
+  Padding.Rect := Padding.DefaultValue;
   Gravity := TLayoutGravity.Center;
   if not Assigned(FBackground) then
     FBackground := CreateBackground;
@@ -1959,7 +1974,7 @@ end;
 
 procedure TButtonView.SetScrollbar(const Value: TViewScroll);
 begin
-  FScrollbar := Value; // Do not initialize scroll bars
+  FScrollbar := Value; // 不初始化滚动条
 end;
 
 { TScrollView }
@@ -2046,10 +2061,10 @@ var
   P: TPointD;
 begin
   if FDragOneWay then begin
-    // Only allowed to drag in one direction
+    // 只允许单向拖动时
     if FLastTouchTracking = [] then
       FLastTouchTracking := FAniCalculations.TouchTracking;
-    // When you start scrolling, you decide the direction
+    // 开始滚动时，就决定好方向
     if FScrollStart then begin
       FScrollStart := False;
       P := FAniCalculations.DownPoint;
@@ -2067,7 +2082,7 @@ end;
 
 procedure TScrollView.AniMouseUp(const Touch: Boolean; const X, Y: Single);
 begin
-//  if FScrollTrackPressed then  // Update the position of the button, or it will rebound
+//  if FScrollTrackPressed then  // 更新一下按钮时的位置，不然会回弹
 //    SetRttiValue<TPointD>(FAniCalculations, 'FDownPosition', ViewportPosition);
   FAniCalculations.MouseUp(X, Y);
   if (FAniCalculations.LowVelocity) or (not FAniCalculations.Animation) then
@@ -2127,9 +2142,9 @@ begin
       end;
     end;
     if CanInheritedCMGesture(EventInfo) then
-      inherited CMGesture(EventInfo); // Pass to the superior
+      inherited CMGesture(EventInfo); // 向上级传递
   end else
-    inherited CMGesture(EventInfo); // Pass to the superior
+    inherited CMGesture(EventInfo); // 向上级传递
 end;
 
 procedure TScrollView.ContentAddObject(const AObject: TFmxObject);
@@ -2251,7 +2266,16 @@ end;
 
 procedure TScrollView.DoScrollVisibleChange;
 begin
-  Realign;
+  if not FDisableAlign then
+    Realign
+  else begin
+    if Assigned(FScrollV) and FScrollV.Visible then
+      FScrollV.SetBounds(Width - FScrollV.Width - Padding.Left - Padding.Right,
+        0, FScrollV.Width, Height - Padding.Top - Padding.Bottom);
+    if Assigned(FScrollH) and FScrollH.Visible then
+      FScrollH.SetBounds(0, Height - FScrollH.Height - Padding.Top - Padding.Bottom,
+        Width - Padding.Left - Padding.Right, FScrollH.Height);
+  end;
 end;
 
 procedure TScrollView.DoUpdateAniCalculations(const AAniCalculations: TScrollCalculations);
@@ -2324,9 +2348,9 @@ begin
       if not Assigned(LScroll) then
         Exit;
       {$IFNDEF NEXTGEN}
-      // Non-mobile platform, dynamically update the value of the scroll bar after dragging the scroll bar
+      // 非移动平台，在拖动滚动条后，动态更新滚动条的值
       FTrackChanging := GetRttiValue<Boolean>(LScroll, 'FTrackChanging');
-      SetRttiValue<Boolean>(LScroll, 'FTrackChanging', False); // Temporarily set this variable to False, otherwise ignore this adjustment.
+      SetRttiValue<Boolean>(LScroll, 'FTrackChanging', False); // 临时将此变量设为False，否则为忽略本次调整
       try
         UpdateScrollBar(LScroll, FScrollbar, ValueOffset);
       finally
@@ -2552,7 +2576,7 @@ begin
       {$IF CompilerVersion < 32}
       if not Released then begin
       {$ELSE}
-      if Assigned(Self) then begin  // Tokyo deprecates Released and returns False forever
+      if Assigned(Self) then begin  // Tokyo 弃用 Released ，永远返回 False
       {$ENDIF}
         if (FCachedAutoShowing <> FAniCalculations.AutoShowing) and not FAniCalculations.AutoShowing then
           InvalidateContentSize;
@@ -2572,7 +2596,6 @@ begin
         NeedRePaint := False;
         Exit;
       end;
-      FLastViewportPosition := LViewportPosition;
       if UV and Assigned(FScrollV) then begin
         UpdateVScrollBar(LViewportPosition.Y, Height - Padding.Top - Padding.Bottom);
         if (LViewportPosition.Y = 0) or (LViewportPosition.Y >= GetMaxScrollViewPos) then
@@ -2580,6 +2603,14 @@ begin
       end;
       if UH then
         UpdateHScrollBar(LViewportPosition.X, Width - Padding.Left - Padding.Right);
+
+      if FLastViewportPosition <> LViewportPosition then
+        try
+          ViewportPositionChange(FLastViewportPosition, LViewportPosition, UV or UH);
+        finally
+          FLastViewportPosition := LViewportPosition;
+        end;
+
       if not (csDesigning in ComponentState) then begin
         if (not FAniCalculations.Animation) then
           FAniCalculations.UpdatePosImmediately(True)
@@ -2949,7 +2980,7 @@ begin
   R := ViewRect;
   if AScrollBar = TViewScroll.Vertical then begin
     {$IFDEF NEXTGEN}
-    FCanScrollV := True; // Mobile platforms always scroll
+    FCanScrollV := True; // 移动平台始终能滚动
     {$ELSE}
     FCanScrollV := FContentBounds.Height > R.Height;
     {$ENDIF}
@@ -2959,14 +2990,14 @@ begin
       LViewportPosition.Y := FAniCalculations.MaxTarget.Point.Y;
     UpdateVScrollBar(LViewportPosition.Y, R.Height);
     if (Assigned(AScroll)) then begin
-      if (AScroll.Visible <> FCanScrollV) or (AScroll.Visible and (FShowScrollBars = False)) then begin     
+      if (AScroll.Visible <> FCanScrollV) or (AScroll.Visible and (FShowScrollBars = False)) then begin
         AScroll.Visible := FCanScrollV and FShowScrollBars and (not FInVisible);
         DoScrollVisibleChange;
       end;
     end;
   end else if AScrollBar = TViewScroll.Horizontal then begin
     {$IFDEF NEXTGEN}
-    FCanScrollH := True; // Mobile platforms always scroll
+    FCanScrollH := True; // 移动平台始终能滚动
     {$ELSE}
     FCanScrollH := FContentBounds.Width > R.Width;
     {$ENDIF}
@@ -2976,7 +3007,7 @@ begin
       LViewportPosition.X := FAniCalculations.MaxTarget.Point.X;
     UpdateHScrollBar(LViewportPosition.X, R.Width);
     if (Assigned(AScroll)) then begin
-      if (AScroll.Visible <> FCanScrollH) or (AScroll.Visible and (FShowScrollBars = False)) then begin     
+      if (AScroll.Visible <> FCanScrollH) or (AScroll.Visible and (FShowScrollBars = False)) then begin
         AScroll.Visible := FCanScrollH and FShowScrollBars and (not FInVisible);
         DoScrollVisibleChange;
       end;
@@ -3013,6 +3044,13 @@ begin
     AScroll.Height := 6;
     {$ENDIF}
   end;
+end;
+
+procedure TScrollView.ViewportPositionChange(const OldViewportPosition,
+  NewViewportPosition: TPointD; const ContentSizeChanged: boolean);
+begin
+  if Assigned(FOnViewportPositionChange) then
+    FOnViewportPositionChange(Self, OldViewportPosition, NewViewportPosition, ContentSizeChanged);
 end;
 
 procedure TScrollView.VScrollChange(Sender: TObject);
@@ -3137,7 +3175,7 @@ procedure TProgressView.PaintBackground;
     H := Height;
     LOpacity := GetAbsoluteOpacity;
 
-    // Picture background
+    // 画背景
     if Assigned(FBackground) then begin
       R := RectF(FBackground.Padding.Left, FBackground.Padding.Top,
         W - FBackground.Padding.Right, H - FBackground.Padding.Bottom);
@@ -3164,7 +3202,7 @@ procedure TProgressView.PaintBackground;
       end;
     end;
 
-    // Painting foreground
+    // 画前景
     if Assigned(FForeGround) then begin
       V := FForeGround.GetStateItem(DrawState);
       if V <> nil then
@@ -3176,15 +3214,15 @@ begin
   if AbsoluteInVisible then
     Exit;
   case FKind of
-    Horizontal: // Level
+    Horizontal: // 水平
       begin
         DoDrawHorizontal();
       end;
-    Vertical: // vertical
+    Vertical: // 垂直
       begin
         DoDrawVertical();
       end;
-    CircleRing: // Ring
+    CircleRing: // 圆环
       begin
         DoDrawCircleRing();
       end;
@@ -3333,7 +3371,7 @@ begin
     Width - Padding.Right - FImage.Padding.Right,
     Height - Padding.Bottom - FImage.Padding.Bottom);
 
-  // If it is not an image, directly mitigate, regardless of ScaleType
+  // 如果不是图像，直接缓制，不管 ScaleType
   if (Img.Kind <> TBrushKind.Bitmap) or (FScaleType = TImageScaleType.None) then begin
     FImage.DrawBrushTo(Canvas, Img, R);
     Exit;
@@ -4037,16 +4075,16 @@ var
 begin
   if FClickInPath and (not AbsoluteInVisible) and (not FInPaintTo) and (FPath.Count > 0) then begin
     if (FOuter = TRingViewStyle.Circle) and (FInner = TRingViewStyle.Circle) then begin
-      // Ring
+      // 圆环
       LP := AbsoluteToLocal(PointF(X, Y));
       if FStartAngle = FAngle then
-        Result := False  // Not displayed when the angle is 0
+        Result := False  // 夹角为0时不显示
       else begin
-        // Determine if it is inside the ring
+        // 判断是否在圆环内
         Result := Sqr(LP.X - FCenter.X) + Sqr(LP.Y - FCenter.Y) <= Sqr(FRadius);
         if Result then
           Result := Sqr(LP.X - FCenter.X) + Sqr(LP.Y - FCenter.Y) >= Sqr(FRadius - FDistance);
-        // When in the ring, judge whether it is within the specified angle
+        // 在圆环内时，判断是否在指定夹角内
         if Result and (FAngle - FStartAngle < 360) then begin
           LS := FStartAngle;
           LE := FAngle;
@@ -5313,44 +5351,55 @@ begin
   end;
 end;
 
-{ TVertScrollView }
+{ TPullScrollView }
 
-function TVertScrollView.AllowInitScrollbar: Boolean;
+function TPullScrollView.AllowInitScrollbar: Boolean;
 begin
   Result := True;
 end;
 
-procedure TVertScrollView.AniMouseUp(const Touch: Boolean; const X, Y: Single);
+procedure TPullScrollView.AniMouseUp(const Touch: Boolean; const X, Y: Single);
 begin
   inherited AniMouseUp(Touch, X, Y);
 
-  // Pulldown refresh processing
-  if FEnablePullRefresh then begin
-    if Assigned(FHeader) and (FState = TListViewState.PullDownOK) and Assigned(FOnPullRefresh) then begin
-      FHeader.DoUpdateState(TListViewState.PullDownFinish, 0);
-      FState := TListViewState.PullDownFinish;
+  // 下拉刷新处理
+  if FEnablePullRefresh and (CheckState(TListViewState.PullDownOK)
+    or CheckState(TListViewState.PullRightOK)) then begin
+    if Assigned(FHeader) and Assigned(FOnPullRefresh) then begin
+      case FContent.Orientation of
+        TOrientation.Horizontal: begin
+          DoUpdateState(FHeader, TListViewState.PullRightFinish, 0);
+          InvalidateContentSize;
+          DoUpdateScrollingLimits(True, 0);
 
-      InvalidateContentSize;
-      DoUpdateScrollingLimits(True, 0);
+          FOffsetScroll := (FHeader as TControl).Width;
+        end;
+        TOrientation.Vertical: begin
+          DoUpdateState(FHeader, TListViewState.PullDownFinish, 0);
+          InvalidateContentSize;
+          DoUpdateScrollingLimits(True, 0);
 
-      FOffsetScroll := (FHeader as TControl).Height;
+          FOffsetScroll := (FHeader as TControl).Height;
+        end;
+      end;
+
       FOnPullRefresh(Self);
       Exit;
-    end else if FState = TListViewState.PullDownOK then
+    end else
       DoPullRefreshComplete;
   end;
 
-  // Pull up load more
+  // 上拉加载更多
   if FEnablePullLoad then begin
-    if (FState = TListViewState.PullUpOK) then
+    if CheckState(TListViewState.PullUpOK) or CheckState(TListViewState.PullLeftOK) then
       DoPullLoad(Self);
   end;
 end;
 
-procedure TVertScrollView.CheckMouseLeftState;
+procedure TPullScrollView.CheckMouseLeftState;
 begin
   {$IFNDEF NEXTGEN}
-  // Check if the left mouse button is released
+  // 检查鼠标左键是否松开
   if Assigned(Self) and DragScroll and (not FMouseEnter) then begin
     {$IFDEF MSWINDOWS}
     if GetAsyncKeyState(VK_LBUTTON) = 0 then
@@ -5368,21 +5417,41 @@ begin
   {$ENDIF}
 end;
 
-procedure TVertScrollView.Click;
+function TPullScrollView.CheckState(AState: TListViewState): Boolean;
+begin
+  Result := FState = AState;
+  if not Result then
+    Exit;
+
+  case FState of
+    TListViewState.PullDownStart, TListViewState.PullDownOK,
+    TListViewState.PullDownFinish, TListViewState.PullDownComplete,
+    TListViewState.PullUpStart, TListViewState.PullUpOK,
+    TListViewState.PullUpFinish, TListViewState.PullUpComplete:
+      Result := Assigned(FContent) and (FContent.Orientation = TOrientation.Vertical);
+    TListViewState.PullLeftStart, TListViewState.PullLeftOK,
+    TListViewState.PullLeftFinish, TListViewState.PullLeftComplete,
+    TListViewState.PullRightStart, TListViewState.PullRightOK,
+    TListViewState.PullRightFinish, TListViewState.PullRightComplete:
+      Result := Assigned(FContent) and (FContent.Orientation = TOrientation.Horizontal);
+  end;
+end;
+
+procedure TPullScrollView.Click;
 begin
   inherited Click;
   {$IFNDEF NEXTGEN}
   if DragScroll and Assigned(FPointTarget) and (FPointTarget as TObject <> Self) then
-    TVertScrollView(FPointTarget as TControl).Click;
+    TPullScrollView(FPointTarget as TControl).Click;
   {$ENDIF}
 end;
 
-constructor TVertScrollView.Create(AOwner: TComponent);
+constructor TPullScrollView.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   New(FContentBounds);
-  CreateContentView();
   DoSetDefaulatScrollBars;
+  CreateContentView();
   DisableFocusEffect := True;
   AutoCapture := True;
   ClipChildren := True;
@@ -5391,7 +5460,7 @@ begin
   SetAcceptsControls(True);
 end;
 
-procedure TVertScrollView.CreateContentView;
+procedure TPullScrollView.CreateContentView;
 var
   Item: TComponent;
 begin
@@ -5404,9 +5473,18 @@ begin
     FContent.Stored := False;
     FContent.Locked := True;
     FContent.Name := CSContentName;
-    FContent.WidthSize := TViewSize.FillParent;
-    FContent.HeightSize := TViewSize.WrapContent;
-    FContent.Orientation := TOrientation.Vertical;
+    case ScrollBars of
+      TViewScroll.Horizontal: begin
+        FContent.WidthSize := TViewSize.WrapContent;
+        FContent.HeightSize := TViewSize.FillParent;
+        FContent.Orientation := TOrientation.Horizontal;
+      end;
+      TViewScroll.Vertical: begin
+        FContent.WidthSize := TViewSize.FillParent;
+        FContent.HeightSize := TViewSize.WrapContent;
+        FContent.Orientation := TOrientation.Vertical;
+      end;
+    end;
     FContent.DisableDisappear := True;
     FContent.Parent := Self;
   end;
@@ -5414,7 +5492,7 @@ begin
   RealignContent;
 end;
 
-function TVertScrollView.CreateScroll: TScrollBar;
+function TPullScrollView.CreateScroll: TScrollBar;
 begin
   {$IFNDEF NEXTGEN}
   if DragScroll then
@@ -5426,7 +5504,7 @@ begin
   {$ENDIF}
 end;
 
-destructor TVertScrollView.Destroy;
+destructor TPullScrollView.Destroy;
 begin
   FContent := nil;
   FreeHeader;
@@ -5434,7 +5512,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TVertScrollView.DoAddObject(const AObject: TFmxObject);
+procedure TPullScrollView.DoAddObject(const AObject: TFmxObject);
 begin
   if IsAddToContent(AObject) then begin
     FContent.AddObject(AObject);
@@ -5442,13 +5520,13 @@ begin
     inherited;
 end;
 
-procedure TVertScrollView.DoInVisibleChange;
+procedure TPullScrollView.DoInVisibleChange;
 begin
   inherited DoInVisibleChange;
   FContent.InVisible := InVisible;
 end;
 
-procedure TVertScrollView.DoMouseEnter;
+procedure TPullScrollView.DoMouseEnter;
 begin
   inherited;
   {$IFNDEF NEXTGEN}
@@ -5458,7 +5536,7 @@ begin
   {$ENDIF}
 end;
 
-procedure TVertScrollView.DoMouseLeave;
+procedure TPullScrollView.DoMouseLeave;
 begin
   inherited;
   {$IFNDEF NEXTGEN}
@@ -5470,11 +5548,14 @@ begin
   {$ENDIF}
 end;
 
-procedure TVertScrollView.DoPullLoad(Sender: TObject);
+procedure TPullScrollView.DoPullLoad(Sender: TObject);
 begin
   if Assigned(FFooter) and Assigned(FOnPullLoad) then begin
-    FFooter.DoUpdateState(TListViewState.PullUpFinish, 0);
-    FState := TListViewState.PullUpFinish;
+    case FContent.Orientation of
+      TOrientation.Horizontal: FState := TListViewState.PullLeftFinish;
+      TOrientation.Vertical: FState := TListViewState.PullUpFinish;
+    end;
+    DoUpdateState(FFooter, FState, 0);
     FOnPullLoad(Self);
     InvalidateContentSize;
     DoUpdateScrollingLimits(True, 0);
@@ -5482,30 +5563,46 @@ begin
     DoPullLoadComplete;
 end;
 
-procedure TVertScrollView.DoPullLoadComplete;
+procedure TPullScrollView.DoPullLoadComplete;
 begin
   if Assigned(FFooter) then begin
-    if FState = TListViewState.PullUpComplete then
-      Exit;
+    case FContent.Orientation of
+      TOrientation.Horizontal: begin
+        if FState = TListViewState.PullLeftComplete then
+          Exit;
+        FFooter.DoUpdateState(TListViewState.PullLeftComplete, 0);
+      end;
+      TOrientation.Vertical: begin
+        if FState = TListViewState.PullUpComplete then
+          Exit;
+        FFooter.DoUpdateState(TListViewState.PullUpComplete, 0);
+      end;
+    end;
 
-    FFooter.DoUpdateState(TListViewState.PullUpComplete, 0);
-
-    // Loading completed, rebound
+    // 加载完成，回弹
     TFrameAnimator.DelayExecute(Self,
       procedure (Sender: TObject)
       var
-        H: Single;
+        W, H: Single;
       begin
         try
-          if (FState = TListViewState.PullUpFinish) then begin
-            H := 0;
-            if Assigned(FHeader) then
-              H := (FHeader as TControl).Height;
-
-            FContentBounds.Bottom := FContentBounds.Bottom - H;
+          if CheckState(TListViewState.PullUpFinish) or CheckState(TListViewState.PullLeftFinish) then begin
+            case FContent.Orientation of
+              TOrientation.Horizontal: begin
+                W := 0;
+                if Assigned(FFooter) then
+                  W := (FFooter as TControl).Width;
+                FContentBounds.Right := FContentBounds.Right - W;
+              end;
+              TOrientation.Vertical: begin
+                H := 0;
+                if Assigned(FFooter) then
+                  H := (FFooter as TControl).Height;
+                FContentBounds.Bottom := FContentBounds.Bottom - H;
+              end;
+            end;
             DoUpdateScrollingLimits(True, 0);
-            FHeader.DoUpdateState(TListViewState.None, 0);
-            FState := TListViewState.None;
+            DoUpdateState(FFooter, TListViewState.None, 0);
           end;
         except
         end;
@@ -5514,34 +5611,57 @@ begin
   end;
 end;
 
-procedure TVertScrollView.DoPullRefreshComplete;
+procedure TPullScrollView.DoPullRefreshComplete;
 var
-  H: Single;
+  W, H: Single;
 begin
   if Assigned(FHeader) then begin
-    if FState = TListViewState.PullDownComplete then
-      Exit;
-
-    FHeader.DoUpdateState(TListViewState.PullDownComplete, 0);
-    FOffsetScroll := 0;
-    H := 0;
-    if Assigned(FHeader) then
-      H := (FHeader as TControl).Height;
-    if H > 0 then begin
-      FContentBounds.Bottom := FContentBounds.Bottom - H;
-      DoUpdateScrollingLimits(True, 0);
-      FLastScrollValue := FLastScrollValue - H;
-      VScrollBarValue := VScrollBarValue - H;
+    case FContent.Orientation of
+      TOrientation.Horizontal: begin
+        if FState = TListViewState.PullRightComplete then
+          Exit;
+        FHeader.DoUpdateState(TListViewState.PullRightComplete, 0);
+      end;
+      TOrientation.Vertical: begin
+        if FState = TListViewState.PullDownComplete then
+          Exit;
+        FHeader.DoUpdateState(TListViewState.PullDownComplete, 0);
+      end;
     end;
 
-    // Refresh completed, rebound
+    FOffsetScroll := 0;
+    case FContent.Orientation of
+      TOrientation.Horizontal: begin
+        W := 0;
+        if Assigned(FHeader) then
+          W := (FHeader as TControl).Width;
+        if W > 0 then begin
+          FContentBounds.Right := FContentBounds.Right - W;
+          DoUpdateScrollingLimits(True, 0);
+          FLastScrollValue := FLastScrollValue - W;
+          HScrollBarValue := HScrollBarValue - W;
+        end;
+      end;
+      TOrientation.Vertical: begin
+        H := 0;
+        if Assigned(FHeader) then
+          H := (FHeader as TControl).Height;
+        if H > 0 then begin
+          FContentBounds.Bottom := FContentBounds.Bottom - H;
+          DoUpdateScrollingLimits(True, 0);
+          FLastScrollValue := FLastScrollValue - H;
+          VScrollBarValue := VScrollBarValue - H;
+        end;
+      end;
+    end;
+
+    // 刷新完成，回弹
     TFrameAnimator.DelayExecute(Self,
       procedure (Sender: TObject)
       begin
         try
-          if (FState = TListViewState.PullDownFinish) then begin
-            FHeader.DoUpdateState(TListViewState.None, 0);
-            FState := TListViewState.None;
+          if CheckState(TListViewState.PullDownFinish) or CheckState(TListViewState.PullRightFinish) then begin
+            DoUpdateState(FHeader, TListViewState.None, 0);
           end;
         except
         end;
@@ -5550,7 +5670,7 @@ begin
   end;
 end;
 
-procedure TVertScrollView.DoRealign;
+procedure TPullScrollView.DoRealign;
 var
   LDisablePaint: Boolean;
   LDisableAlign: Boolean;
@@ -5577,39 +5697,52 @@ begin
   end;
 end;
 
-procedure TVertScrollView.DoRealignContent;
+procedure TPullScrollView.DoRealignContent;
 var
-  W: Single;
+  W, H: Single;
 begin
+  if not Assigned(FContent) then
+    Exit;
+
+  {$IFDEF MSWINDOWS}
+  if Assigned(FScrollH) and (FScrollH.Visible) then
+    H := Height - Padding.Bottom - Padding.Top - FScrollH.Height
+  else
+  {$ENDIF}
+  H := Height - Padding.Bottom - Padding.Top;
+
   {$IFDEF MSWINDOWS}
   if Assigned(FScrollV) and (FScrollV.Visible) then
-    W := Width - Padding.Right - Padding.Left{$IFDEF MSWINDOWS} - FScrollV.Width{$ENDIF}
+    W := Width - Padding.Right - Padding.Left - FScrollV.Width
   else
-    W := Width - Padding.Right - Padding.Left;
-  {$ELSE}
-  W := Width - Padding.Right - Padding.Left;
   {$ENDIF}
+  W := Width - Padding.Right - Padding.Left;
 
-  if Assigned(FContent) then begin
-    FContent.SetBounds(Padding.Left, Padding.Top - VScrollBarValue, W,
-      Height - Padding.Bottom - Padding.Top);
+  case ScrollBars of
+    TViewScroll.Horizontal:
+      FContent.SetBounds(Padding.Left - HScrollBarValue, Padding.Top, W, H);
+    TViewScroll.Vertical:
+      FContent.SetBounds(Padding.Left, Padding.Top - VScrollBarValue, W, H);
   end;
 end;
 
-procedure TVertScrollView.DoSetDefaulatScrollBars;
+procedure TPullScrollView.DoSetDefaulatScrollBars;
 begin
-  ScrollBars := TViewScroll.Vertical;
+  ScrollBars := TViewScroll.None;
 end;
 
-procedure TVertScrollView.DoUpdateHeaderFooter(const V: Single);
+procedure TPullScrollView.DoUpdateHeaderFooter(const V: Single);
 var
   View: TControl;
   ScrollValue, LV: Single;
 begin
-  ScrollValue := VScrollBarValue;
+  case FContent.Orientation of
+    TOrientation.Horizontal: ScrollValue := HScrollBarValue;
+    TOrientation.Vertical: ScrollValue := VScrollBarValue;
+  end;
 
-  // Pull down to refresh
-  if Assigned(FHeader) and FEnablePullRefresh then begin
+  // 下拉刷新
+  if Assigned(FHeader) and FEnablePullRefresh and (FContent.Orientation = TOrientation.Vertical) then begin
     View := FHeader as TControl;
     if (V > 0) or (FState = TListViewState.PullDownFinish) then begin
       View.SetBounds(0, V - View.Height + FOffsetScroll, FContent.Width, View.Height);
@@ -5619,28 +5752,25 @@ begin
       if FState = TListViewState.PullDownFinish then begin
         LV := - ScrollValue;
       end else
-        LV := -View.Height - ScrollValue;
+        LV := - View.Height - ScrollValue;
 
       case FState of
         TListViewState.None:
           begin
-            FHeader.DoUpdateState(TListViewState.PullDownStart, ScrollValue);
-            FState := TListViewState.PullDownStart;
+            DoUpdateState(FHeader, TListViewState.PullDownStart, ScrollValue);
             FOffsetScroll := 0;
           end;
         TListViewState.PullDownStart:
           begin
             if (LV >= 0) then begin
-              FHeader.DoUpdateState(TListViewState.PullDownOK, ScrollValue);
-              FState := TListViewState.PullDownOK;
+              DoUpdateState(FHeader, TListViewState.PullDownOK, ScrollValue);
               FOffsetScroll := 0;
             end;
           end;
         TListViewState.PullDownOK:
           begin
             if (LV < 0) then begin
-              FHeader.DoUpdateState(TListViewState.PullDownStart, ScrollValue);
-              FState := TListViewState.PullDownStart;
+              DoUpdateState(FHeader, TListViewState.PullDownStart, ScrollValue);
               FOffsetScroll := 0;
             end;
           end;
@@ -5653,8 +5783,8 @@ begin
     end;
   end;
 
-  // Pull up load more
-  if Assigned(FFooter) and FEnablePullLoad then begin
+  // 上拉加载更多
+  if Assigned(FFooter) and FEnablePullLoad and (FContent.Orientation = TOrientation.Vertical) then begin
     View := FFooter as TControl;
     if V + FContent.Height < Height - Padding.Bottom - FOffsetScroll then begin
       View.SetBounds(0, V + FContent.Height + FOffsetScroll, FContent.Width, View.Height);
@@ -5664,35 +5794,113 @@ begin
       case FState of
         TListViewState.None:
           begin
-            FFooter.DoUpdateState(TListViewState.PullUpStart, ScrollValue);
-            FState := TListViewState.PullUpStart;
+            DoUpdateState(FFooter, TListViewState.PullUpStart, ScrollValue);
           end;
         TListViewState.PullUpStart:
           begin
             if (View.Position.Y + View.Height + 8 <= Height) then begin
-              FFooter.DoUpdateState(TListViewState.PullUpOK, ScrollValue);
-              FState := TListViewState.PullUpOK;
+              DoUpdateState(FFooter, TListViewState.PullUpOK, ScrollValue);
             end;
           end;
         TListViewState.PullUpOK:
           begin
             if (View.Position.Y + View.Height > Height - 6) then begin
-              FFooter.DoUpdateState(TListViewState.PullUpStart, ScrollValue);
-              FState := TListViewState.PullUpStart;
+              DoUpdateState(FFooter, TListViewState.PullUpStart, ScrollValue);
             end;
           end;
       end;
-
-
     end else begin
       View.Visible := False;
       if FState in [TListViewState.PullUpOK, TListViewState.PullUpStart] then
         FState := TListViewState.None;
     end;
   end;
+
+  // 右拉刷新
+  if Assigned(FHeader) and FEnablePullRefresh and (FContent.Orientation = TOrientation.Horizontal) then begin
+    View := FHeader as TControl;
+    if (V > 0) or (FState = TListViewState.PullRightFinish) then begin
+      View.SetBounds(V - View.Width + FOffsetScroll, 0, View.Width, FContent.Height);
+      View.HitTest := True;
+      View.Visible := True;
+
+      if FState = TListViewState.PullRightFinish then begin
+        LV := - ScrollValue;
+      end else
+        LV := - View.Width - ScrollValue;
+
+      case FState of
+        TListViewState.None:
+          begin
+            DoUpdateState(FHeader, TListViewState.PullRightStart, ScrollValue);
+            FOffsetScroll := 0;
+          end;
+        TListViewState.PullRightStart:
+          begin
+            if (LV >= 0) then begin
+              DoUpdateState(FHeader, TListViewState.PullRightOK, ScrollValue);
+              FOffsetScroll := 0;
+            end;
+          end;
+        TListViewState.PullRightOK:
+          begin
+            if (LV < 0) then begin
+              DoUpdateState(FHeader, TListViewState.PullRightStart, ScrollValue);
+              FOffsetScroll := 0;
+            end;
+          end;
+      end
+    end else begin
+      View.Visible := False;
+      FOffsetScroll := 0;
+      if FState = TListViewState.PullRightStart then
+        FState := TListViewState.None;
+    end;
+  end;
+
+  // 左拉加载更多
+  if Assigned(FFooter) and FEnablePullLoad and (FContent.Orientation = TOrientation.Horizontal) then begin
+    View := FFooter as TControl;
+    if V + FContent.Width < Width - Padding.Right - FOffsetScroll then begin
+      View.SetBounds(V + FContent.Width + FOffsetScroll, 0, View.Width, FContent.Height);
+      View.Visible := True;
+      View.HitTest := True;
+
+      case FState of
+        TListViewState.None:
+          begin
+            DoUpdateState(FFooter, TListViewState.PullLeftStart, ScrollValue);
+          end;
+        TListViewState.PullLeftStart:
+          begin
+            if (View.Position.X + View.Width + 8 <= Width) then begin
+              DoUpdateState(FFooter, TListViewState.PullLeftOK, ScrollValue);
+            end;
+          end;
+        TListViewState.PullLeftOK:
+          begin
+            if (View.Position.X + View.Width > Width - 6) then begin
+              DoUpdateState(FFooter, TListViewState.PullLeftStart, ScrollValue);
+            end;
+          end;
+      end;
+    end else begin
+      View.Visible := False;
+      if FState in [TListViewState.PullLeftOK, TListViewState.PullLeftStart] then
+        FState := TListViewState.None;
+    end;
+  end;
 end;
 
-procedure TVertScrollView.FreeFooter;
+procedure TPullScrollView.DoUpdateState(AObject: IListViewHeader;
+  const State: TListViewState; const ScrollValue: Double);
+begin
+  AObject.DoUpdateState(State, ScrollValue);
+  if FState <> State then
+    FState := State;
+end;
+
+procedure TPullScrollView.FreeFooter;
 begin
   if Assigned(FFooter) then begin
     RemoveObject(FFooter as TControl);
@@ -5700,7 +5908,7 @@ begin
   end;
 end;
 
-procedure TVertScrollView.FreeHeader;
+procedure TPullScrollView.FreeHeader;
 begin
   if Assigned(FHeader) then begin
     RemoveObject(FHeader as TControl);
@@ -5708,7 +5916,7 @@ begin
   end;
 end;
 
-function TVertScrollView.GetContentChildCount: Integer;
+function TPullScrollView.GetContentChildCount: Integer;
 begin
   if Assigned(FContent) then
     Result := FContent.ControlsCount
@@ -5716,18 +5924,39 @@ begin
     Result := 0;
 end;
 
-function TVertScrollView.GetContentControlItem(const Index: Integer): TControl;
+function TPullScrollView.GetContentControlItem(const Index: Integer): TControl;
 begin
   Result := FContent.Controls[Index];
 end;
 
-function TVertScrollView.GetScrollOffset: TPointF;
+function TPullScrollView.GetScrollOffset: TPointF;
 begin
-  Result.X := 0;
-  Result.Y := FOffsetScroll;
+  case FContent.Orientation of
+    TOrientation.Horizontal: begin
+      Result.X := FOffsetScroll;
+      Result.Y := 0;
+    end;
+    TOrientation.Vertical: begin
+      Result.X := 0;
+      Result.Y := FOffsetScroll;
+    end;
+  end;
 end;
 
-procedure TVertScrollView.InitFooter;
+procedure TPullScrollView.HScrollChange(Sender: TObject);
+var
+  H: Single;
+begin
+  if FScrolling then Exit;
+  inherited HScrollChange(Sender);
+  if Assigned(FContent) then begin
+    H := Padding.Left - HScrollBarValue;
+    DoUpdateHeaderFooter(H);
+    FContent.Position.X := H + FOffsetScroll;
+  end;
+end;
+
+procedure TPullScrollView.InitFooter;
 begin
   if csDesigning in ComponentState then
     Exit;
@@ -5736,14 +5965,18 @@ begin
       FOnInitFooter(Self, FFooter);
     if not Assigned(FFooter) then
       FFooter := TListViewDefaultFooter.Create(Self);
-    FFooter.SetStateHint(TListViewState.None, 'Pull up load more');
+    case FContent.Orientation of
+      TOrientation.Horizontal: FFooter.SetStateHint(TListViewState.None, '左拉加载更多');
+      TOrientation.Vertical: FFooter.SetStateHint(TListViewState.None, '上拉加载更多');
+    end;
     (FFooter as TControl).Parent := Self;
     (FFooter as TControl).Stored := False;
     (FFooter as TControl).Visible := False;
+    FFooter.Orientation := FContent.Orientation;
   end;
 end;
 
-procedure TVertScrollView.InitHeader;
+procedure TPullScrollView.InitHeader;
 begin
   if csDesigning in ComponentState then
     Exit;
@@ -5756,10 +5989,11 @@ begin
     (FHeader as TControl).Stored := False;
     (FHeader as TControl).Index := 0;
     (FHeader as TControl).Visible := False;
+    FHeader.Orientation := FContent.Orientation;
   end;
 end;
 
-procedure TVertScrollView.InvalidateContentSize;
+procedure TPullScrollView.InvalidateContentSize;
 begin
   if not Assigned(FContent) then begin
     FContentBounds.Left := 0;
@@ -5773,13 +6007,23 @@ begin
   FContentBounds.Top := 0;
   FContentBounds.Bottom := FContent.Height;
 
-  if Assigned(FHeader) and FHeader.Visible then
-    FContentBounds.Bottom := FContentBounds.Bottom + (FHeader as TControl).Height;
-  if Assigned(FFooter) and FFooter.Visible then
-    FContentBounds.Bottom := FContentBounds.Bottom + (FFooter as TControl).Height;
+  case FContent.Orientation of
+    TOrientation.Horizontal: begin
+      if Assigned(FHeader) and FHeader.Visible then
+        FContentBounds.Right := FContentBounds.Right + (FHeader as TControl).Width;
+      if Assigned(FFooter) and FFooter.Visible then
+        FContentBounds.Right := FContentBounds.Right + (FFooter as TControl).Width;
+    end;
+    TOrientation.Vertical: begin
+      if Assigned(FHeader) and FHeader.Visible then
+        FContentBounds.Bottom := FContentBounds.Bottom + (FHeader as TControl).Height;
+      if Assigned(FFooter) and FFooter.Visible then
+        FContentBounds.Bottom := FContentBounds.Bottom + (FFooter as TControl).Height;
+    end;
+  end;
 end;
 
-function TVertScrollView.IsAddToContent(const AObject: TFmxObject): Boolean;
+function TPullScrollView.IsAddToContent(const AObject: TFmxObject): Boolean;
 begin
   Result := (FContent <> nil)
     and (AObject <> FContent)
@@ -5791,13 +6035,13 @@ begin
              (AObject = FScrollH));
 end;
 
-procedure TVertScrollView.Loaded;
+procedure TPullScrollView.Loaded;
 begin
   inherited Loaded;
   RealignContent;
 end;
 
-procedure TVertScrollView.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+procedure TPullScrollView.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Single);
 begin
   //LogD('MouseDown');
@@ -5834,7 +6078,7 @@ begin
   {$ENDIF}
 end;
 
-procedure TVertScrollView.MouseMove(Shift: TShiftState; X, Y: Single);
+procedure TPullScrollView.MouseMove(Shift: TShiftState; X, Y: Single);
 {$IFNDEF NEXTGEN}
 var
   P: TPointF;
@@ -5858,7 +6102,7 @@ begin
   {$ENDIF}
 end;
 
-procedure TVertScrollView.MousePosToAni(var X, Y: Single);
+procedure TPullScrollView.MousePosToAni(var X, Y: Single);
 var
   LPoint: TPointF;
 begin
@@ -5871,7 +6115,7 @@ begin
   end;
 end;
 
-procedure TVertScrollView.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
+procedure TPullScrollView.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Single);
 {$IFNDEF NEXTGEN}
 var
@@ -5900,12 +6144,12 @@ begin
   {$ENDIF}
 end;
 
-function TVertScrollView.ObjectAtPoint(AScreenPoint: TPointF): IControl;
+function TPullScrollView.ObjectAtPoint(AScreenPoint: TPointF): IControl;
 {$IFNDEF NEXTGEN}var P: TPointF; IT: IViewTouch;{$ENDIF}
 begin
   Result := inherited;
   {$IFNDEF NEXTGEN}
-  if DragScroll and (not (csDesigning in ComponentState)) then begin // If dragging is allowed
+  if DragScroll and (not (csDesigning in ComponentState)) then begin // 如果允许拖动
     if FMouseDown then
       Exit;
     //LogD('FMouseDown: ' + BoolToStr(FMouseDown));
@@ -5929,29 +6173,40 @@ begin
   {$ENDIF}
 end;
 
-procedure TVertScrollView.PullLoadComplete;
+procedure TPullScrollView.PullLoadComplete;
 begin
-  if Assigned(FContent) and (FState = TListViewState.PullUpFinish) then
+  if Assigned(FContent) and ((FState = TListViewState.PullUpFinish) or (FState = TListViewState.PullLeftFinish)) then
     DoPullLoadComplete;
 end;
 
-procedure TVertScrollView.PullRefreshComplete;
+procedure TPullScrollView.PullRefreshComplete;
 begin
-  if Assigned(FContent) and (FState = TListViewState.PullDownFinish) then
+  if Assigned(FContent) and ((FState = TListViewState.PullDownFinish) or (FState = TListViewState.PullRightFinish)) then
     DoPullRefreshComplete;
 end;
 
-procedure TVertScrollView.PullRefreshStart;
+procedure TPullScrollView.PullRefreshStart;
 begin
   if not Assigned(FHeader) then
     Exit;
-  if FState = TListViewState.PullDownFinish then
-    Exit;
-  VScrollBarValue := VScrollBarValue + (FHeader as TControl).Height;
-  FHeader.DoUpdateState(TListViewState.PullDownFinish, 0);
-  FState := TListViewState.PullDownFinish;
+  case FContent.Orientation of
+    TOrientation.Horizontal: begin
+      if FState = TListViewState.PullRightFinish then
+        Exit;
+      FState := TListViewState.PullRightFinish;
+      FOffsetScroll := (FHeader as TControl).Width;
+      HScrollBarValue := HScrollBarValue + FOffsetScroll;
+    end;
+    TOrientation.Vertical: begin
+      if FState = TListViewState.PullDownFinish then
+        Exit;
+      FState := TListViewState.PullDownFinish;
+      FOffsetScroll := (FHeader as TControl).Height;
+      VScrollBarValue := VScrollBarValue + FOffsetScroll;
+    end;
+  end;
 
-  FOffsetScroll := (FHeader as TControl).Height;
+  DoUpdateState(FHeader, FState, 0);
   InvalidateContentSize;
   DoUpdateScrollingLimits(True, 0);
   if Assigned(FOnPullRefresh) then
@@ -5960,7 +6215,7 @@ begin
   (FHeader as TControl).UpdateEffects;
 end;
 
-procedure TVertScrollView.Resize;
+procedure TPullScrollView.Resize;
 begin
   if (csLoading in ComponentState) or
     (csDestroying in ComponentState) then
@@ -5970,7 +6225,7 @@ begin
   RealignContent;
 end;
 
-procedure TVertScrollView.SetEnablePullLoad(const Value: Boolean);
+procedure TPullScrollView.SetEnablePullLoad(const Value: Boolean);
 begin
   if FEnablePullLoad <> Value then begin
     FEnablePullLoad := Value;
@@ -5982,7 +6237,14 @@ begin
     end else begin
       InitFooter;
       if Assigned(FFooter) then begin
-        FContentBounds.Bottom := FContentBounds.Bottom + (FFooter as TControl).Height;
+        case FContent.Orientation of
+          TOrientation.Horizontal: begin
+            FContentBounds.Right := FContentBounds.Right + (FFooter as TControl).Width;
+          end;
+          TOrientation.Vertical: begin
+            FContentBounds.Bottom := FContentBounds.Bottom + (FFooter as TControl).Height;
+          end;
+        end;
         DoUpdateScrollingLimits(True);
       end;
       DoRealign;
@@ -5990,7 +6252,7 @@ begin
   end;
 end;
 
-procedure TVertScrollView.SetEnablePullRefresh(const Value: Boolean);
+procedure TPullScrollView.SetEnablePullRefresh(const Value: Boolean);
 begin
   if FEnablePullRefresh <> Value then begin
     FEnablePullRefresh := Value;
@@ -6002,7 +6264,14 @@ begin
     end else begin
       InitHeader;
       if Assigned(FHeader) then begin
-        FContentBounds.Bottom := FContentBounds.Bottom + (FHeader as TControl).Height;
+        case FContent.Orientation of
+          TOrientation.Horizontal: begin
+            FContentBounds.Right := FContentBounds.Right + (FHeader as TControl).Width;
+          end;
+          TOrientation.Vertical: begin
+            FContentBounds.Bottom := FContentBounds.Bottom + (FHeader as TControl).Height;
+          end;
+        end;
         DoUpdateScrollingLimits(True);
       end;
       DoRealign;
@@ -6010,7 +6279,7 @@ begin
   end;
 end;
 
-procedure TVertScrollView.VScrollChange(Sender: TObject);
+procedure TPullScrollView.VScrollChange(Sender: TObject);
 var
   V: Single;
 begin
@@ -6116,7 +6385,7 @@ end;
 function TViewScrollContent.ObjectAtPoint(P: TPointF): IControl;
 begin
   if Assigned(FScrollBox.FAniCalculations) and (FScrollBox.FAniCalculations.Shown) then
-    Result := nil   // Gesture scrolling, no sub-items are allowed
+    Result := nil   // 手势滚动中，不允许点击子项
   else
     Result := inherited ObjectAtPoint(P);
 //  if Result <> nil then
@@ -6140,75 +6409,18 @@ begin
     (Y <= (ClipRect.TopLeft.Y + ClipRect.Height + TouchTargetExpansion.Bottom));
 end;
 
+{ TVertScrollView }
+
+procedure TVertScrollView.DoSetDefaulatScrollBars;
+begin
+  ScrollBars := TViewScroll.Vertical;
+end;
+
 { THorzScrollView }
-
-procedure THorzScrollView.CreateContentView;
-var
-  Item: TComponent;
-begin
-  Item := Self.FindComponent(CSContentName);
-  if Assigned(Item) then
-    FContent := Item as TViewScrollContent
-  else begin
-    FContent := TViewScrollContent.Create(Self);
-    FContent.Visible := True;
-    FContent.Stored := False;
-    FContent.Locked := True;
-    FContent.Name := CSContentName;
-    FContent.WidthSize := TViewSize.WrapContent;
-    FContent.HeightSize := TViewSize.FillParent;
-    FContent.Orientation := TOrientation.Horizontal;
-    FContent.DisableDisappear := True;
-    FContent.Parent := Self;
-  end;
-  SetAcceptsControls(True);
-  RealignContent;
-end;
-
-procedure THorzScrollView.DoRealignContent;
-var
-  H: Single;
-begin
-  if Assigned(FContent) then begin
-    {$IFDEF MSWINDOWS}
-    if Assigned(FScrollH) and (FScrollH.Visible) then
-      H := Height - Padding.Bottom - Padding.Top{$IFDEF MSWINDOWS} - FScrollH.Height{$ENDIF}
-    else
-      H := Height - Padding.Bottom - Padding.Top;
-    {$ELSE}
-    H := Height - Padding.Bottom - Padding.Top;
-    {$ENDIF}
-
-    FContent.SetBounds(Padding.Left - HScrollBarValue, Padding.Top, Width - Padding.Right - Padding.Left, H);
-  end;
-end;
 
 procedure THorzScrollView.DoSetDefaulatScrollBars;
 begin
   ScrollBars := TViewScroll.Horizontal;
-end;
-
-procedure THorzScrollView.HScrollChange(Sender: TObject);
-begin
-  if FScrolling then Exit;
-  inherited HScrollChange(Sender);
-  if Assigned(FContent) then
-    FContent.Position.X := Padding.Left - HScrollBarValue;
-end;
-
-procedure THorzScrollView.InvalidateContentSize;
-begin
-  if not Assigned(FContent) then begin
-    FContentBounds.Left := 0;
-    FContentBounds.Top := 0;
-    FContentBounds.Right := 0;
-    FContentBounds.Bottom := 0;
-    Exit;
-  end;
-  FContentBounds.Left := 0;
-  FContentBounds.Right := FContent.Width;
-  FContentBounds.Top := 0;
-  FContentBounds.Bottom := FContent.Height;
 end;
 
 initialization
