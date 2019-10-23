@@ -1,8 +1,8 @@
 {*******************************************************}
 {                                                       }
-{       FMX UI Frame Management unit                    }
+{       FMX UI Frame 管理单元                           }
 {                                                       }
-{       all rights reserved (C) 2016 YangYxd            }
+{       版权所有 (C) 2016 YangYxd                       }
 {                                                       }
 {*******************************************************}
 
@@ -31,7 +31,7 @@ type
   TFrameAnimator = UI.Ani.TFrameAnimator;
 
   /// <summary>
-  /// Frame parameter
+  /// Frame 参数
   /// </summary>
   TFrameParams = class(TDictionary<string, TValue>);
 
@@ -44,7 +44,7 @@ type
   end;
 
   /// <summary>
-  /// Frame Status data
+  /// Frame 状态数据
   /// </summary>
   TFrameStateData = class(TDictionary<string, TFrameDataValue>);
 
@@ -92,7 +92,7 @@ type
   end;
 
   /// <summary>
-  /// Frame status
+  /// Frame 状态
   /// </summary>
   TFrameState = class(TObject)
   private
@@ -141,11 +141,11 @@ type
     procedure PutDateTime(const Key: string; const Value: TDateTime);
 
     /// <summary>
-    /// Save file stream
+    /// 保存文件流
     /// </summary>
     function SaveFile(const FileName: string; const Data: TStream): Boolean;
     /// <summary>
-    /// Read the specified file stream
+    /// 读取指定的文件流
     /// </summary>
     function ReadFile(const FileName: string; var OutData: TStream): Boolean;
 
@@ -160,7 +160,7 @@ type
   end;
 
   /// <summary>
-  /// Frame view, Frame switching processing
+  /// Frame 视图, Frame 切换处理
   /// </summary>
   [ComponentPlatformsAttribute(AllCurrentPlatforms)]
   TFrameView = class(FMX.Forms.TFrame)
@@ -176,13 +176,13 @@ type
     FOnReStart: TNotifyEvent;
     FOnFree: TNotifyEvent;
     FWaitDialog: TProgressDialog;
-    FShowing: Boolean;    // Showing
-    FHideing: Boolean;    // Hideing
-    FAnimateing: Boolean; // Animateing
-    FNeedFree: Boolean;   // NeedFree
-    FNeedHide: Boolean;   // NeedHide
-    FNeedFinish: Boolean; // NeedFinish
-    FNeedDoCreate: Boolean; // NeedDoCreate;
+    FShowing: Boolean;    // 正在显示中
+    FHideing: Boolean;    // 正在隐藏中
+    FAnimateing: Boolean; // 动画执行中
+    FNeedFree: Boolean;   // 需要释放
+    FNeedHide: Boolean;   // 需要隐藏
+    FNeedFinish: Boolean; // 需要关闭
+    FNeedDoCreate: Boolean; // 需要执行DoCreate;
     procedure SetParams(const Value: TFrameParams);
     function GetTitle: string;
     procedure SetTitle(const Value: string);
@@ -206,42 +206,46 @@ type
     function MakeFrame(FrameClass: TFrameViewClass): TFrameView; overload;
 
     /// <summary>
-    /// Frame Trigger on initialization
+    /// Frame 初始化时触发
     /// </summary>
     procedure DoCreate(); virtual;
     /// <summary>
-    /// Frame Triggered before being displayed
+    /// Frame 正在显示之前触发
     /// </summary>
     procedure DoShow(); virtual;
     /// <summary>
-    /// Frame Trigger when hiding the display (use DoFinish as much as possible)
+    /// Frame 隐藏显示时触发 (尽量使用 DoFinish )
     /// </summary>
     procedure DoHide(); virtual;
     /// <summary>
-    /// Check if the current Frame is allowed to close
+    /// 检测当前Frame是否允许关闭
     /// </summary>
     function DoCanFinish(): Boolean; virtual;
     /// <summary>
-    /// Frame Triggered before closing when it needs to be closed
+    /// Frame 需要关闭时，在关闭之前触发
     /// </summary>
     procedure DoFinish(); virtual;
     /// <summary>
-    /// Frame Trigger before redisplaying
+    /// Frame 在重新显示之前触发
     /// </summary>
     procedure DoReStart(); virtual;
     /// <summary>
-    /// Frame Trigger on release
+    /// Frame 在释放时触发
     /// </summary>
     procedure DoFree(); virtual;
 
     function GetData: TValue; override;
     procedure SetData(const Value: TValue); override;
 
-    // Check if release is needed and release if needed
+    /// <summary>
+    /// 检测是否允许释放
+    /// </summary>
+    function DoCanFree(): Boolean; virtual;
+    // 检查是否需要释放，如果需要，就释放掉
     function CheckFree(): Boolean;
-    // Check if the form still exists.
+    // 检查所属窗体是否还存在 Frame
     function CheckChildern(): Boolean;
-    // Internal Show implementation
+    // 内部 Show 实现
     procedure InternalShow(TriggerOnShow: Boolean; AOnFinish: TNotifyEventA = nil;
       Ani: TFrameAniType = TFrameAniType.DefaultAni; SwitchFlag: Boolean = False);
     procedure InternalHide();
@@ -250,13 +254,13 @@ type
     procedure SetParent(const Value: TFmxObject); override;
     procedure AfterDialogKey(var Key: Word; Shift: TShiftState); override;
   protected
-  /// <summary>
-  /// Play the animation
-  /// <param name="Ani">Animation type</param>
-  /// <param name="IsIn"> Is it just being displayed?</param>
-  /// <param name="SwitchFlag">Animation toggle flag</param>
-  /// <param name="AEvent">Animation completion event</param>
-  /// </summary>
+    /// <summary>
+    /// 播放动画
+    /// <param name="Ani">动画类型</param>
+    /// <param name="IsIn">是否是正要显示</param>
+    /// <param name="SwitchFlag">动画切换标志</param>
+    /// <param name="AEvent">动画播放完成事件</param>
+    /// </summary>
     procedure AnimatePlay(Ani: TFrameAniType; IsIn, SwitchFlag: Boolean; AEvent: TNotifyEventA);
 
     procedure OnFinishOrClose(Sender: TObject);
@@ -265,84 +269,84 @@ type
     destructor Destroy; override;
 
     /// <summary>
-    /// Terminate APP
+    /// 终止APP
     /// </summary>
     class procedure AppTerminate();
 
     /// <summary>
-    /// Set Frame default background color
+    /// 设置 Frame 默认背景颜色
     /// </summary>
     class procedure SetDefaultBackColor(const Value: TAlphaColor);
 
     /// <summary>
-    /// Set the Frame default status bar color
+    /// 设置 Frame 默认状态条颜色
     /// </summary>
     class procedure SetDefaultStatusColor(const Value: TAlphaColor);
 
     /// <summary>
-    /// Stream into string
+    /// 流转化为 string
     /// </summary>
     function StreamToString(SrcStream: TStream; const CharSet: string = ''): string;
 
     /// <summary>
-    /// Show waiting dialog
+    /// 显示等待对话框
     /// </summary>
     procedure ShowWaitDialog(const AMsg: string; ACancelable: Boolean = True); overload;
     procedure ShowWaitDialog(const AMsg: string; OnDismissListener: TOnDialogListener; ACancelable: Boolean = True); overload;
     procedure ShowWaitDialog(const AMsg: string; OnDismissListener: TOnDialogListenerA; ACancelable: Boolean = True); overload;
 
     /// <summary>
-    /// Update wait dialog message content
+    /// 更新等待对话框消息内容
     /// </summary>
     procedure UpdateWaitDialog(const AMsg: string);
 
     /// <summary>
-    /// Hide waiting dialog
+    /// 隐藏等待对话框
     /// </summary>
     procedure HideWaitDialog();
 
     /// <summary>
-    /// Display frame
+    /// 显示 Frame
     /// </summary>
     class function ShowFrame(Parent: TFmxObject; Params: TFrameParams;
       Ani: TFrameAniType = TFrameAniType.None; SwitchFlag: Boolean = False): TFrameView; overload;
     /// <summary>
-    /// Display Frame
+    /// 显示 Frame
     /// </summary>
     class function ShowFrame(Parent: TFmxObject; const Title: string = ''; Ani: TFrameAniType = TFrameAniType.None;
       SwitchFlag: Boolean = False): TFrameView; overload;
     /// <summary>
-    /// Display Frame
+    /// 显示 Frame
     /// </summary>
     class function CreateFrame(Parent: TFmxObject; Params: TFrameParams): TFrameView; overload;
     /// <summary>
-    /// Display frame
+    /// 显示 Frame
     /// </summary>
     class function CreateFrame(Parent: TFmxObject; const Title: string = ''): TFrameView; overload;
 
     /// <summary>
-    /// Start a view and hide the current view
+    /// 开始一个视图，并隐藏当前视图
     /// </summary>
     function StartFrame(FrameClass: TFrameViewClass; Ani: TFrameAniType = TFrameAniType.DefaultAni): TFrameView; overload;
     /// <summary>
-    /// Start a view and hide the current view
+    /// 开始一个视图，并隐藏当前视图
     /// </summary>
     function StartFrame(FrameClass: TFrameViewClass; Params: TFrameParams; Ani: TFrameAniType = TFrameAniType.DefaultAni): TFrameView; overload;
     /// <summary>
-    /// Start a view and hide the current view
+    /// 开始一个视图，并隐藏当前视图
     /// </summary>
     function StartFrame(FrameClass: TFrameViewClass; const Title: string; Ani: TFrameAniType = TFrameAniType.DefaultAni): TFrameView; overload;
     /// <summary>
-    /// Start a view and hide the current view
+    /// 开始一个视图，并隐藏当前视图
     /// </summary>
     function StartFrame(FrameClass: TFrameViewClass; const Title: string; const Data: TValue; Ani: TFrameAniType = TFrameAniType.DefaultAni): TFrameView; overload;
     /// <summary>
-    /// Start a view and hide the current view
+    /// 开始一个视图，并隐藏当前视图
     /// </summary>
     function StartFrame(FrameClass: TFrameViewClass; const Title: string; const DataString: string; Ani: TFrameAniType = TFrameAniType.DefaultAni): TFrameView; overload;
 
     /// <summary>
-    /// Display a message
+    /// 显示一个提示消息
     /// </summary>
     procedure Hint(const Msg: string); overload;
     procedure Hint(const Msg: Double); overload;
@@ -350,83 +354,83 @@ type
     procedure Hint(const AFormat: string; const Args: array of const); overload;
 
     /// <summary>
-    /// Delayed execution of tasks
+    /// 延时执行任务
     /// </summary>
     procedure DelayExecute(ADelay: Single; AExecute: TNotifyEventA);
 
     /// <summary>
-    /// Display frame
+    /// 显示 Frame
     /// </summary>
     procedure Show(); overload; override;
     procedure Show(Ani: TFrameAniType; AOnFinish: TNotifyEventA;
       SwitchFlag: Boolean = False;
       TriggerOnShow: Boolean = True); reintroduce; overload;
     /// <summary>
-    /// Close Frame
+    /// 关闭 Frame
     /// </summary>
     procedure Close(); overload;
     procedure Close(Ani: TFrameAniType); overload; virtual;
     /// <summary>
-    /// Hide Frame
+    /// 隐藏 Frame
     /// </summary>
     procedure Hide(); overload; override;
     procedure Hide(Ani: TFrameAniType; SwitchFlag: Boolean = False); reintroduce; overload;
     /// <summary>
-    /// Complete the current Frame (return to the previous Frame or close)
+    /// 完成当前 Frame (返回上一个 Frame 或 关闭)
     /// </summary>
     procedure Finish(); overload; virtual;
     procedure Finish(Ani: TFrameAniType); overload; virtual;
 
     /// <summary>
-    /// Parameters at startup
+    /// 启动时的参数
     /// </summary>
     property Params: TFrameParams read GetParams write SetParams;
     /// <summary>
-    /// Start the Frame of this Frame
+    /// 启动此Frame的Frame
     /// </summary>
     property Last: TFrameView read FLastView;
 
     /// <summary>
-    /// Private preset parameters (private, non-thread safe)
+    /// 私有预设参数 (私有，非线程安全)
     /// </summary>
     property Preferences: TFrameState read GetPreferences;
     /// <summary>
-    /// Common preset parameters (global, non-thread safe)
+    /// 共有预设参数 (全局，非线程安全)
     /// </summary>
     property SharedPreferences: TFrameState read GetSharedPreferences;
     /// <summary>
-    /// Is it showing?
+    /// 是否正在Show
     /// </summary>
     property Showing: Boolean read FShowing;
 
     property DataAsPointer: Pointer read GetDataAsPointer;
 
     /// <summary>
-    /// The Form object to which the current Frame is bound
+    /// 当前 Frame 所绑定的 Form 对象
     /// </summary>
     property ParentForm: TCustomForm read GetParentForm;
 
     /// <summary>
-    /// Waiting for the dialog to be canceled
+    /// 等待对话框是否被取消了
     /// </summary>
     property IsWaitDismiss: Boolean read GetIsWaitDismiss;
     /// <summary>
-    /// Has it been released?
+    /// 是否已经释放
     /// </summary>
     property IsDestroy: Boolean read GetIsDestroy;
     /// <summary>
-    /// Whether the default background color is used
+    /// 是否使用了默认背景色
     /// </summary>
     property IsUseDefaultBackColor: Boolean read FUseDefaultBackColor;
   published
     property Title: string read GetTitle write SetTitle;
     property DataString: string read GetDataString write SetDataString;
     /// <summary>
-    /// Background color
+    /// 背景颜色
     /// </summary>
     property BackColor: TAlphaColor read FBackColor write SetBackColor;
     /// <summary>
-    /// APP Top status bar color
+    /// APP 顶部状态条颜色
     /// </summary>
     property StatusColor: TAlphaColor read GetStatusColor write SetStatusColor;
 
@@ -448,7 +452,7 @@ const
 
 var
   /// <summary>
-  /// Default cutscenes
+  /// 默认过场动画
   /// </summary>
   DefaultAnimate: TFrameAniType = TFrameAniType.MoveInOut;
 
@@ -470,7 +474,7 @@ uses
 
 var
   /// <summary>
-  /// Public status data
+  /// 公共状态数据
   /// </summary>
   FPublicState: TFrameState = nil;
 
@@ -479,7 +483,7 @@ var
 
 {$IFDEF ANDROID}
 
-// Solve sometimes return key failure issues
+// 解决有时返回键失效问题
 var
   FVKState: PByte = nil;
   FFirstCreateFrame: Boolean = True;
@@ -518,7 +522,7 @@ end;
 
 procedure TFrameView.AfterDialogKey(var Key: Word; Shift: TShiftState);
 begin
-  // Close the dialog if the back button is pressed and the dialog is allowed to be canceled
+  // 如果按下了返回键，且允许取消对话框，则关闭对话框
   if Assigned(Self) and (Key in [vkEscape, vkHardwareBack]) then begin
     Key := 0;
     Finish;
@@ -529,7 +533,7 @@ end;
 procedure TFrameView.AnimatePlay(Ani: TFrameAniType; IsIn, SwitchFlag: Boolean;
   AEvent: TNotifyEventA);
 
-  // fade in and fade out
+  // 淡入淡出
   procedure DoFadeInOut();
   var
     NewValue: Single;
@@ -557,7 +561,7 @@ procedure TFrameView.AnimatePlay(Ani: TFrameAniType; IsIn, SwitchFlag: Boolean;
     end;
   end;
 
-  // Move in and out, enter on the right
+  // 移入移出, 右边进入
   procedure DoMoveInOut();
   var
     NewValue: Single;
@@ -565,17 +569,17 @@ procedure TFrameView.AnimatePlay(Ani: TFrameAniType; IsIn, SwitchFlag: Boolean;
     if IsIn then begin
       Self.Opacity := 1;
       if not SwitchFlag then begin
-        Self.Position.X := Self.Width - 1;  //Target frame new display
+        Self.Position.X := Self.Width - 1;  //目标frame新显示
         NewValue := 0;
       end else begin
-        Self.Position.X := -Self.Width + 1;  //Target frame return display
+        Self.Position.X := -Self.Width + 1;  //目标frame返回显示
         NewValue := 0;
       end;
     end else begin
       if not SwitchFlag then
-        NewValue := -Self.Width + 1 //Old frame returns to the right
+        NewValue := -Self.Width + 1 //旧的frame向右返回
       else
-        NewValue := Self.Width - 1; //Old frame hidden to the left
+        NewValue := Self.Width - 1; //旧的frame向左隐藏
       if FinishIsFreeApp then begin
         if Assigned(AEvent) then
           AEvent(Self);
@@ -585,7 +589,37 @@ procedure TFrameView.AnimatePlay(Ani: TFrameAniType; IsIn, SwitchFlag: Boolean;
     TFrameAnimator.AnimateFloat(Self, 'Position.X', NewValue, AEvent);
   end;
 
-  // Move in and out at the bottom, enter on the right
+  // 顶部移入移出, 右边进入
+  procedure DoTopMoveInOut();
+  var
+    LForm: TCustomForm;
+    Y: Single;
+  begin
+    if IsIn then begin
+      Self.Opacity := 1;
+      if not SwitchFlag then begin
+        Self.Position.Y := - Self.Height;
+        Y := 0;
+        LForm := Self.ParentForm;
+        if Assigned(LForm) then
+          Y := LForm.Padding.Top;
+        TFrameAnimator.AnimateFloat(Self, 'Position.Y', Y, AEvent);
+      end else if Assigned(AEvent) then
+        TFrameAnimator.DelayExecute(Self, AEvent, 0.2);
+    end else begin
+      if FinishIsFreeApp then begin
+        if Assigned(AEvent) then
+          AEvent(Self);
+        Exit;
+      end;
+      if SwitchFlag then
+        TFrameAnimator.AnimateFloat(Self, 'Position.Y', - Self.Height, AEvent, 0.1)
+      else if Assigned(AEvent) then
+        TFrameAnimator.DelayExecute(Self, AEvent, 0.65);
+    end;
+  end;
+
+  // 底部移入移出, 右边进入
   procedure DoBottomMoveInOut();
   var
     LForm: TCustomForm;
@@ -634,11 +668,13 @@ begin
         DoFadeInOut;
       TFrameAniType.MoveInOut:
         DoMoveInOut;
+      TFrameAniType.TopMoveInOut:
+        DoTopMoveInOut;
       TFrameAniType.BottomMoveInOut:
         DoBottomMoveInOut;
     else
       begin
-        // No animation effect
+        // 无动画效果
         if Assigned(AEvent) then
           AEvent(Self);
         if IsIn then
@@ -671,16 +707,16 @@ function TFrameView.CheckChildern: Boolean;
 var
   I: Integer;
 begin
-  if (Parent is TForm) then begin  
+  if (Parent is TForm) then begin
     Result := True;
-    if Parent.ChildrenCount >= 2 then begin    
+    if Parent.ChildrenCount >= 2 then begin
       for I := 0 to Parent.ChildrenCount - 1 do begin
         if (Parent.Children[I] <> Self) and (Parent.Children[I] is FMX.Forms.TFrame) then begin
           Result := False;
           Exit;
         end;
       end;
-    end;  
+    end;
   end else
     Result := False;
 end;
@@ -689,22 +725,18 @@ function TFrameView.CheckFree: Boolean;
 begin
   Result := False;
   if Assigned(Parent) then begin
-    if not Assigned(Parent.Parent) then begin
-      if (Parent is TForm) then begin
-        if (CheckChildern()) then begin
-          {$IFDEF POSIX}
-            {$IFDEF DEBUG}
-            (Parent as TForm).Close;
-            {$ELSE}
-            Kill(0, SIGKILL);
-            {$ENDIF}
-          {$ELSE}
-          (Parent as TForm).Close;
-          {$ENDIF}
-          Result := True;
-          Exit;
-        end;
-      end;
+    if (Parent is TForm) and DoCanFree then begin
+      {$IFDEF POSIX}
+        {$IFDEF DEBUG}
+        (Parent as TForm).Close;
+        {$ELSE}
+        Kill(0, SIGKILL);
+        {$ENDIF}
+      {$ELSE}
+      (Parent as TForm).Close;
+      {$ENDIF}
+      Result := True;
+      Exit;
     end;
     {$IFDEF MSWINDOWS}
     if Assigned(ParentForm) then
@@ -730,12 +762,12 @@ end;
 
 procedure TFrameView.Close(Ani: TFrameAniType);
 begin
-  // If it is being displayed, the setting requires the Finish logo.
+  // 如果正在显示中，设置需要Finish标识
   if FShowing then begin
     FNeedFinish := True;
     Exit;
   end;
-  // In the animation execution, set the logo to be closed
+  // 动画执行中， 设置需要关闭的标识
   FWaitDialog := nil;
   if FAnimateing then
     FNeedFree := True
@@ -752,7 +784,7 @@ class function TFrameView.CreateFrame(Parent: TFmxObject;
   {$IFDEF ANDROID}
   procedure DoUpdateParentFormState(Parent: TFmxObject);
   begin
-    // Set the status bar color, and when the status bar height is greater than 0, set the Padding.Top of the parent Form to the status bar height.
+    // 设置了状态条颜色，并且状态条高度大于0时，将父级Form的Padding.Top设为状态条高度
     if (FDefaultStatusColor <> 0) and (TView.GetStatusHeight > 0) then begin
       while Parent <> nil do begin
         if (Parent is TCommonCustomForm) then begin
@@ -766,8 +798,8 @@ class function TFrameView.CreateFrame(Parent: TFmxObject;
       end;
     end;
   end;
-  {$ENDIF}      
-  
+  {$ENDIF}
+
 var
   Dlg: IDialog;
 begin
@@ -775,14 +807,14 @@ begin
   if (Assigned(Parent)) then begin
     try
       {$IFDEF ANDROID}
-      // Check if it is the first time to create a Frame
-      if FFirstCreateFrame then begin  
+      // 检测是否是第一次创建 Frame
+      if FFirstCreateFrame then begin
         DoUpdateParentFormState(Parent);
-        FFirstCreateFrame := False;  
+        FFirstCreateFrame := False;
       end;
       {$ENDIF}
-      
-      // Check if Dialog is present
+
+      // 检测是否是存在Dialog
       if Parent is TControl then begin
         Dlg := TDialog.GetDialog(Parent as TControl);
         if Assigned(Dlg) then begin
@@ -903,6 +935,11 @@ begin
   Result := True;
 end;
 
+function TFrameView.DoCanFree: Boolean;
+begin
+  Result := not Assigned(Parent.Parent) and CheckChildern();
+end;
+
 procedure TFrameView.DoCreate;
 begin
 end;
@@ -1004,7 +1041,7 @@ end;
 
 function TFrameView.GetIsWaitDismiss: Boolean;
 begin
-  Result := IsDestroy or (Assigned(FWaitDialog) and (FWaitDialog.IsDismiss));
+  Result := IsDestroy or (not Assigned(FWaitDialog)) or FWaitDialog.IsDismiss;
 end;
 
 function TFrameView.GetParams: TFrameParams;
@@ -1052,7 +1089,7 @@ function TFrameView.GetStatusColor: TAlphaColor;
       Result := F.Fill.Color;
   end;
   {$ENDIF}
-  
+
   {$IFDEF ANDROID}
   function ExecuteAndroid(): TAlphaColor;
   var
@@ -1114,7 +1151,7 @@ end;
 
 procedure TFrameView.HideWaitDialog;
 begin
-  if (not IsDestroy) and Assigned(FWaitDialog) then begin
+  if not IsWaitDismiss then begin
     FWaitDialog.Dismiss;
     FWaitDialog := nil;
   end;
@@ -1156,7 +1193,7 @@ begin
     Application.Title := Title;
     if Assigned(Parent) and (Parent is TCustomForm) then
       TCustomForm(Parent).Caption := Title;
-  end;    
+  end;
   if TriggerOnShow then
     DoShow()
   else
@@ -1230,15 +1267,15 @@ end;
 
 class procedure TFrameView.SetDefaultStatusColor(const Value: TAlphaColor);
 begin
-  if FDefaultStatusColor <> Value then begin  
+  if FDefaultStatusColor <> Value then begin
     FDefaultStatusColor := Value;
     {$IFDEF NEXTGEN}
-    // When moving the platform, when setting the status bar color, if the background color is transparent and the status bar height is >0,
-    // Set the background color to white
+    // 在移动平台时，设置状态条颜色时，如果背景颜色为透明，且状态条高度>0时，
+    // 将背景颜色设为白色
     if (Value and $FF000000 > 0) and (FDefaultBackColor = 0){$IFDEF ANDROID} and (TView.GetStatusHeight > 0){$ENDIF} then
-      FDefaultBackColor := $fff1f2f3; 
+      FDefaultBackColor := $fff1f2f3;
     {$ENDIF}
-  end;  
+  end;
 end;
 
 procedure TFrameView.SetParams(const Value: TFrameParams);
@@ -1254,7 +1291,7 @@ begin
   if FNeedDoCreate and Assigned(Parent) then begin
     FNeedDoCreate := False;
     if FUseDefaultBackColor and Assigned(TDialog.GetDialog(Self)) then
-      FBackColor := 0;  // When using as a child view of Dialog, the default background color is not used.
+      FBackColor := 0;  // 作为Dialog的子View时，不使用默认背景色
     DoCreate();
   end;
 end;
@@ -1271,9 +1308,9 @@ procedure TFrameView.SetStatusColor(const Value: TAlphaColor);
     F.Fill.Color := Value;
   end;
   {$ENDIF}
-  
+
   {$IFDEF ANDROID}
-  procedure ExecuteAndroid();   
+  procedure ExecuteAndroid();
   var
     F: TCustomForm;
     {$IF CompilerVersion > 30}
@@ -1284,9 +1321,9 @@ procedure TFrameView.SetStatusColor(const Value: TAlphaColor);
       F := ParentForm;
       if not Assigned(F) then
         Exit;
-      F.Fill.Color := Value;        
+      F.Fill.Color := Value;
     end else begin
-      {$IF CompilerVersion > 30} // Delphi 10.1 Later version
+      {$IF CompilerVersion > 30} // Delphi 10.1 之后的版本
       if TJBuild_VERSION.JavaClass.SDK_INT < 21 then
         Exit;
       wnd := TAndroidHelper.Activity.getWindow;
@@ -1295,12 +1332,12 @@ procedure TFrameView.SetStatusColor(const Value: TAlphaColor);
         procedure
         begin
           wnd.getDecorView().setFitsSystemWindows(True);
-          // Unset the transparent status bar so that the ContentView content no longer overwrites the status bar
+          // 取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
           wnd.clearFlags($04000000); // FLAG_TRANSLUCENT_STATUS
           wnd.getDecorView().setSystemUiVisibility($00000400 or $00000100);
-          // You need to set this flag to call setStatusBarColor to set the status bar color.
+          // 需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
           wnd.addFlags(TJWindowManager_LayoutParams.JavaClass.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); // FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-          // Set color
+          // 设置颜色
           wnd.setStatusBarColor(Value);
         end
       );
@@ -1314,7 +1351,7 @@ begin
   ExecuteIOS();
   {$ENDIF}
   {$IFDEF ANDROID}
-  ExecuteAndroid(); 
+  ExecuteAndroid();
   {$ENDIF}
 end;
 
@@ -1365,7 +1402,7 @@ end;
 
 procedure TFrameView.ShowWaitDialog(const AMsg: string; ACancelable: Boolean);
 begin
-  if (not Assigned(FWaitDialog)) or (FWaitDialog.IsDismiss) then begin
+  if IsWaitDismiss then begin
     FWaitDialog := nil;
     FWaitDialog := TProgressDialog.Create(Self);
   end;
@@ -1381,7 +1418,7 @@ function TFrameView.StartFrame(FrameClass: TFrameViewClass;
   const Title: string; Ani: TFrameAniType): TFrameView;
 begin
   Result := MakeFrame(FrameClass);
-  if Assigned(Result) then begin  
+  if Assigned(Result) then begin
     Result.Title := Title;
     Hide(Ani);
     Result.Show(Ani, nil);
@@ -1392,7 +1429,7 @@ function TFrameView.StartFrame(FrameClass: TFrameViewClass; const Title: string;
   const Data: TValue; Ani: TFrameAniType): TFrameView;
 begin
   Result := MakeFrame(FrameClass);
-  if Assigned(Result) then begin  
+  if Assigned(Result) then begin
     Result.Title := Title;
     Result.Data := Data;
     Hide(Ani);
@@ -1430,7 +1467,7 @@ end;
 
 procedure TFrameView.UpdateWaitDialog(const AMsg: string);
 begin
-  if (not Assigned(FWaitDialog)) or (FWaitDialog.IsDismiss) then
+  if IsWaitDismiss then
     Exit;
   if Assigned(FWaitDialog.RootView) then begin
     FWaitDialog.Message := AMsg;
@@ -1442,7 +1479,7 @@ function TFrameView.StartFrame(FrameClass: TFrameViewClass;
   Params: TFrameParams; Ani: TFrameAniType): TFrameView;
 begin
   Result := MakeFrame(FrameClass);
-  if Assigned(Result) then begin  
+  if Assigned(Result) then begin
     Result.Params := Params;
     Hide(Ani);
     Result.Show(Ani, nil);
@@ -1452,7 +1489,7 @@ end;
 function TFrameView.StartFrame(FrameClass: TFrameViewClass; Ani: TFrameAniType): TFrameView;
 begin
   Result := MakeFrame(FrameClass);
-  if Assigned(Result) then begin  
+  if Assigned(Result) then begin
     Hide(Ani);
     Result.Show(Ani, nil);
   end;

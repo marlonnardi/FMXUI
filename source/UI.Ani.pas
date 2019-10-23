@@ -10,11 +10,11 @@ uses
 
 type
   /// <summary>
-  /// Animation type
+  /// 动画类型
   /// </summary>
-  TFrameAniType = (None, DefaultAni {榛樿}, FadeInOut {娣″叆娣″嚭},
-    MoveInOut {绉昏繘绉诲嚭}, BottomMoveInOut {搴曢儴寮硅繘寮瑰嚭},
-    LeftSlideMenu {宸﹁竟鏍忚彍鍗晑, RightSlideMenu {鍙宠竟鏍忚彍鍗晑
+  TFrameAniType = (None, DefaultAni {默认}, FadeInOut {淡入淡出},
+    MoveInOut {移进移出}, TopMoveInOut {顶部弹进弹出}, BottomMoveInOut {底部弹进弹出},
+    LeftSlideMenu {左边栏菜单}, RightSlideMenu {右边栏菜单}
   );
 
   TNotifyEventA = reference to procedure (Sender: TObject);
@@ -78,7 +78,7 @@ type
     class procedure Uninitialize;
   public
     /// <summary>
-    /// Delayed execution of tasks
+    /// 延时执行任务
     /// </summary>
     class procedure DelayExecute(const Owner: TFmxObject; AOnFinish: TNotifyEventA; Delay: Single = 1.0);
 
@@ -456,7 +456,7 @@ var
 begin
   Key := Sender.GetHashCode;
   if FOnFinishs.TryGetValue(Key, Item) then begin
-    FOnFinishs.Remove(Key);  // UI operation, the default is single thread, no synchronization
+    FOnFinishs.Remove(Key);  // UI操作，默认是单线程，不作同步处理
   end else begin
     Item.OnFinish := nil;
     Item.OnFinishA := nil;
