@@ -1467,12 +1467,16 @@ end;
 
 procedure TFrameView.UpdateWaitDialog(const AMsg: string);
 begin
-  if IsWaitDismiss then
-    Exit;
-  if Assigned(FWaitDialog.RootView) then begin
-    FWaitDialog.Message := AMsg;
-    FWaitDialog.RootView.MessageView.Text := AMsg;
-  end;
+  TThread.Synchronize(TThread.CurrentThread,
+    procedure
+    begin
+      if IsWaitDismiss then
+        Exit;
+      if Assigned(FWaitDialog.RootView) then begin
+        FWaitDialog.Message := AMsg;
+        FWaitDialog.RootView.MessageView.Text := AMsg;
+      end;
+    end);
 end;
 
 function TFrameView.StartFrame(FrameClass: TFrameViewClass;
