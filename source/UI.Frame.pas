@@ -1402,16 +1402,20 @@ end;
 
 procedure TFrameView.ShowWaitDialog(const AMsg: string; ACancelable: Boolean);
 begin
-  if IsWaitDismiss then begin
-    FWaitDialog := nil;
-    FWaitDialog := TProgressDialog.Create(Self);
-  end;
-  FWaitDialog.Cancelable := ACancelable;
-  if not Assigned(FWaitDialog.RootView) then
-    FWaitDialog.InitView(AMsg)
-  else
-    FWaitDialog.Message := AMsg;
-  TDialog(FWaitDialog).Show();
+  TThread.Synchronize(TThread.CurrentThread,
+    procedure
+    begin
+      if IsWaitDismiss then begin
+        FWaitDialog := nil;
+        FWaitDialog := TProgressDialog.Create(Self);
+      end;
+      FWaitDialog.Cancelable := ACancelable;
+      if not Assigned(FWaitDialog.RootView) then
+        FWaitDialog.InitView(AMsg)
+      else
+        FWaitDialog.Message := AMsg;
+      TDialog(FWaitDialog).Show();
+    end);
 end;
 
 function TFrameView.StartFrame(FrameClass: TFrameViewClass;

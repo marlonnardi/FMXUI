@@ -55,3 +55,4 @@ __recovery/
 *.stat
 
 bin
+*.res
