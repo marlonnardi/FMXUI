@@ -118,6 +118,8 @@ type
     function SetFocusObject(V: TControl): Boolean;
     // 进入下一个焦点控件
     procedure FocusToNext();
+    // 获取缩放尺寸
+    function GetSceneScale: Single;
   end;
 
   /// <summary>
@@ -1363,7 +1365,6 @@ type
     procedure Click; override;
     procedure DoClickEvent; virtual;
 
-
     // 限制组件最大和最小大小
     procedure DoAdjustViewBounds(var ANewWidth, ANewHeight: Single); virtual;
     // 布局变化了
@@ -1390,7 +1391,6 @@ type
     FScrollbar: TViewScroll;
     FDisableMouseWheel: Boolean;
     procedure SetScrollbar(const Value: TViewScroll); virtual;
-    function GetSceneScale: Single;
     function GetAniCalculations: TScrollCalculations; virtual;
     procedure StartScrolling;
     procedure StopScrolling;
@@ -2770,6 +2770,8 @@ procedure TDrawableBase.SetBitmap(State: TViewState; const Value: TBitmap);
 var V: TBrush;
 begin
   V := GetBrush(State, True);
+  if (V.Bitmap = nil) or (V.Bitmap.Bitmap = nil) then
+    Exit;
   if Assigned(Value) then
     V.Bitmap.Bitmap.Assign(Value)
   else
@@ -4096,15 +4098,6 @@ end;
 function TView.GetPosition: TPosition;
 begin
   Result := Position;
-end;
-
-function TView.GetSceneScale: Single;
-begin
-  Result := 0;
-  if Scene <> nil then
-    Result := Scene.GetSceneScale;
-  if Result <= 0 then
-    Result := 1;
 end;
 
 function TView.GetScrollSmallChangeFraction: Single;
@@ -5458,9 +5451,7 @@ begin
 
       if (HeightSize = TViewSize.WrapContent) and (Height <> VH) then
         SetBounds(Left, Top, VW, VH);
-
     end;
-
   end else
     inherited DoRealign;
   FDisableAlign := False;
@@ -5548,11 +5539,8 @@ begin
 
       if IsASW then AWidth := AWidth + Padding.Left + Padding.Right;
       if IsASH then AHeight := AHeight + Padding.Top + Padding.Bottom;
-
     end;
-
   end else begin
-
     if FDisableAlign then
       Exit;
 
@@ -8034,7 +8022,8 @@ begin
         Continue;
       {$ENDIF}
 
-      if CurPos.X > AW then begin
+      // 有些宽度除不尽，差值在2以内
+      if Ceil(CurPos.X) >= AW then begin
         if (LStretchMode = TViewStretchMode.SpacingWidthUniform) or (not FSpacingBorder) then
           CurPos.X := Padding.Left
         else
@@ -8194,7 +8183,6 @@ begin
         Control.SetBounds(VL, VT, VW, VH);
       end else
         Control.SetBounds(VL, VT, VW, VH);
-
     end;
 
     if FLastRows = 1 then
@@ -8635,6 +8623,15 @@ begin
   end;
 end;
 
+function TControlHelper.GetSceneScale: Single;
+begin
+  Result := 0;
+  if Scene <> nil then
+    Result := Scene.GetSceneScale;
+  if Result <= 0 then
+    Result := 1;
+end;
+
 function TControlHelper.SetFocusObject(V: TControl): Boolean;
 var
   Item: TControl;
@@ -8766,22 +8763,23 @@ var
     P, PE, P1: PChar;
     LW: Single;
     LTmp: string;
+    LScale: Single;
   begin
     if MW < CharW then
       Exit;
 
     LW := S.Width;
+    LScale := GetScreenScale;
 
     if X + CharW >= MW then begin
       Y := Y + S.Height;
       X := LX;
     end;
 
-
     if Item.Link >= 0 then begin
       // 超链接不换行
       if X > LX then begin
-        TextSet.TextSize(LText, S, Canvas.Scale);
+        TextSet.TextSize(LText, S, LScale);
         if X + S.Width > MW then begin
           X := LX;
           Y := Y + S.Height;
@@ -8793,7 +8791,7 @@ var
         DrawText(LText, Item, LColor, X, Y, S);
         TextSet.WordWrap := False;
       end else begin
-        TextSet.TextSize(LText, S, Canvas.Scale, MW - X, True);
+        TextSet.TextSize(LText, S, LScale, MW - X, True);
         X := X + S.Width;
         S.Width := Max(LW, X);
       end;
@@ -8801,7 +8799,6 @@ var
         Y := Y + S.Height;
         X := LX;
       end;
-
     end else begin
       // 自动换行
       P := PChar(LText);
@@ -8812,12 +8809,12 @@ var
 
         SetString(LTmp, P, Min(PE - P, J));
         if J > 1 then begin
-          TextSet.TextSize(LTmp, S, Canvas.Scale);
+          TextSet.TextSize(LTmp, S, LScale);
           if X + S.Width > MW then begin
             P1 := P + J;
             while P1 > P do begin
               SetString(LTmp, P, P1 - P);
-              TextSet.TextSize(LTmp, S, Canvas.Scale);
+              TextSet.TextSize(LTmp, S, LScale);
               if X + S.Width < MW then
                 Break;
               Dec(P1);
@@ -8895,6 +8892,7 @@ var
   LWordWarp, LVCenter: Boolean;
   LFontChange: TNotifyEvent;
   LText: string;
+  LScale: Single;
 begin
   CharW := 0;
   CharH := 0;
@@ -8903,6 +8901,7 @@ begin
   LWordWarp := TextSet.WordWrap;
   LVCenter := LWordWarp and
     (TextSet.Gravity in [TLayoutGravity.CenterVertical, TLayoutGravity.CenterVRight, TLayoutGravity.Center]);
+  LScale := GetScreenScale;
 
   LFontChange := TextSet.Font.OnChanged;
   TextSet.Font.OnChanged := nil;
@@ -8911,7 +8910,7 @@ begin
   FFont.Assign(TextSet.Font);
 
   if LWordWarp then begin
-    TextSet.TextSize('yh中', S, Canvas.Scale);
+    TextSet.TextSize('yh中', S, LScale);
     CharW := S.Width / 4;
     CharH := S.Height;
   end;
@@ -8919,7 +8918,7 @@ begin
   if LVCenter or (ASize <> nil) then begin
     ClacWordWarpTextSize(S);
   end else begin
-    TextSet.CalcTextObjectSize(FText, $FFFFFF, Canvas.Scale, nil, S);
+    TextSet.CalcTextObjectSize(FText, $FFFFFF, LScale, nil, S);
   end;
 
   if ASize <> nil then begin

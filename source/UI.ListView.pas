@@ -812,12 +812,14 @@ end;
 procedure TListViewEx.CheckMouseLeftState;
 begin
   {$IFNDEF NEXTGEN}
+  if (not Assigned(Self)) or (csDestroying in ComponentState) then
+    Exit;
   // 检查鼠标左键是否松开
   if DragScroll and (not FMouseEnter) then begin
     {$IFDEF MSWINDOWS}
     if GetAsyncKeyState(VK_LBUTTON) = 0 then
       MouseUp(TMouseButton.mbLeft, [], FMovePos.X, FMovePos.Y)
-    else
+    else if Assigned(Self) and (not (csDestroying in ComponentState)) then
       TFrameAnimator.DelayExecute(Self,
         procedure(Sender: TObject)
         begin
@@ -1065,7 +1067,10 @@ function TListViewEx.GetDividerHeight: Single;
 begin
   if FLocalDividerHeight = -1 then
     FLocalDividerHeight := InnerCalcDividerHeight;
-  Result := FLocalDividerHeight;
+  if FLocalDividerHeight = -1 then
+    Result := 1
+  else
+    Result := FLocalDividerHeight;
 end;
 
 function TListViewEx.GetRealDrawState: TViewState;
@@ -1190,7 +1195,6 @@ begin
   DividerH := GetDividerHeight;
 
   if Length(FItemsPoints) > 0 then begin
-
     ItemDefaultH := FAdapter.ItemDefaultHeight;
 
     // 计算出高度
@@ -2150,6 +2154,7 @@ procedure TListViewContent.DoRealign;
           // 如果是 TView ， 设置按下时的背景颜色
           if ItemView <> View then
             ItemView.HitTest := False;
+          View.Background.ItemDefault.Assign(ListView.Background.ItemDefault);
           View.Background.ItemPressed.Assign(ListView.Background.ItemPressed);
           View.HitTest := True;
           if ListView.FAllowItemChildClick then
@@ -2158,6 +2163,7 @@ procedure TListViewContent.DoRealign;
           // 如果是一个 Frame，让它可以点击
           // 设置点击事件，设置鼠村按下和松开事件时重绘
           ItemView.HitTest := True;
+          ItemView.AutoCapture := True;
           ItemView.OnPainting := DoPaintFrame;
           ItemView.OnMouseDown := DoMouseDownFrame;
           ItemView.OnMouseUp := DoMouseDownFrame;
@@ -2194,6 +2200,8 @@ procedure TListViewContent.DoRealign;
         MaxH := View.MaxHeight;
         if (MaxH > 0) and (AH > MaxH) then AH := MaxH;
         if (MinH > 0) and (AH < MinH) then AH := MinH;
+        if View <> ItemView then // 此时实际高度要加上这些
+          AH := AH + View.Margins.Top + View.Margins.Bottom + ItemView.Padding.Top + ItemView.Padding.Bottom;
       end else
         AH := ItemView.Height;
 
@@ -2380,8 +2388,6 @@ procedure TListViewContent.DoRealign;
           S := I;
           FFirstRowIndex := I;
           FViewTop := V;
-          if I = 0 then
-            Last := Last + Height - V;
         end;
       end;
 
@@ -3397,7 +3403,8 @@ end;
 
 function TStringsListCheckAdapter.DisableCache: Boolean;
 begin
-  Result := True;
+  // TCheckBox error was fixed in 10.3(Rio)
+  Result := {$IF CompilerVersion >= 33.0}False{$ELSE}True{$ENDIF};
 end;
 
 procedure TStringsListCheckAdapter.DoCheckChange(Sender: TObject);

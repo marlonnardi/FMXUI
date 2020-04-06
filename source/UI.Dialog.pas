@@ -346,6 +346,7 @@ type
     procedure AfterDialogKey(var Key: Word; Shift: TShiftState); override;
     procedure Resize; override;
     procedure DoRealign; override;
+    function GetTabStopController: ITabStopController; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -2141,7 +2142,7 @@ end;
 procedure TCustomAlertDialog.AdjustDownPopupPosition;
 var
   P: TPointF;
-  PW, PH, W, H, X, Y, OX, OY: Single;
+  PW, PH, SW, SH, W, H, X, Y, OX, OY: Single;
 begin
   P := TPointF.Zero;
   P := FBuilder.FTarget.LocalToAbsolute(P);
@@ -2151,6 +2152,9 @@ begin
 
   PW := FViewRoot.Width;
   PH := FViewRoot.Height;
+
+  SW := FViewRoot.FLayBubble.Width;
+  SH := FViewRoot.FLayBubble.Height;
 
   X := P.X;
   Y := P.Y;
@@ -2162,7 +2166,7 @@ begin
     TLayoutGravity.LeftTop:
       begin
         X := X + OX;
-        Y := Y + OY;
+        Y := Y - SH - OY;
       end;
     TLayoutGravity.LeftBottom:
       begin
@@ -2171,19 +2175,25 @@ begin
       end;
     TLayoutGravity.RightTop:
       begin
-        X := X + (W - PW) + OX;
-        Y := Y + OY;
+        X := X + W - SW - OX;
+        Y := Y - SH - OY;
       end;
     TLayoutGravity.RightBottom:
       begin
-        X := X + (W - PW) + OX;
+        X := X + W - SW - OX;
         Y := Y + H + OY;
       end;
   end;
 
   FViewRoot.FLayBubble.Position.Point := PointF(X, Y);
 
-  H := PH - Y - FViewRoot.FLayBubble.Margins.Bottom;
+  case FBuilder.FTargetGravity of
+    TLayoutGravity.LeftTop, TLayoutGravity.RightTop:
+      H := SH + Y - FViewRoot.FLayBubble.Margins.Top - FViewRoot.FLayBubble.Margins.Bottom;
+  else
+    H := PH - Y - FViewRoot.FLayBubble.Margins.Top - FViewRoot.FLayBubble.Margins.Bottom;
+  end;
+
   if (H < FViewRoot.FLayBubble.MaxHeight) or (FViewRoot.FLayBubble.MaxHeight = 0) then
     FViewRoot.FLayBubble.MaxHeight := H;
 end;
@@ -2888,6 +2898,11 @@ begin
   inherited DoRealign;
   if (not FDisableAlign) and FIsDownPopup then
     TAlertDialog(FDialog).AdjustDownPopupPosition;
+end;
+
+function TDialogView.GetTabStopController: ITabStopController;
+begin
+  Result := Self;
 end;
 
 procedure TDialogView.Hide;

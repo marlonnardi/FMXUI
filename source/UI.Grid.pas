@@ -1256,7 +1256,7 @@ type
     property DividerHeight;
 
     property ShowScrollBars;
-    property ScrollBars default TViewScroll.Vertical;
+    property ScrollBars default TViewScroll.Both;
     property ScrollSmallChangeFraction;
     property ScrollStretchGlowColor;
     property ScrollbarWidth;
@@ -2515,7 +2515,7 @@ end;
 
 procedure TGridBase.DoScrollVisibleChange;
 begin
-  if FCanScrollV and FCanScrollH then begin
+  if FCanScrollV and Assigned(FScrollV) and FCanScrollH and Assigned(FScrollH) then begin
     FScrollV.Margins.Bottom := 0;
     if FShowScrollBars then
       FScrollH.Margins.Right := FScrollV.Width
@@ -2580,7 +2580,10 @@ function TGridBase.GetDividerHeight: Single;
 begin
   if FLocalDividerHeight = -1 then
     FLocalDividerHeight := InnerCalcDividerHeight;
-  Result := FLocalDividerHeight;
+  if FLocalDividerHeight = -1 then
+    Result := 1
+  else
+    Result := FLocalDividerHeight;
 end;
 
 function TGridBase.GetFixedColsumn(const ACol: Integer): TGridColumnItem;
@@ -2595,8 +2598,9 @@ function TGridBase.GetFixedIndicatorWidth: Single;
 var
   LCount: Integer;
   Item: TGridColumnItem;
+  LScale: Single;
 begin
-  if FFixedIndicatorWidthChange and Assigned(Scene) then begin
+  if FFixedIndicatorWidthChange then begin
     FFixedIndicatorWidthChange := False;
 
     if gvIndicator in FOptions then
@@ -2605,16 +2609,17 @@ begin
       FLastFixedIndicatorWidth := 0;
 
     Item := FixedColsumn[-1];
+    LScale := GetSceneScale;
 
     if gvRowIndex in FOptions then begin
       LCount := RowCount;
       if LCount < 1 then LCount := CDefaultEmptyRows;
       FLastFixedIndicatorWidth := FLastFixedIndicatorWidth +
-        FFixedText.CalcTextWidth(IntToStr(LCount), Scene.GetSceneScale) + Item.Padding.Left + Item.Padding.Right;
+        FFixedText.CalcTextWidth(IntToStr(LCount), LScale) + Item.Padding.Left + Item.Padding.Right;
 
       if Item.Title <> '' then begin
         FLastFixedIndicatorWidth := Max(FLastFixedIndicatorWidth,
-          FFixedText.CalcTextWidth(Item.Title, Scene.GetSceneScale) + Item.Padding.Left + Item.Padding.Right)
+          FFixedText.CalcTextWidth(Item.Title, LScale) + Item.Padding.Left + Item.Padding.Right)
       end;
     end else
       FLastFixedIndicatorWidth := FLastFixedIndicatorWidth + Item.Padding.Left + Item.Padding.Right;
@@ -2622,7 +2627,7 @@ begin
     if gvFixedFooter in FOptions then begin
       if FFixedSetting.FFooterText <> '' then
         FLastFixedIndicatorWidth := Max(FLastFixedIndicatorWidth,
-          FFixedText.CalcTextWidth(FFixedSetting.FFooterText, Scene.GetSceneScale) + Item.Padding.Left + Item.Padding.Right);
+          FFixedText.CalcTextWidth(FFixedSetting.FFooterText, LScale) + Item.Padding.Left + Item.Padding.Right);
     end;
 
     FLastFixedIndicatorWidth := Max(8, FLastFixedIndicatorWidth);
@@ -2744,8 +2749,6 @@ var
   I, LCount: Integer;
   W, H, DividerH: Double;
 begin
-  if not Assigned(Scene) then
-    Exit;
   // 调整列表项高度数组大小
   LCount := RowCount;
   if LCount < 1 then LCount := CDefaultEmptyRows;
@@ -2781,7 +2784,6 @@ begin
       else
         H := H + DividerH + FItemsPoints[i];
     end;
-
   end else begin
     // 不存在自动高度列时，直接算出总高度
     H := (ItemDefaultH + DividerH) * LCount;
@@ -3907,7 +3909,6 @@ begin
 
   // 默认绘制
   if B then begin
-
     // 读取单元格自定义绘制选项
     if LExistAdapter then begin
       IsCellSet := FAdapter.GetCellSettings(ACol, ARow, CellSet);
@@ -4097,7 +4098,6 @@ procedure TGridViewContent.DoDrawHeaderRows(Canvas: TCanvas; var R: TRectF);
     end;
 
     if LS.RowIndex <> -2 then begin
-
       if LS.ExistAdapter then
         FAdapter.SetCursor(LS.RowIndex);
 
@@ -4116,10 +4116,7 @@ procedure TGridViewContent.DoDrawHeaderRows(Canvas: TCanvas; var R: TRectF);
           Break;
         X := LW;
       end;
-
-
     end else begin
-
       // footer
       X := LS.FirstColOffset;
       for I := LS.FirstColIndex to LS.MaxCols - 1 do begin
@@ -4590,10 +4587,12 @@ procedure TGridViewContent.DoRealign;
     LSize: TSizeF;
     Item: TGridColumnItem;
     LText: string;
+    LScale: Single;
   begin
     // 获取行高
     Result := FDefaultItemHeight;
 
+    LScale := GetSceneScale;
     // 计算自动行高列的行高，取出最大值
     for I := 0 to LS.MaxCols - 1 do begin
       Item := FColumnsList[I];
@@ -4602,7 +4601,7 @@ procedure TGridViewContent.DoRealign;
         if (LText <> '') and
           GridView.FText.CalcTextObjectSize(LText,
             Item.Width - Item.Padding.Left - Item.Padding.Right,
-            Scene.GetSceneScale, nil, LSize)
+            LScale, nil, LSize)
         then begin
           H := LSize.Height + Item.Padding.Top + Item.Padding.Bottom;
           if H > Result then
@@ -4905,7 +4904,7 @@ begin
   if (csLoading in ComponentState) or (csDestroying in ComponentState) then
     Exit;
   // 正在调整中不处理
-  if FDisableAlign or (Scene = nil) or (not Assigned(Canvas)) then
+  if FDisableAlign or (not Assigned(Canvas)) then
     Exit;
   if not Assigned(GridView) then
     Exit;
@@ -4989,7 +4988,6 @@ begin
       FixedRowHeight(LS);
 
     DoChangeEditor(LS);
-
   finally
     FDisablePaint := LDisablePaint;
     EndUpdate;
@@ -5024,7 +5022,6 @@ begin
       Exit;
     end;
     if (gvAlwaysShowEditor in GridView.FOptions) or (FSelectClickRef > 0) then begin
-
       if (FSelectCell.Col < 0) then
         Item := nil
       else
@@ -5367,7 +5364,7 @@ var
   Item: TGridColumnItem;
   LText: string;
 begin
-  if Assigned(GridView) and Assigned(GridView.Scene) then begin
+  if Assigned(GridView) then begin
     Item := GridView.Columns.ItemCols[ACol];
     case Item.DataType of
       TGridDataType.PlanText:
@@ -5382,7 +5379,7 @@ begin
               LText := Cells[ACol, I];
             end;
           end;
-          Result := GridView.FFixedText.CalcTextWidth(LText, GridView.Scene.GetSceneScale) +
+          Result := GridView.FFixedText.CalcTextWidth(LText, GridView.GetSceneScale) +
             Item.Padding.Left + Item.Padding.Right;
           if Item.DataFilter then
             Result := Result + TGridBase.CDefaultFilterIconWH + 2;
@@ -5392,7 +5389,7 @@ begin
         begin
           LText := Item.DisplayText;
           Result := Item.Padding.Left + Item.Padding.Right +
-            Max(20, GridView.FFixedText.CalcTextWidth(LText, GridView.Scene.GetSceneScale));
+            Max(20, GridView.FFixedText.CalcTextWidth(LText, GridView.GetSceneScale));
         end
     else
       Result := TGridBase.CDefaultMinColWidth;
@@ -5754,15 +5751,11 @@ begin
 
     try
       if NewCol < ACol then begin
-
         for I := NewCol to ACol do
           UpdateItem(I);
-
       end else begin
-
         for I := NewCol downto ACol do
           UpdateItem(I);
-
       end;
     finally
       FOwner.FData.OnFreeItem := LNotify;
@@ -5995,7 +5988,7 @@ begin
   Key := TGridBase.GetKey(ACol, ARow);
 
   if FData.TryGetValue(Key, TObject(Result)) then begin
-    if Result = nil then
+    if (Result = nil) or not (Result is FColumnClass) then
       FData.Remove(Key)
     else
       Exit;
@@ -6782,7 +6775,6 @@ begin
   if LCount = 0 then
     Exit;
 
-
   if FContentViews.FColumnsList.Count <> LCount then
     FContentViews.InitColumnList;
 
@@ -6791,11 +6783,11 @@ begin
     Item.FooterText := '';
   end;
 
-  if (not Assigned(FDataLink)) or (not FDataLink.Active) or (not Assigned(FDataLink.DataSet)) then
+  if (not Assigned(FDataLink)) or (not FDataLink.Active) then
     Exit;
 
   LDataSet := FDataLink.DataSet;
-  if LDataSet.IsEmpty then
+  if (not Assigned(LDataSet)) or LDataSet.IsEmpty then
     Exit;
 
   // 取出需要统计的列，并分析出数据类型
@@ -6837,7 +6829,6 @@ begin
     LDataSet.First;
 
     if FFooterStyle in [DataTotal, DataAverage] then begin
-
       while not LDataSet.Eof do begin
         for I := 0 to High(List) do begin
           case ListType[I] of
@@ -6871,7 +6862,6 @@ begin
       end;
 
     end else begin
-
       B := False;
 
       while not LDataSet.Eof do begin
@@ -6915,9 +6905,7 @@ begin
               List[I].FooterText := FormatFloat('#.######', ListValue[I]);
         end;
       end;
-
     end;
-
   finally
     LDataSet.EnableControls;
   end;
@@ -6946,15 +6934,13 @@ var
   LTitle: string;
 begin
   Result := Field.DisplayWidth;
-  if Assigned(Scene) then begin
-    LTitle := Field.DisplayLabel;
-    if LTitle = '' then
-      LTitle := Field.FieldName;
-    if LTitle <> '' then
-      Result := Max(Result, FFixedText.CalcTextWidth(LTitle, Scene.GetSceneScale));
-    if IsBlob(Field.DataType) then
-      Result := Max(Result, 45);
-  end;
+  LTitle := Field.DisplayLabel;
+  if LTitle = '' then
+    LTitle := Field.FieldName;
+  if LTitle <> '' then
+    Result := Max(Result, FFixedText.CalcTextWidth(LTitle, GetSceneScale));
+  if IsBlob(Field.DataType) then
+    Result := Max(Result, 45);
 end;
 
 function TDBGridView.GetMinRowCount: Integer;
@@ -7129,7 +7115,6 @@ end;
 
 procedure TDBGridView.RecordChanged(Field: TField);
 begin
-  if not Assigned(Scene) then Exit;
   FContentViews.DoEditCancel;
   Invalidate;
 end;
@@ -7202,6 +7187,8 @@ type
 
 procedure TDBGridAdapter.BeginDrawCells(const AFirstRow, ALastRow: Integer);
 begin
+  if Assigned(GridView) and Assigned(TDBGridView(GridView).FDataLink) and Assigned(TDBGridView(GridView).FDataLink.DataSet) then
+    TDBGridView(GridView).FDataLink.DataSet.DisableControls;
   FDrawCelling := True;
 end;
 
@@ -7233,8 +7220,12 @@ end;
 
 procedure TDBGridAdapter.EndDrawCells;
 begin
-  if TDBGridView(GridView).FDataLink.Active then
-    SetCursor(GridView.SelectionAnchor);
+  if Assigned(GridView) and Assigned(TDBGridView(GridView).FDataLink) then begin
+    if Assigned(TDBGridView(GridView).FDataLink.DataSet) then
+      TDBGridView(GridView).FDataLink.DataSet.EnableControls;
+    if TDBGridView(GridView).FDataLink.Active then
+      SetCursor(GridView.SelectionAnchor);
+  end;
   FDrawCelling := False;
 end;
 
@@ -7314,7 +7305,8 @@ begin
     if not FIsOutDataRow then begin
       FDrawCelling := True;
       with TDBGridView(GridView).FDataLink do
-        DataSet.MoveBy(ARow - DataSet.RecNo + 1);
+        if ARow - DataSet.RecNo + 1 <> 0 then
+          DataSet.MoveBy(ARow - DataSet.RecNo + 1);
       FDrawCelling := False;
     end;
   end else

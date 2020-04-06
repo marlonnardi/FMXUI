@@ -20,12 +20,12 @@ type
     layBody: TRelativeLayout;
     Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
-    procedure btnCloseMouseEnter(Sender: TObject);
+    procedure btnMouseEnter(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnMaxClick(Sender: TObject);
     procedure btnRestoreClick(Sender: TObject);
     procedure btnMinClick(Sender: TObject);
-    procedure btnMinMouseLeave(Sender: TObject);
+    procedure btnMouseLeave(Sender: TObject);
     procedure layTitleDblClick(Sender: TObject);
     procedure ButtonView1Click(Sender: TObject);
   private
@@ -45,6 +45,9 @@ implementation
 
 {$R *.fmx}
 
+uses
+  Unit2;
+
 procedure TForm1.AniTextViewBackgroundColor(Sender: TObject; IsIn: Boolean);
 var
   SrcColor, DsetColor: TAlphaColor;
@@ -61,10 +64,11 @@ end;
 
 procedure TForm1.btnCloseClick(Sender: TObject);
 begin
-  Close;
+  if TextDialog('Are you sure to quit?') = mrOk then
+    Close;
 end;
 
-procedure TForm1.btnCloseMouseEnter(Sender: TObject);
+procedure TForm1.btnMouseEnter(Sender: TObject);
 begin
   AniTextViewBackgroundColor(Sender, True);
 end;
@@ -82,7 +86,7 @@ begin
   ShowMin();
 end;
 
-procedure TForm1.btnMinMouseLeave(Sender: TObject);
+procedure TForm1.btnMouseLeave(Sender: TObject);
 begin
   AniTextViewBackgroundColor(Sender, False);
 end;

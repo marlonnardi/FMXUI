@@ -1,8 +1,8 @@
-锘縶*******************************************************}
+{*******************************************************}
 {                                                       }
-{       FMXUI Common Function Library                   }
+{       FMXUI 常用函数库                                }
 {                                                       }
-{       Copyright (C) 2016 YangYxd                      }
+{       版权所有 (C) 2016 YangYxd                       }
 {                                                       }
 {*******************************************************}
 
@@ -10,7 +10,7 @@ unit UI.Utils;
 
 interface
 
-{.$DEFINE HASHClash} // Statistical hash conflict
+{.$DEFINE HASHClash} // 统计Hash冲突
 
 uses
   {$IFDEF MSWINDOWS}Windows, ShellAPI, {$ENDIF}
@@ -54,61 +54,68 @@ uses
   System.Classes, System.Types, System.UITypes, System.SysUtils, System.Math.Vectors,
   FMX.Types, FMX.StdCtrls, FMX.Platform, FMX.Controls, FMX.InertialMovement;
 
-// Get current time
+// 获取当前时间
 function GetTimestamp: Int64;
-// Get the current time, the result shows the number of milliseconds at that time from 0:00, 0:00, 0 milliseconds on January 1, 1970
+// 获取当前时间，结果表示当时时间距离1970年1月1日0时0分0秒0毫秒的毫秒数
 function CurrentTimeMillis(): Int64;
-// Java timestamps converted to Delphi time
+// Java时间戳转为Delphi时间
 function JavaTimeToDateTime(const V: Int64): TDateTime;
 
-// Interpolation function - color
+// 插值函数 - 颜色
 function LerpColor(const A, B: TAlphaColor; T: Single): TAlphaColor;
-// Interpolation function - floating point number
+// 插值函数 - 浮点数
 function LerpFolat(const A, B: Double; T: Single): Double;
-// Get the current device PPI
+// 获取当前设备PPI
 function GetPPI(Context: TFmxObject): Single;
 
-// Skip spaces
+// 跳过空格
 procedure SkipSpace(var P: PChar);
 
-// Hide the four digits in the middle of the phone number
+// 隐藏手机号中间的四位数字
 function HideMobilePhone(const Mobile: string ):String;
-// Hide the front content of the user's Chinese name, only the last word
+// 隐藏用户中文姓名中的前部内容，只显示最后一个字
 function HideUserName(const Name: string): string;
-// Check if it is a valid mobile number
+// 检测是否是有效的手机号码
 function IsMobileNumber(const Value: string): boolean;
-// Extract the first valid mobile number from the string
+// 从字符串中提取出第一个有效的手机号码
 function TrimMobileNumber(const Value: string): string;
-// Format the phone number to 130 1000 1000 This style
+// 格式化手机号码为 130 1000 1000 这种样式
 function FormatMobile(const Phone: string): string;
-// Convert a number representing the size of the traffic to a string
+// 将一个代表流量大小的数字转为字符串
 function GetFlowStr(const V: Double): string;
-// Get version information
+// 获取版本信息
 function GetVersionName(): string;
 
-// Open URL
+// 打开网址
 function OpenURL(const URL: string): Boolean;
 
-// Android: Automatic upgrade - Get the downloaded apk file save directory
+// Android: 自动升级 - 获取下载的apk文件保存目录
+// 由于 Android 7.0 之后系统变化，需要授权，但授权内部地址不合适
+// 而且emb默认的Secure File Sharing，是授权外部存储的，不支持本函数获取的目录
+// 推荐不使用本函数，自行决定保存目录，如：TPath.GetTempPath
 function GetInstallDir(): string;
-// Android: Automatic upgrade - install apk (requires authorities due to system changes after Android 7.0)
-//  - ApkFileName Install package file name (without path)
-//  - authorities Customize the android:authorities value in the application section in the AndroidManifest.xml
-function InstallApk(const ApkFileName, authorities: string): Boolean;
+// Android: 自动升级 - 安装apk （由于 Android 7.0 之后系统变化，所以需要 authorities）
+// 如果点击了不再提示，并拒绝的话，无法弹出，需要调整APP的未知权限处
+// fix: android.os.FileUriExposedException: exposed beyond app through Intent.getData()
+// Project -> Options -> Application -> Entitlement List -> Secure File Sharing -> Check it
+//  - ApkFileName 安装包文件名称
+//  - ApkFileDir  安装包目录 (为空则自动使用GetInstallDir路径)
+//  - Authorities 在AndroidManifest.xml中application段中自定义provider中android:authorities值（留空则使用“包名+.fileprovider”）
+function InstallApk(const ApkFileName: string; const ApkFileDir: string = ''; const Authorities: string = ''): Boolean;
 
-// Call the sharing function of the mobile platform
+// 调用移动平台的分享功能
 procedure Share(const AControl: TControl; const Title, Msg: string);
 
-// Statistics string characters
+// 统计字符串字符数
 function CharCount(const S: string): Integer;
 
-// String pointer to number
+// 字符串指针转为数字
 function PCharToIntDef(const S: pchar; Len: Integer; def: NativeInt = 0): NativeInt;
 function PCharToFloatDef(const S: pchar; Len: Integer; def: Double = 0): Double;
 function PHexToIntDef(const S: pchar; Len: Integer; def: NativeInt = 0): NativeInt;
 function PCharToStr(const S: PChar; Len: Integer): string;
 
-// Html color to Color
+// Html颜色转为Color
 function HtmlColorToColor(const V: string; const DefaultValue: TAlphaColor = 0): TAlphaColor;
 function Text2Color(const s:string): TAlphaColor;
 function Hex2Color(const s: string): TAlphaColor;
@@ -120,10 +127,10 @@ function RectSF(const Left, Top, Width, Height: Single): TRectF;
 function OffsetRectD(var R: TRectD; const DX, DY: Double): Boolean;
 function GetRectF(const R: TRectD): TRectF;
 
-// Calculate the angle (0~360)
+// 计算角度(0~360)
 function GetAngle(const CX, CY, X, Y: Single): Single;
 
-// Determine if the two methods are equal
+// 判断两个方法是否相等
 function EqulsMethod(const A, B: TNotifyEvent): Boolean;
 
 type
@@ -133,7 +140,7 @@ type
   {$ifend}
   Number = NativeInt;
   NumberU = NativeUInt;
-  /// List of hash values for elements in the bucket
+  /// 桶内元素的哈希值列表
   THashType = UInt64;
 
   PPIntHashItem = ^PIntHashItem;
@@ -148,10 +155,10 @@ type
       3: (AsPointer: Pointer);
   end;
 
-  /// <summary>delete the notification of an element of the hash table</summary>
-  /// <param name="ATable">hash table object</param>
-  /// <param name="AHash">Hash value of the object to be deleted</param>
-  /// <param name="AData">Object data pointer to be deleted</param>
+  /// <summary>删除哈希表一个元素的通知</summary>
+  /// <param name="ATable">哈希表对象</param>
+  /// <param name="AHash">要删除的对象的哈希值</param>
+  /// <param name="AData">要删除的对象数据指针</param>
   TYXDIntHashItemFreeNotify = procedure (Item: PIntHashItem) of object;
 
   TOnCanDelete = reference to function (const Key: THashType): Boolean;
@@ -439,13 +446,13 @@ function GetAngle(const CX, CY, X, Y: Single): Single;
 begin
   Result := Math.ArcTan2(Abs(X - CX), Abs(Y - CY)) * 180 / PI;
   if (X > CX) and (Y > CY) then
-    Result := 90 - Result // Bottom right corner
+    Result := 90 - Result // 右下角
   else if (X < CX) and (Y > CY) then
-    Result := 90 + Result // Lower left corner
+    Result := 90 + Result // 左下角
   else if (X < CX) and (Y < CY) then
-    Result := 180 + (90 - Result) // Upper left corner
+    Result := 180 + (90 - Result) // 左上角
   else
-    Result := 270 + Result // Upper right corner
+    Result := 270 + Result // 右上角
 end;
 
 function EqulsMethod(const A, B: TNotifyEvent): Boolean;
@@ -677,44 +684,60 @@ end;
 function GetInstallDir(): string;
 begin
   {$IFDEF ANDROID}
-  // Description: Add file_paths.xml to res/xml
+  // 说明：将 file_paths.xml 添加到 res/xml 中
+  // 该目录等价于 TPath.GetDocumentsPath
   Result := JStringToString(TAndroidHelper.Activity.getFilesDir.getPath()) + '/';
   {$ELSE}
   Result := '';
   {$ENDIF}
 end;
 
-function InstallApk(const ApkFileName, authorities: string): Boolean;
+function InstallApk(const ApkFileName, ApkFileDir, Authorities: string): Boolean;
 
   {$IFDEF ANDROID}
-  procedure Exec();
+  function Exec(): Boolean;
   var
     Intent: JIntent;
     f: JFile;
     uri: Jnet_Uri;
+    LPath: string;
+    LAuth: string;
   begin
-    f := TJFile.JavaClass.init(StringToJString(GetInstallDir() + ApkFileName));
+    if (ApkFileName = '') or (Trim(ApkFileName) = '') then
+      Exit(False);
+    if ApkFileDir <> '' then
+      LPath := IncludeTrailingPathDelimiter(ApkFileDir) + ApkFileName
+    else
+      LPath := GetInstallDir() + ApkFileName;
+    f := TJFile.JavaClass.init(StringToJString(LPath));
     Intent := TJIntent.Create;
-    Intent.setAction(TJIntent.JavaClass.ACTION_VIEW);
+    Intent.addFlags(TJIntent.JavaClass.FLAG_ACTIVITY_NEW_TASK);
+    if TJBuild_VERSION.JavaClass.SDK_INT >= 26 then
+      Intent.setAction(TJIntent.JavaClass.ACTION_INSTALL_PACKAGE)
+    else
+      Intent.setAction(TJIntent.JavaClass.ACTION_VIEW);
     if TJBuild_VERSION.JavaClass.SDK_INT >= 24 then begin
+      if Authorities <> '' then
+        LAuth := Authorities
+      else
+        LAuth := JStringToString({$IF CompilerVersion > 27}TAndroidHelper.Context
+          {$ELSE}SharedActivityContext{$ENDIF}.getPackageName) + '.fileprovider';
       // provider authorities
       uri := TJFileProvider.JavaClass.getUriForFile(
         {$IF CompilerVersion > 27}TAndroidHelper.Context{$ELSE}SharedActivityContext{$ENDIF},
-        StringToJString(authorities), f);
-      intent.addFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
-      intent.setDataAndType(uri, StringToJString('application/vnd.android.package-archive'));
-    end else begin
-      Intent.setDataAndType(TJnet_Uri.JavaClass.fromFile(f),
-        StringToJString('application/vnd.android.package-archive'));
-    end;
+        StringToJString(LAuth), f);
+      Intent.addFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
+    end else
+      uri := TJnet_Uri.JavaClass.fromFile(f);
+    Intent.setDataAndType(uri, StringToJString('application/vnd.android.package-archive'));
     TAndroidHelper.Activity.startActivity(Intent);
+    Result := True;
   end;
   {$ENDIF}
 
 begin
   {$IFDEF ANDROID}
-  Exec();
-  Result := True;
+  Result := Exec();
   {$ELSE}
   Result := False;
   {$ENDIF}

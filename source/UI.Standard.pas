@@ -1530,7 +1530,7 @@ var
   ASize: TSizeF;
   V, IconS, VW, VH: Single;
 begin
-  if FInFitSize or (Scene = nil) or (not Assigned(FText)) then
+  if FInFitSize or (not Assigned(FText)) then
     Exit;
   FInFitSize := True;
   try
@@ -1550,45 +1550,34 @@ begin
 
     // 计算文本区域大小
     if Assigned(FHtmlText) and FText.WordWrap then begin
-      if Scene.GetSceneScale >= 0 then
-        FHtmlText.CalcTextSize(Canvas, TextSettings, RectF(0, 0, V, $FFFFFF), ASize)
-      else
-        Exit;
+      FHtmlText.CalcTextSize(Canvas, TextSettings, RectF(0, 0, V, $FFFFFF), ASize)
     end else
-      if not FText.CalcTextObjectSize(Text, V, Scene.GetSceneScale, nil, ASize) then Exit;
+      if not FText.CalcTextObjectSize(Text, V, GetSceneScale, nil, ASize) then Exit;
 
-    if ASize.Width < GetDrawableWidth then
-      ASize.Width := GetDrawableWidth;
-    if ASize.Height < GetDrawableHeight then
-      ASize.Height := GetDrawableHeight;
-
-    if (WidthSize = TViewSize.WrapContent) and (HeightSize = TViewSize.WrapContent) then begin
-      V := GetDrawableWidth;
+    // 自动宽度
+    if WidthSize = TViewSize.WrapContent then begin
       AWidth := ASize.Width + Padding.Left + Padding.Right;
-      AHeight := ASize.Height + Padding.Top + Padding.Bottom;
-      if (V > 0) and (FDrawable.Position in [TDrawablePosition.Left, TDrawablePosition.Right]) then
-        AWidth := AWidth + V + FDrawable.Padding;
-      V := GetDrawableHeight;
-      if (V > 0) and (FDrawable.Position in [TDrawablePosition.Top, TDrawablePosition.Bottom]) then
-        AHeight := AHeight + V + FDrawable.Padding;
-    end else if WidthSize = TViewSize.WrapContent then begin
       V := GetDrawableWidth;
       if (V > 0) and (FDrawable.Position in [TDrawablePosition.Left, TDrawablePosition.Right]) then
-        AWidth := ASize.Width + Padding.Left + Padding.Right + V + FDrawable.Padding
-      else
-        AWidth := ASize.Width + Padding.Left + Padding.Right;
-    end else if HeightSize = TViewSize.WrapContent then begin
+        AWidth := AWidth + V + FDrawable.Padding
+      else if AWidth < V then
+        AWidth := V;
+    end;
+
+    // 自动高度
+    if HeightSize = TViewSize.WrapContent then begin
+      AHeight := ASize.Height + Padding.Top + Padding.Bottom;
       V := GetDrawableHeight;
       if (V > 0) and (FDrawable.Position in [TDrawablePosition.Top, TDrawablePosition.Bottom]) then
-        AHeight := ASize.Height + Padding.Top + Padding.Bottom + V + FDrawable.Padding
-      else
-        AHeight := ASize.Height + Padding.Top + Padding.Bottom;
+        AHeight := AHeight + V + FDrawable.Padding
+      else if AHeight < V then
+        AHeight := V;
     end;
 
     if FScrollbar <> TViewScroll.None then begin
-      V := GetDrawableWidth;
       VW := ASize.Width + Padding.Left + Padding.Right;
       VH := ASize.Height + Padding.Top + Padding.Bottom;
+      V := GetDrawableWidth;
       if (V > 0) and (FDrawable.Position in [TDrawablePosition.Left, TDrawablePosition.Right]) then
         VW := VW + V + FDrawable.Padding;
       V := GetDrawableHeight;
@@ -1705,8 +1694,8 @@ end;
 
 function TTextView.GetNeedSize: TSizeF;
 begin
-  if not (csDestroying in ComponentState) and Assigned(Scene) then begin
-    if not TextSettings.CalcTextObjectSize(Text, $FFFF, Scene.GetSceneScale, nil, Result) then
+  if not (csDestroying in ComponentState) then begin
+    if not TextSettings.CalcTextObjectSize(Text, $FFFF, GetSceneScale, nil, Result) then
       Result := TSizeF.Create(0, 0)
   end else begin
     Result := TSizeF.Create(0, 0);
@@ -3585,7 +3574,7 @@ procedure TBadgeView.DoAdjustSize;
 var
   P: TSizeF;
 begin
-  if (Scene = nil) or (not Assigned(FText)) then
+  if not Assigned(FText) then
     Exit;
   FAdjustSizeing := True;
   try
@@ -3594,7 +3583,7 @@ begin
     case FStyle of
       TBadgeStyle.NumberText, TBadgeStyle.NewText, TBadgeStyle.HotText:
         begin
-          FText.CalcTextObjectSize(FText.Text, 0, Scene.GetSceneScale, nil, P);
+          FText.CalcTextObjectSize(FText.Text, 0, GetSceneScale, nil, P);
           P.Width := P.Width + Padding.Left + Padding.Right;
           P.Height := P.Height + Padding.Top + Padding.Bottom;
           if Assigned(FBackground) then begin
@@ -5331,7 +5320,6 @@ begin
     FVideoCamera.SampleBufferToBitmap(FBuffer, True);
 
     if FBuffer.Width > 0 then begin
-
       FLocker.Enter;
       try
         if (FDrawBmp.Width = 0) then begin
@@ -5339,6 +5327,7 @@ begin
           if (FDrawBmp.Width = 0) then
             Exit;
         end;
+        FDrawBmp.Clear(0);
         FDrawBmp.Canvas.BeginScene;
         FDrawBmp.Canvas.DrawBitmap(FBuffer, RectF(0, 0, FBuffer.Width, FBuffer.Height),
           RectF(0, 0, FDrawBmp.Width, FDrawBmp.Height), 1, True);
@@ -5346,7 +5335,6 @@ begin
       finally
         FLocker.Leave;
       end;
-
     end;
   end;
 end;
@@ -5399,17 +5387,18 @@ end;
 procedure TPullScrollView.CheckMouseLeftState;
 begin
   {$IFNDEF NEXTGEN}
+  if (not Assigned(Self)) or (csDestroying in ComponentState) then
+    Exit;
   // 检查鼠标左键是否松开
-  if Assigned(Self) and DragScroll and (not FMouseEnter) then begin
+  if DragScroll and (not FMouseEnter) then begin
     {$IFDEF MSWINDOWS}
     if GetAsyncKeyState(VK_LBUTTON) = 0 then
       MouseUp(TMouseButton.mbLeft, [], FMovePos.X, FMovePos.Y)
-    else if (not (csDestroying in ComponentState)) then
+    else if Assigned(Self) and (not (csDestroying in ComponentState)) then
       TFrameAnimator.DelayExecute(Self,
         procedure(Sender: TObject)
         begin
-          if (not (csDestroying in ComponentState)) then
-            CheckMouseLeftState;
+          CheckMouseLeftState;
         end,
       0.05);
     {$ENDIF}

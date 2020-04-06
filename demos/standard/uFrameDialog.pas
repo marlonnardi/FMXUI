@@ -37,6 +37,7 @@ type
     ButtonView20: TButtonView;
     ButtonView21: TButtonView;
     ButtonView22: TButtonView;
+    tvMore: TTextView;
     procedure ButtonView1Click(Sender: TObject);
     procedure ButtonView2Click(Sender: TObject);
     procedure ButtonView3Click(Sender: TObject);
@@ -60,8 +61,10 @@ type
     procedure ButtonView20Click(Sender: TObject);
     procedure ButtonView21Click(Sender: TObject);
     procedure ButtonView22Click(Sender: TObject);
+    procedure tvMoreClick(Sender: TObject);
   private
     { Private declarations }
+    procedure DialogLogin(AView: TFrame; AUserName, APassword: string);
   protected
     // 初始事件
     procedure DoCreate(); override;
@@ -84,9 +87,9 @@ uses
 
 type
   /// <summary>
-  /// 单选列表适配器
+  /// 自定义单选列表适配器
   /// </summary>
-  TStringsListAdapter = class(UI.ListView.TStringsListAdapter)
+  TCustomStringsListAdapter = class(UI.ListView.TStringsListAdapter)
   protected
     function GetView(const Index: Integer; ConvertView: TViewBase; Parent: TViewGroup): TViewBase; override;
   end;
@@ -151,6 +154,7 @@ var
   View: TFrameDialogCustomView;
 begin
   View := TFrameDialogCustomView.Create(Self);
+  View.OnLogin := DialogLogin;
   TDialogBuilder.Create(Self)
     .SetTitle('登录')
     .SetView(View)
@@ -275,7 +279,7 @@ begin
     )
     .SetOnInitListAdapterA(
       procedure (Dialog: IDialog; Builder: TDialogBuilder; var Adapter: IListAdapter) begin
-        Adapter := TStringsListAdapter.Create(Builder.ItemArray);
+        Adapter := TCustomStringsListAdapter.Create(Builder.ItemArray);
         TDialog(Dialog).RootView.ListView.ShowScrollBars := False;
       end
     )
@@ -312,6 +316,7 @@ var
   View: TFrameDialogCustomView;
 begin
   View := TFrameDialogCustomView.Create(Self);
+  View.OnLogin := DialogLogin;
   TDialogBuilder.Create(Self)
     .SetStyleManager(IosStyleManager)
     .SetView(View)
@@ -460,6 +465,11 @@ begin
     .Show;
 end;
 
+procedure TFrmaeDialog.DialogLogin(AView: TFrame; AUserName, APassword: string);
+begin
+  Hint('Login clicked. Name: %s, Password: %s', [AUserName, APassword]);
+end;
+
 procedure TFrmaeDialog.DoCreate;
 begin
   inherited;
@@ -505,26 +515,36 @@ begin
   tvTitle.Text := Title;
 end;
 
-{ TStringsListAdapter }
-
-function TStringsListAdapter.GetView(const Index: Integer;
-  ConvertView: TViewBase; Parent: TViewGroup): TViewBase;
-var
-  ViewItem: TListTextItem;
+procedure TFrmaeDialog.tvMoreClick(Sender: TObject);
 begin
-  if (ConvertView = nil) or (not (ConvertView is TListTextItem)) then begin
-    ViewItem := TListTextItem.Create(Parent);
-    ViewItem.Parent := Parent;
-    ViewItem.Width := Parent.Width;
-    ViewItem.MinHeight := ItemDefaultHeight;
-    ViewItem.TextSettings.Font.Size := FFontSize;
-    ViewItem.TextSettings.WordWrap := FWordWrap;
-    ViewItem.Gravity := TLayoutGravity.Center;
-    ViewItem.Padding.Rect := RectF(8, 8, 8, 8);
-    ViewItem.CanFocus := False;
-  end else
-    ViewItem := ConvertView as TListTextItem;
-  Result := inherited GetView(Index, ViewItem, Parent);
+  TDialogBuilder.Create(Self)
+      .SetItems(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'],
+        procedure (Dialog: IDialog; Which: Integer)
+        begin
+          Dialog.AsyncDismiss;
+        end
+      )
+      .SetOnInitListAdapterA(
+        procedure (Dialog: IDialog; Builder: TDialogBuilder; var Adapter: IListAdapter)
+        begin
+          TDialog(Dialog).RootView.ListView.ShowScrollBars := False;
+        end
+      )
+      .SetWidth(160)
+      //.SetMaxHeight(320)
+      .SetDownPopup(TView(Sender), 3, 0, TLayoutGravity.RightBottom)
+      .SetListItemDefaultHeight(30)
+      .Show;
+end;
+
+{ TCustomStringsListAdapter }
+
+function TCustomStringsListAdapter.GetView(const Index: Integer;
+  ConvertView: TViewBase; Parent: TViewGroup): TViewBase;
+begin
+  Result := inherited GetView(Index, ConvertView, Parent);
+  if (ConvertView = nil) or (not (ConvertView is TListTextItem)) then
+    TListTextItem(Result).Gravity := TLayoutGravity.Center;
 end;
 
 end.

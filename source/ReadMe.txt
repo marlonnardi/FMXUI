@@ -1,9 +1,28 @@
 ﻿FMXUI  (YangYxd)
 
 【当前版本】
-  2019.10.23.001
+  2020.03.13.001
 
 【主要更改】
+ - -----------------------------------
+ - 2020.03.13
+ * 修正EditView无法设定selstart（感谢报告：Udcover）
+ * 修正TGridsLayout部分情况下丢失控件（感谢报告：海歌）
+ * 修正TCameraViewer部分情况下绿屏（感谢报告：凌风）
+ * 更改SetDownPopup重力为相对于锚点位置（感谢报告：Jiang）
+ * TDialogView添加TabStop响应，焦点切换停留在当前TDialogView（感谢报告：惠子）
+ * 修正EditView安卓下FilterChar失效的问题（感谢报告：猴哥）
+ * 修正TListViewEx的子项部分情况下无法使用Margins和Padding的问题（感谢报告：凌风）
+ * 修正部分情况下TGridsLayout和TTextView的大小错误问题
+ * 修正TListViewEx使用TFrame在win下鼠标移出点击状态不会消失的问题（感谢报告：ying32）
+ * 修正TSizeForm没有适配Sacle的问题（感谢报告：ying32）
+ * 改变TSizeForm Windows下窗口消息拦截方式。（感谢Pull代码：ying32）
+ * 改变TSizeForm Windows下可使用VCL样式的消息拦截过程。（感谢Pull代码：ying32）
+ * 增加对话框例子自定义对话框回调，以及自定义对话框细节完善
+ * 修正TListViewEx子View.Background.ItemDefault.Kind = TViewBrushKind.None是子View的HotOver颜色不会刷新的问题（感谢报告：ying32）
+ * 修正TListViewEx，TStringGridView小问题（感谢报告：惠子，Udcover，[东莞]围墙）
+ * 优化Grid，添加EnableControls/DisableControls（感谢提供参考代码：惠子）
+ * 优化InstallApk，兼容安卓8以上（感谢：CodeCoolie）
  - -----------------------------------
  - 2019.10.23
  * EditView兼容10.3
