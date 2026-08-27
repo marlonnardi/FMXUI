@@ -1958,28 +1958,6 @@ type
     property Text: string read GetTextStr write SetTextStr;
   end;
 
-  TInterfacedStrings = class(TStringList, IStrings)
-  private const
-    objDestroyingFlag = Integer($80000000);
-  private
-    [Volatile] FRefCount: Integer;
-    FIsToStrings: Integer;
-    function GetRefCount: Integer;
-    class procedure __MarkDestroying(const Obj);
-  protected
-    function _AddRef: Integer; stdcall;
-    function _Release: Integer; stdcall;
-    function ToStrings: TStrings;
-  public
-    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; stdcall;
-    procedure AfterConstruction; override;
-    procedure AddStrings(const Strings: TArray<string>); overload;
-    procedure AddStrings(const Strings: TArray<string>; const Objects: TArray<TObject>); overload;
-    procedure AddStrings(const Strings: array of string); overload;
-    procedure AddStrings(const Strings: array of string; const Objects: array of TObject); overload;
-    property RefCount: Integer read GetRefCount;
-  end;
-
 type
   /// <summary>
   /// 多语言管理器
@@ -1996,6 +1974,7 @@ type
     FStoreInForm: Boolean;
     FAutoSelect: Boolean;
     FAutoLangFMX: Boolean;
+    FAutoLangMenu: Boolean;
     FDisabledUpdate: Boolean;
     procedure SetDefaultLanguage(const Value: string);
     procedure SetLanguage(const Value: string);
@@ -2003,8 +1982,8 @@ type
     function GetNameCount: Integer;
     function GetName(const Index: Integer): string;
     function GetLangItem(const Index: Integer): string;
-    function GetLangsList: IStrings;
-    function GetNamesList: IStrings;
+    function GetLangsList: TStrings;
+    function GetNamesList: TStrings;
   protected
     procedure DefineProperties(Filer: TFiler); override;
     procedure ReadResources(Stream: TStream);
@@ -2064,14 +2043,14 @@ type
     /// 获取语言名称
     /// </summary>
     property Langs[const Index: Integer]: string read GetLangItem;
-    property LangsList: IStrings read GetLangsList;
+    property LangsList: TStrings read GetLangsList;
     // 语言总数
     property LangCount: Integer read GetLangCount;
     /// <summary>
     /// 获取名称
     /// </summary>
     property Names[const Index: Integer]: string read GetName;
-    property NamesList: IStrings read GetNamesList;
+    property NamesList: TStrings read GetNamesList;
     // 名称总数
     property NameCount: Integer read GetNameCount;
   published
@@ -2082,6 +2061,10 @@ type
     /// 自动切换Delphi FMX官方组件语言（启用后，可能会与动态设置的text冲突）
     /// </summary>
     property AutoLangFMX: Boolean read FAutoLangFMX write FAutoLangFMX default False;
+    /// <summary>
+    /// 自动切换Delphi FMX菜单组件语言
+    /// </summary>
+    property AutoLangMenu: Boolean read FAutoLangMenu write FAutoLangMenu default False;
     /// <summary>
     /// 默认语言
     /// </summary>
@@ -2112,6 +2095,8 @@ function GetRadius(const ARadius: Single; const AControl: TControl): Single; ove
 
 function ViewStateToString(const State: TViewStates): string;
 function ComponentStateToString(const State: TComponentState): string;
+
+function GetGlobalLang: TLangManager;
 
 var
   /// <summary>
@@ -2148,6 +2133,11 @@ var
   FAudioManager: JAudioManager = nil;
   {$ENDIF}
   [Weak] FGlobalLang: TLangManager = nil;
+
+function GetGlobalLang: TLangManager;
+begin
+  Result := FGlobalLang;
+end;
 
 function AlignToPixel(Canvas: TCanvas; const Rect: TRectF): TRectF;
 begin
@@ -10152,6 +10142,7 @@ begin
   FAutoSelect := True;
   FStoreInForm := True;
   FAutoLangFMX := False;
+  FAutoLangMenu := False;
   FDisabledUpdate := True;
   FDefaultLanguage := 'en';
   FLanguage := FDefaultLanguage;
@@ -10261,11 +10252,11 @@ begin
   end; 
 end;
 
-function TLangManager.GetLangsList: IStrings;
+function TLangManager.GetLangsList: TStrings;
 var
   V: string;
 begin
-  Result := TInterfacedStrings.Create;
+  Result := TStringList.Create;
   for V in FData.Keys do 
     Result.Add(V);
 end;
@@ -10328,11 +10319,11 @@ begin
   Result := FDefault.Keys.Count;
 end;
 
-function TLangManager.GetNamesList: IStrings;
+function TLangManager.GetNamesList: TStrings;
 var
   V: string;
 begin
-  Result := TInterfacedStrings.Create;
+  Result := TStringList.Create;
   for V in FDefault.Keys do 
     Result.Add(V);    
 end;
@@ -10491,10 +10482,17 @@ end;
 procedure TLangManager.RefreshControls(AContainer: TFmxObject);
 var
   I: Integer;
+  C: TComponent;
 begin
   for I := 0 to TFmxObject(AContainer).ChildrenCount - 1 do begin
     if TFmxObject(AContainer).Children[I] is TControl then
       RefreshControl(TControl(TFmxObject(AContainer).Children[I]));
+  end;
+  if not FAutoLangMenu then Exit;
+  for I := 0 to TFmxObject(AContainer).ComponentCount - 1 do begin
+    C := TFmxObject(AContainer).Components[I];
+    if (C is TMenuItem) and (C.Name <> '') then
+      TMenuItem(C).Text := GetLangText(C.Name, TMenuItem(C).Text);
   end;
 end;
 
@@ -10567,6 +10565,7 @@ procedure TLangManager.StoreDefaultLanguage(const ALanguage: string);
     I: Integer;
     V: ILang;
     Control: TControl;
+    Component: TComponent;
     AName, ALangName: string;
   begin
     for I := 0 to TFmxObject(AContainer).ChildrenCount - 1 do begin
@@ -10590,6 +10589,14 @@ procedure TLangManager.StoreDefaultLanguage(const ALanguage: string);
           end;
         end;
         StoreControls(Control);
+      end;
+    end;
+    if FAutoLangMenu then begin
+      for I := 0 to TFmxObject(AContainer).ComponentCount - 1 do begin
+        Component := TFmxObject(AContainer).Components[I];
+        AName := Component.Name;
+        if (AName <> '') and (Component is TMenuItem) then
+          SetLangText(ALanguage, AName, TMenuItem(Component).Text);
       end;
     end;
   end;
@@ -10639,115 +10646,6 @@ begin
     if (Items <> FDefault) and (not FDefault.ContainsKey(Name)) then
       FDefault.Add(Name, '');
   end;
-end;
-
-{ TInterfacedStrings }
-
-procedure TInterfacedStrings.AddStrings(const Strings: TArray<string>;
-  const Objects: TArray<TObject>);
-var
-  I: Integer;
-begin
-  if Length(Strings) <> Length(Objects) then
-    raise EArgumentOutOfRangeException.CreateRes(@System.RTLConsts.sInvalidStringAndObjectArrays);
-  BeginUpdate;
-  try
-    for I := Low(Strings) to High(Strings) do
-      AddObject(Strings[I], Objects[I]);
-  finally
-    EndUpdate;
-  end;
-end;
-
-procedure TInterfacedStrings.AddStrings(const Strings: TArray<string>);
-var
-  I: Integer;
-begin
-  BeginUpdate;
-  try
-    for I := Low(Strings) to High(Strings) do
-      Add(Strings[I]);
-  finally
-    EndUpdate;
-  end;
-end;
-
-procedure TInterfacedStrings.AddStrings(const Strings: array of string;
-  const Objects: array of TObject);
-var
-  I: Integer;
-begin
-  if Length(Strings) <> Length(Objects) then
-    raise EArgumentOutOfRangeException.CreateRes(@System.RTLConsts.sInvalidStringAndObjectArrays);
-  BeginUpdate;
-  try
-    for I := Low(Strings) to High(Strings) do
-      AddObject(Strings[I], Objects[I]);
-  finally
-    EndUpdate;
-  end;
-end;
-
-procedure TInterfacedStrings.AddStrings(const Strings: array of string);
-var
-  I: Integer;
-begin
-  BeginUpdate;
-  try
-    for I := Low(Strings) to High(Strings) do
-      Add(Strings[I]);
-  finally
-    EndUpdate;
-  end;
-end;
-
-procedure TInterfacedStrings.AfterConstruction;
-begin
-  FRefCount := 0;
-end;
-
-function TInterfacedStrings.GetRefCount: Integer;
-begin
-  Result := FRefCount and not objDestroyingFlag;
-end;
-
-function TInterfacedStrings.QueryInterface(const IID: TGUID; out Obj): HResult;
-begin
-  if GetInterface(IID, Obj) then Result := 0 else Result := E_NOINTERFACE;
-end;
-
-function TInterfacedStrings.ToStrings: TStrings;
-begin
-  if AtomicIncrement(FIsToStrings) = 1 then begin
-    Result := Self;
-    AtomicIncrement(FRefCount);
-  end else begin
-    Result := TInterfacedStrings.Create;
-    Result.Assign(Self);
-  end;
-end;
-
-function TInterfacedStrings._AddRef: Integer;
-begin
-  Result := AtomicIncrement(FRefCount);
-end;
-
-function TInterfacedStrings._Release: Integer;
-begin
-  Result := AtomicDecrement(FRefCount);
-  if Result = 0 then begin
-    __MarkDestroying(Self);
-    Destroy;
-  end;
-end;
-
-class procedure TInterfacedStrings.__MarkDestroying(const Obj);
-var
-  LRef: Integer;
-begin
-  repeat
-    LRef := TInterfacedStrings(Obj).FRefCount;
-  until AtomicCmpExchange(TInterfacedStrings(Obj).FRefCount, LRef or objDestroyingFlag, LRef) = LRef;
 end;
 
 initialization
